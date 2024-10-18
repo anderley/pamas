@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -91,7 +92,12 @@ DATABASES = {
         'PORT':  '3306',
     }
 }
-
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -145,3 +151,17 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap4'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# JAZZMIN_SETTINGS = {
+#     # title of the window (Will default to current_admin_site.site_title if absent or None)
+#     "site_title": "Library Admin",
+#
+#     # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
+#     "site_header": "Library",
+#
+#     # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
+#     "site_brand": "Library",
+#
+#     # Logo to use for your site, must be present in static files, used for brand on top left
+#     "site_logo": "imgs/logo.png",
+# }
