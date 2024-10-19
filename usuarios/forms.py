@@ -1,36 +1,40 @@
 from django import forms
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 
 class EsqueceuForm(forms.Form):
     email = forms.EmailField(label='Email', required=False)
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper(self)
-        self.helper.form_id = 'formEsqueceu'
-        self.helper.form_class = 'user'
-        self.helper.form_method = 'post'
-        self.helper.form_action = 'submit_survey'
 
-        self.helper.add_input(Submit('submit', 'Enviar', css_class='btn btn-primary btn-user btn-block'))
+class CadastroUsuarioForm(UserCreationForm):
+    first_name = forms.CharField(label='Nome', required=True)
+    last_name = forms.CharField(label='Sobrenome', required=True)
+    email = forms.EmailField(label='Email', required=True, widget=forms.TextInput(attrs={'type': 'email'}))
+    password1 = forms.CharField(label='Senha', required=True, widget=forms.PasswordInput())
+    password2 = forms.CharField(label='Confirmação Senha', required=True, widget=forms.PasswordInput())
 
+    class Meta:
+        model = User
+        fields = (
+			'first_name',
+			'last_name',
+			'email',
+			'password1',
+			'password2',
 
-class CadastroUsuarioForm(forms.Form):
-    nome = forms.CharField(label='Nome', required=False)
-    sobre_nome = forms.CharField(label='Sobrenome', required=False)
-    email = forms.EmailField(label='Email', required=False, widget=forms.TextInput(attrs={'type': 'email'}))
-    confirmacao_email = forms.EmailField(label='Confirmação Email', required=False, widget=forms.TextInput(attrs={'type': 'email'}))
-    senha = forms.CharField(label='Senha', required=False, widget=forms.PasswordInput())
-    confirmacao_senha = forms.CharField(label='Confirmação Senha', required=False, widget=forms.PasswordInput())
+		)
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_id = 'formCadastroUsuario'
-        self.helper.form_class = 'user'
-        self.helper.form_method = 'post'
-        self.helper.form_action = 'submit_survey'
+    def save(self, commit=True):
+        user = super(CadastroUsuarioForm, self).save(commit=False)
+        user.username = self.cleaned_data['email']
+        user.email = self.cleaned_data['email']
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
 
-        self.helper.add_input(Submit('submit', 'Cadastar', css_class='btn btn-primary btn-user btn-block'))
+        print(user)
+        
+        if commit:
+            user.save()
+            
+        return user

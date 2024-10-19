@@ -1,14 +1,14 @@
 from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
 
 from .forms  import CadastroUsuarioForm, EsqueceuForm
 
 
-def cadastro(request):
-    form = CadastroUsuarioForm()
-    context = {
-        'form': form
-    }
-    return render(request, 'cadastro.html', context=context)
+class Cadastro(CreateView):
+    form_class = CadastroUsuarioForm
+    success_url = reverse_lazy('login')
+    template_name = 'cadastro.html'
 
 
 def esqueceu(request):

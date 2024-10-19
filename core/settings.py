@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'crispy_bootstrap4',
     # Apps
     'core',
-    'home',
+    'quiz',
     'usuarios',
 ]
 
@@ -165,3 +165,9 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 #     # Logo to use for your site, must be present in static files, used for brand on top left
 #     "site_logo": "imgs/logo.png",
 # }
+
+# Login
+
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/login/"

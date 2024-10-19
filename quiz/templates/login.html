@@ -16,19 +16,20 @@
                         <div class="col-lg-12">
                             <div class="p-5">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4">Esqueceu Senha</h1>
+                                    <h1 class="h4 text-gray-900 mb-4">Entrar</h1>
                                 </div>
-                                <form class="user">
+                                <form class="user" method="post">
+                                    {% csrf_token %}
                                     {{ form|crispy }}
-                                    <a href="" class="btn btn-primary btn-user btn-block">
-                                        Enviar
-                                    </a>
+                                    <button type="submit" class="btn btn-primary btn-user btn-block">
+                                        Entrar
+                                    </button>
                                 </form>
                                 <hr>
                                 <div class="text-center">
                                     <a href="{% url 'cadastro_usuario' %}" >Cadastrar-se</a>
                                     <br>
-                                    <a href="{% url 'login' %}" >Já possui uma conta? Entrar!</a>
+                                    <a href="{% url 'esqueceu_usuario' %}" >Esqueceu sua senha?</a>
                                 </div>
                             </div>
                         </div>
