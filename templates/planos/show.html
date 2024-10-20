@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% block content %}
+    <h1 class="h3 mb-4 text-gray-800">Planos</h1>
+
+    {% for plano in object_list %}
+        {% if forloop.counter|divisibleby:4 == 0 %}
+            <div class="row">
+        {% endif %}        
+                <div class="col-lg-2">
+                    <div class="card md-2">
+                        <div class="card-header">{{ plano.titulo }}</div>
+                        <div class="card-body">
+                            <p>{{ plano.descricao|safe }}</p>
+                            <label>R$ {{ plano.valor|floatformat:2|intcomma }}</label>
+                            <div class="d-flex justify-content-end">
+                                <a class="btn btn-danger" href="#">Comprar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        {% if forloop.counter|divisibleby:4 == 0  %}
+            </div>
+        {% endif %}
+    {% endfor %}
+
+{% endblock content %}
+    

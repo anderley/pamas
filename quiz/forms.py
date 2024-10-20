@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 
+from .models import Perguntas
+
 
 class LoginForm(AuthenticationForm):
     username = forms.EmailField(label="Email", required=False)
@@ -11,3 +13,10 @@ class LoginForm(AuthenticationForm):
 			'username',
 			'password',
 		)
+
+
+class PerguntasForm(forms.ModelForm):
+    
+    class Meta:
+        model = Perguntas
+        fields = ['descricao', 'competencia']

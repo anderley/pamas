@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib import admin
 
 
 class Grupos(models.Model):
@@ -28,9 +27,8 @@ class Competencias(models.Model):
 
 
 class Perguntas(models.Model):
-    descricao = models.TextField()
-    vm = models.IntegerField()
-    competencia = models.ForeignKey(Competencias, on_delete=models.CASCADE)
+    descricao = models.TextField(verbose_name='Descrição')
+    competencia = models.ForeignKey(Competencias, on_delete=models.CASCADE, verbose_name='Competência')
 
     def __str__(self):
         return self.descricao
@@ -44,7 +42,14 @@ class Perguntas(models.Model):
         verbose_name_plural = 'perguntas'
 
 
-# Register models to django admin
-admin.site.register(Grupos)
-admin.site.register(Competencias, list_display=['nome', 'grupo'])
-admin.site.register(Perguntas, list_display=['descricao', 'competencia', 'grupo'])
+class Textos(models.Model):
+    texto = models.TextField(verbose_name='Texto')
+    competencia = models.ForeignKey(Competencias, on_delete=models.CASCADE, verbose_name='Competência')
+
+    def __str__(self):
+        return self.texto
+
+    class Meta:
+        db_table = 'textos'
+        verbose_name = 'texto'
+        verbose_name_plural = 'textos'
