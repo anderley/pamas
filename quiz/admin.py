@@ -1,5 +1,5 @@
 from django.contrib import admin
-
+from import_export.admin import ImportExportModelAdmin
 from .models import (
     Grupos,
     Competencias,
@@ -10,20 +10,20 @@ from .models import (
 from .forms import  PerguntasForm
 
 
-class GruposAdmin(admin.ModelAdmin):
+class GruposAdmin(ImportExportModelAdmin):
     list_display = ['nome']
 
 
-class CompetenciasAdmin(admin.ModelAdmin):
+class CompetenciasAdmin(ImportExportModelAdmin):
     list_display=['nome', 'grupo']
 
 
-class PerguntasAdmin(admin.ModelAdmin):
+class PerguntasAdmin(ImportExportModelAdmin):
     form = PerguntasForm
     list_display=['descricao', 'competencia', 'grupo']
 
 
-class TextosAdmin(admin.ModelAdmin):
+class TextosAdmin(ImportExportModelAdmin):
     list_display = ['texto', 'competencia']
 
 

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     # Add-ons
     'crispy_forms',
     'crispy_bootstrap4',
+    'import_export',
     # Apps
     'core',
     'planos',

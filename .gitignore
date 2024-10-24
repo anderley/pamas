@@ -3,4 +3,4 @@
 /venv
 .idea
 db.sqlite3
-core/local_settintgs.py
+core/local_settings.py
