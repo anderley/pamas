@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Educart</title>
+    <title>Pamas</title>
 
     <!-- Custom fonts for this template-->
     <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
@@ -37,7 +37,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-cube"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">Quiz <sup>Educart</sup></div>
+                <div class="sidebar-brand-text mx-3">Pamas <sup>Quiz</sup></div>
             </a>
 
             <!-- Divider -->
@@ -58,11 +58,20 @@
                     <span>Planos</span></a>
             </li>
 
-            <!-- Nav Item - Tables -->
+            <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'formulario' %}">
-                    <i class="fas fa-fw fa-sticky-note"></i>
-                    <span>Formulário</span></a>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Formulários</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="{% url 'send_form' %}">Enviar</a>
+                        <a class="collapse-item" href="#">Listar Envios</a>
+                        <a class="collapse-item" href="{% url 'formulario' %}">Visualizar</a>
+                    </div>
+                </div>
             </li>
 
             <!-- Divider -->

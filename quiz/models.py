@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -29,12 +30,12 @@ class Competencias(models.Model):
 class Perguntas(models.Model):
     descricao = models.TextField(verbose_name='Descrição')
     competencia = models.ForeignKey(Competencias, on_delete=models.CASCADE, verbose_name='Competência')
-
-    def __str__(self):
-        return self.descricao
     
     def grupo(self):
         return self.competencia.grupo
+
+    def __str__(self):
+        return self.descricao
 
     class Meta:
         db_table = 'perguntas'
@@ -53,3 +54,21 @@ class Textos(models.Model):
         db_table = 'textos'
         verbose_name = 'texto'
         verbose_name_plural = 'textos'
+
+
+class FomularioClientes(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario')
+    email = models.EmailField(max_length=180, verbose_name='Email')
+    token = models.CharField(max_length=180, verbose_name='Token')
+    form_url = models.CharField(max_length=250, verbose_name='URL Formulário')
+
+    def user_name(self):
+        return f'{self.user.first_name} {self.user.last_name}'
+    
+    def __str__(self):
+        return self.email
+
+    class Meta:
+        db_table = 'formulario_clientes'
+        verbose_name = 'formulario_cliente'
+        verbose_name_plural = 'formulario_clientes'

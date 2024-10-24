@@ -20,3 +20,7 @@ class PerguntasForm(forms.ModelForm):
     class Meta:
         model = Perguntas
         fields = ['descricao', 'competencia']
+
+
+class EnviarFormularioForm(forms.Form):
+    email = forms.EmailField(label='Email', required=True)

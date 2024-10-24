@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
 from django.contrib.auth.views import  LoginView
 from django.contrib.auth import logout
 from django.views.generic import ListView
 
-from .forms  import LoginForm
+from .forms  import (
+    LoginForm,
+    EnviarFormularioForm
+)
 from .models import Perguntas
 
 
@@ -22,6 +24,14 @@ def home(request):
     return redirect('login')
 
 
+def enviar_formulario(request):
+    form = EnviarFormularioForm()
+    context = {
+        'form': form
+    }
+    return render(request, 'quiz/send_form.html', context=context)
+
+
 class Login(LoginView):
     form_class = LoginForm
     template_name = 'quiz/login.html'
@@ -30,4 +40,4 @@ class Login(LoginView):
 class  Show(ListView):
     model = Perguntas
     paginate_by = 20
-    template_name = 'quiz/show.html'
+    template_name = 'quiz/show_form.html'

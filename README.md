@@ -1,4 +1,4 @@
-# Educart Quiz
+# Pamas Quiz
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/iuricode/README-template?style=for-the-badge)
 ![GitHub language count](https://img.shields.io/github/languages/count/iuricode/README-template?style=for-the-badge)
@@ -16,9 +16,9 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 - pip 24.2
 - docker-compose version 1.28.0 
 
-## 🚀 Instalando Educart Quiz
+## 🚀 Instalando Pamas Quiz
 
-Para instalar o Educart Quiz, siga estas etapas:
+Para instalar o Pamas Quiz, siga estas etapas:
 
 Linux :
 
@@ -29,9 +29,9 @@ $ pip install -r requirements.txt
 $ docker-compose up -d
 ```
 
-## ☕ Usando Educart Quiz
+## ☕ Usando Pamas Quiz
 
-Para usar Educart Quiz, siga estas etapas:
+Para usar Pamas Quiz, siga estas etapas:
 
 ```
 $ python -m manage.py runserver

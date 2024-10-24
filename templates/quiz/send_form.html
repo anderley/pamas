@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+    <div class="col-lg-4">
+        <div class="card mb-4">
+            <h5 class="card-header">Enviar Formulário Cliente</h5>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+
+                    {{ form|crispy }}
+                    <a href="" class="btn btn-primary ">Enviar</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

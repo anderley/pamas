@@ -8,7 +8,7 @@ from .forms  import CadastroUsuarioForm, EsqueceuForm
 class Cadastro(CreateView):
     form_class = CadastroUsuarioForm
     success_url = reverse_lazy('login')
-    template_name = 'cadastro.html'
+    template_name = 'usuarios/cadastro.html'
 
 
 def esqueceu(request):
@@ -16,4 +16,4 @@ def esqueceu(request):
     context = {
         'form': form
     }
-    return render(request, 'esqueceu.html', context=context)
+    return render(request, 'usuarios/esqueceu.html', context=context)
