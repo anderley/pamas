@@ -171,7 +171,7 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/login/"
 
-# try:
-#     from core.local_settings import *
-# except ImportError:
-#     print("sem o arquivo local_settings")
+try:
+    from core.local_settings import *
+except ImportError:
+    print("sem o arquivo local_settings")
