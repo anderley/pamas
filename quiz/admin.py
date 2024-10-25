@@ -7,20 +7,30 @@ from .models import (
     Textos,
     FomularioClientes
 )
+from .resources import (
+    GruposResource,
+    CompetenciasResource,
+    PerguntasResource
+)
 from .forms import  PerguntasForm
 
 
 class GruposAdmin(ImportExportModelAdmin):
+    resource_class = GruposResource
     list_display = ['nome']
 
 
 class CompetenciasAdmin(ImportExportModelAdmin):
-    list_display=['nome', 'grupo']
+    resource_class = CompetenciasResource
+    search_fields = ['grupo']
+    list_display = ['nome', 'grupo']
 
 
 class PerguntasAdmin(ImportExportModelAdmin):
+    resource_class = PerguntasResource
     form = PerguntasForm
-    list_display=['descricao', 'competencia', 'grupo']
+    search_fields = ['competencia']
+    list_display = ['descricao', 'competencia', 'grupo']
 
 
 class TextosAdmin(ImportExportModelAdmin):
