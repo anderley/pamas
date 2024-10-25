@@ -26,7 +26,7 @@ class CompetenciasResource(resources.ModelResource):
 
     class Meta:
         model = Competencias
-        import_id_fields = ('grupo',)
+        import_id_fields = ('nome',)
         fields = ('nome', 'grupo',)
 
 
@@ -39,6 +39,6 @@ class PerguntasResource(resources.ModelResource):
 
     class Meta:
         model = Perguntas
-        import_id_fields = ('competencia',)
+        import_id_fields = ('descricao',)
         exclude = ('grupo',)
         fields = ('descricao',  'competencia',)
