@@ -15,6 +15,7 @@ class List(LoginRequiredMixin, ListView):
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     redirect_field_name = 'login'
 =======
 
@@ -23,6 +24,9 @@ class PlanoDetailView(DetailView):
     template_name = 'planos/detail.html'
     context_object_name = 'plano'
 >>>>>>> c2b95db (planos e mercadopago)
+=======
+    redirect_field_name = 'login'
+>>>>>>> 83c9d93 (chore: envio de link com token de expiração)
 =======
     redirect_field_name = 'login'
 >>>>>>> 83c9d93 (chore: envio de link com token de expiração)
