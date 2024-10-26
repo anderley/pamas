@@ -4,14 +4,6 @@ django-crispy-forms==2.3
 crispy-bootstrap4==2024.10
 django-jazzmin==3.0.1
 django-import-export==4.2.0
-<<<<<<< HEAD
-<<<<<<< HEAD
 django-request-token==2.3.1
 mercadopago===2.2.3
 django-request-token==2.3.1
-=======
-django-request-token==2.3.1
->>>>>>> 83c9d93 (chore: envio de link com token de expiração)
-=======
-django-request-token==2.3.1
->>>>>>> 83c9d93 (chore: envio de link com token de expiração)

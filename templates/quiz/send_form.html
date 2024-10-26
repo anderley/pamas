@@ -8,9 +8,6 @@
         <div class="card mb-4">
             <h5 class="card-header">Enviar Formulário Cliente</h5>
             <div class="card-body">
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
                 {% if messages %}
                     {% for message in messages %}
                         <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
@@ -20,46 +17,15 @@
                             </button>
                         </div>
                     {% endfor %}
-=======
-=======
->>>>>>> 83c9d93 (chore: envio de link com token de expiração)
-=======
->>>>>>> 83c9d93 (chore: envio de link com token de expiração)
-                {% if message %}
-                    <div class="alert alert-{{ alert }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 83c9d93 (chore: envio de link com token de expiração)
-=======
->>>>>>> 83c9d93 (chore: envio de link com token de expiração)
-=======
->>>>>>> 83c9d93 (chore: envio de link com token de expiração)
                 {% endif %}
                 <form method="post">
                     {% csrf_token %}
 
                     {{ form|crispy }}
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
                     <button type="submit" class="btn btn-primary btn-icon-split">
                         <span class="icon text-white-50"><i class="fa fa-paper-plane"></i></span>
                         <span class="text">Enviar</span>
                     </button>
-=======
-                    <button type="submit" class="btn btn-primary ">Enviar</button>
->>>>>>> 83c9d93 (chore: envio de link com token de expiração)
-=======
-                    <button type="submit" class="btn btn-primary ">Enviar</button>
->>>>>>> 83c9d93 (chore: envio de link com token de expiração)
-=======
-                    <button type="submit" class="btn btn-primary ">Enviar</button>
->>>>>>> 83c9d93 (chore: envio de link com token de expiração)
                 </form>
             </div>
         </div>
