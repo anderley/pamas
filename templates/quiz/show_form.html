@@ -39,6 +39,7 @@
                 <div class="d-flex flex-row-reverse">
                     <div class="p-2">
                         {% if page_obj.has_previous %}
+<<<<<<< HEAD
                           <a class="btn btn-secondary btn-icon-split" href="{% querystring page=page_obj.previous_page_number %}">
                             <span class="icon text-white-50"><i class="fa fa-arrow-left"></i></span>
                             <span class="text">Anterior</span>
@@ -49,6 +50,12 @@
                           <span class="text">Próxima</span>
                           <span class="icon text-white-50"><i class="fa fa-arrow-right"></i></span>
                         </a>
+=======
+                          <a class="btn btn-success" href="{% querystring page=page_obj.previous_page_number %}">Anterior</a>
+                        {% endif %}
+                        {% if page_obj.has_next %}
+                        <a class="btn btn-success" href="{% querystring page=page_obj.next_page_number %}">Próxima</a>
+>>>>>>> 83c9d93 (chore: envio de link com token de expiração)
                         {% else %}
                         <a class="btn btn-primary btn-icon-split" href="">
                           <span class="icon text-white-50"><i class="fa fa-check"></i></span>

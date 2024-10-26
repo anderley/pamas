@@ -177,7 +177,7 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/login/"
 
-<<<<<<< HEAD
+
 # Email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'localhost'
@@ -190,11 +190,3 @@ EMAIL_HOST_PASSWORD = ''
 REQUEST_TOKEN_EXPIRY = 60
 REQUEST_TOKEN_DEFAULT_MAX_USES = 50
 FOUR03_TEMPLATE = os.path.join(BASE_DIR,'...','403.html')
-=======
-MERCADOPAGO_ACCESS_TOKEN = os.environ.get("MERCADOPAGO_ACCESS_TOKEN", "TEST-4634839706246803-052314-c8cd6ae245aa6e578c65ce97de7bce6b-2360331")
-
-try:
-    from core.local_settings import *
-except ImportError:
-    print("sem o arquivo local_settings")
->>>>>>> c2b95db (planos e mercadopago)
