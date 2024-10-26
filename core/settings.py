@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap4',
     'import_export',
+    'request_token',
     # Apps
     'core',
     'planos',
@@ -59,6 +60,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # Add-ons
+    'request_token.middleware.RequestTokenMiddleware',
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -171,7 +174,15 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/login/"
 
-try:
-    from core.local_settings import *
-except ImportError:
-    print("sem o arquivo local_settings")
+# Email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'localhost'
+EMAIL_USE_TLS = False
+EMAIL_PORT = 8025
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+
+# JWT Request Token
+REQUEST_TOKEN_EXPIRY = 60
+REQUEST_TOKEN_DEFAULT_MAX_USES = 50
+FOUR03_TEMPLATE = os.path.join(BASE_DIR,'...','403.html')

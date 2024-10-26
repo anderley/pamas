@@ -31,6 +31,7 @@ class Perguntas(models.Model):
     descricao = models.TextField(verbose_name='Descrição')
     competencia = models.ForeignKey(Competencias, on_delete=models.CASCADE, verbose_name='Competência')
     
+    @property
     def grupo(self):
         return self.competencia.grupo
 
@@ -57,11 +58,21 @@ class Textos(models.Model):
 
 
 class FomularioClientes(models.Model):
+    STATUS_ENVIO = [
+        ('Enviado', 'Enviado'),
+        ('Acessado', 'Acessado'),
+        ('Preenchendo', 'Preenchendo'),
+        ('Finalizado', 'Finalizado'),
+        ('Expirado', 'Expirado'),
+        ('Cancelado', 'Cancelado'),
+    ]
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario')
     email = models.EmailField(max_length=180, verbose_name='Email')
     token = models.CharField(max_length=180, verbose_name='Token')
     form_url = models.CharField(max_length=250, verbose_name='URL Formulário')
+    status = models.CharField(max_length=80, choices=STATUS_ENVIO, default='Enviado')
 
+    @property
     def user_name(self):
         return f'{self.user.first_name} {self.user.last_name}'
     
