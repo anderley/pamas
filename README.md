@@ -36,3 +36,8 @@ Para usar Pamas Quiz, siga estas etapas:
 ```
 $ python -m manage.py runserver
 ```
+
+## Referências / Templates
+
+- [sb-admin-2](https://startbootstrap.com/previews/sb-admin-2)
+- [bootstrap4](https://getbootstrap.com/docs/4.6/getting-started/introduction/)

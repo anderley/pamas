@@ -38,7 +38,7 @@ class TextosAdmin(ImportExportModelAdmin):
 
 
 class FomularioClientesAdmin(admin.ModelAdmin):
-    list_display = ['user_name', 'email', 'token', 'form_url']
+    list_display = ['user_name', 'email', 'status', 'token', 'form_url']
 
 
 admin.site.register(Grupos, GruposAdmin)

@@ -5,9 +5,9 @@
 {% block content %}
     <div class="col-lg-6">
         <div class="card mb-4">
-            <h5 class="card-header bg-warning border border-warning text-white">Questionário</h5>
+            <h5 class="card-header bg-warning border border-warning text-white mb-3">Questionário</h5>
             <div class="card-body">
-                <h5 class="card-title">Responda as perguntas utilizando uma escala de 1 a 5</h5>
+                <h5 class="card-title mb-5">Responda as perguntas utilizando uma escala de 1 a 5</h5>
                 {% for pergunta in page_obj %}
                     <p class="card-text">{{ pergunta.descricao }}</p>
                     <div class="form-check form-check-inline">
@@ -38,8 +38,11 @@
                 </div>
                 <div class="d-flex flex-row-reverse">
                     <div class="p-2">
+                        {% if page_obj.has_previous %}
+                          <a class="btn btn-success" href="{% querystring page=page_obj.previous_page_number %}">Anterior</a>
+                        {% endif %}
                         {% if page_obj.has_next %}
-                        <a class="btn btn-success" href="?page={{ page_obj.next_page_number }}">Próxima</a>
+                        <a class="btn btn-success" href="{% querystring page=page_obj.next_page_number %}">Próxima</a>
                         {% else %}
                         <a class="btn btn-info" href="">Finalizar</a>
                         {% endif %}

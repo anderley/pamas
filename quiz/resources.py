@@ -40,5 +40,4 @@ class PerguntasResource(resources.ModelResource):
     class Meta:
         model = Perguntas
         import_id_fields = ('descricao',)
-        exclude = ('grupo',)
         fields = ('descricao',  'competencia',)

@@ -15,6 +15,13 @@ services:
       - '3306'
     volumes:
       - my-db:/var/lib/mysql
+  fakemail:
+    container_name: fakemail
+    image: gessnerfl/fake-smtp-server:latest
+    restart: always
+    ports:
+      - "5080:8080"
+      - "8025:8025"
 volumes:
   my-db: 
     driver: local
