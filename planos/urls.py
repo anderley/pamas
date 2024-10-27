@@ -1,7 +1,8 @@
 from django.urls import path
+from .views import List, PlanoDetailView
 
-from .views import List
 
 urlpatterns = [
     path('', List.as_view(), name='planos'),
+    path('<int:pk>/', PlanoDetailView.as_view(), name='planos_detail'),
 ]

@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'planos',
     'quiz',
     'usuarios',
+    'pagamentos',
 ]
 
 MIDDLEWARE = [
@@ -170,6 +171,8 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/login/"
+
+MERCADOPAGO_ACCESS_TOKEN = os.environ.get("MERCADOPAGO_ACCESS_TOKEN", "TEST-4634839706246803-052314-c8cd6ae245aa6e578c65ce97de7bce6b-2360331")
 
 try:
     from core.local_settings import *
