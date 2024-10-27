@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% block content %}
+    <h1 class="h3">Pagamento {{ pagamento }}</h1>
+
+    <div class="row">
+
+        {% if sucesso %}
+        <div class="alert alert-success" role="alert">
+            {{ mensagem }}
+        </div>
+        {% else %}
+        <div class="alert alert-danger" role="alert">
+            {{ mensagem }}
+        </div>
+        {% endif %}
+    </div>
+
+{% endblock content %}
