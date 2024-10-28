@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% load quiz_extras %}
+
+{% block content %}
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Formulários Enviados</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <div class="collapse mb-4">
+                    <div class="card card-body bg-light border-left-success">
+                        Link copiado com sucesso.
+                    </div>
+                </div>
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>URL Formulário</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for envio in page_obj %}
+                            <tr>
+                                <td>{{ envio.email }}</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Copiar" onclick="copyToclipboard(this)">{{ envio.form_url }}</td>
+                                <td>
+                                    <span class="badge badge-pill badge-{{ envio.status|status_class }} p-2">{{ envio.status }}</span>
+                                </td>
+                                <td>
+                                    {% if envio.status in 'Enviado,Acessado,Preenchendo' %}
+                                        <a class="btn btn-danger btn-icon-split btn-sm" href="{% url 'cancelar_sent_form' envio.id %}">
+                                            <span class="icon text-white-50"><i class="fa fa-ban"></i></span>
+                                            <span class="text">Cancelar</span>
+                                        </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js_scripts %}
+<script>
+
+    const copyToclipboard = async (e) => {
+        try {
+            await navigator.clipboard.writeText(e.textContent);
+            await $('.collapse').collapse('toggle');
+            setTimeout(async () => {
+                await $('.collapse').collapse('toggle');
+            }, 3000);
+            
+        } catch (error) {
+            console.error('Erro ao copiar para o clipboard: ', error);
+        }
+    };
+</script>
+{% endblock %}

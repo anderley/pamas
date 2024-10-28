@@ -5,6 +5,8 @@ from django.views.generic import ListView
 from django.core.mail import send_mail
 from django.conf import  settings
 from django.contrib.auth.decorators import login_required, login_not_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 
 from request_token.decorators import use_request_token
 from request_token.models import RequestToken
@@ -15,7 +17,7 @@ from .forms  import (
 )
 from .models import (
     Perguntas,
-    FomularioClientes
+    FomularioClientes,
 )
 from .decorators import use_request_token_check_expiration
 
@@ -55,8 +57,9 @@ def enviar_formulario(request):
             message = f'Segue o <a href="{url}">link</a> do formulário para preenchimento'
             try:
                 send_mail(subject, message, settings.EMAIL_HOST_USER, [email])
-                context['message'] = 'Email enviado coom sucesso!'
-                context['alert'] = 'success'
+
+                messages.success(request, 'Email enviado coom sucesso!')
+                
                 FomularioClientes(
                     user=request.user,
                     email=email,
@@ -64,10 +67,22 @@ def enviar_formulario(request):
                     form_url=url
                 ).save()
             except Exception as e:
-                context['message'] = f'Error no envio do email: {e}'
-                context['alert'] = 'warning'
+                messages.error(request, f'Error no envio do email: {e}')
 
     return render(request, 'quiz/send_form.html', context=context)
+
+
+@login_required(redirect_field_name='login')
+def cancelar_form(request, id):
+    form_client = FomularioClientes.objects.get(id=id)
+
+    if form_client:
+        form_client.status = 'Cancelado'
+        form_client.save()
+
+        messages.success(request, 'Formulário Cancelado com sucesso')
+
+    return redirect('list_sent_form')
 
 
 class Login(LoginView):
@@ -75,7 +90,7 @@ class Login(LoginView):
     template_name = 'quiz/login.html'
 
 
-class Show(ListView):
+class ShowForm(ListView):
     model = Perguntas
     paginate_by = 20
     template_name = 'quiz/show_form.html'
@@ -93,3 +108,10 @@ class Show(ListView):
             
             return render(request, '403.html')
         return super().get(request, *args, **kwargs)
+
+
+class ListSentForm(LoginRequiredMixin, ListView):
+    model = FomularioClientes
+    paginate_by = 50
+    template_name = 'quiz/list_sent_form.html'
+    redirect_field_name = 'login'
