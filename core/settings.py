@@ -187,8 +187,33 @@ EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 
 # JWT Request Token
-REQUEST_TOKEN_EXPIRY = 60
-REQUEST_TOKEN_DEFAULT_MAX_USES = 50
+REQUEST_TOKEN_EXPIRY = '1d'
+REQUEST_TOKEN_DEFAULT_MAX_USES = 10
 FOUR03_TEMPLATE = os.path.join(BASE_DIR,'...','403.html')
 
 MERCADOPAGO_ACCESS_TOKEN = os.environ.get('MERCADOPAGO_ACCESS_TOKEN', 'TEST-4634839706246803-052314-c8cd6ae245aa6e578c65ce97de7bce6b-2360331')
+
+# Logging
+LOGGING = {
+    'version': 1,  # the dictConfig format version
+    'disable_existing_loggers': False,  # retain the default loggers
+    'formatters': {
+        'simple': {
+            'format': '[{asctime}] "{funcName}" {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        }
+    },
+    'loggers': {
+        '': {
+            'level': 'INFO',
+            'handlers': ['console'],
+        }
+    }    
+}       
+

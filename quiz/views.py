@@ -1,19 +1,20 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.contrib.auth.views import  LoginView
 from django.contrib.auth import logout
-from django.views.generic import ListView
+from django.views.generic import CreateView, ListView
 from django.core.mail import send_mail
 from django.conf import  settings
-from django.contrib.auth.decorators import login_required, login_not_required
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 
-from request_token.decorators import use_request_token
 from request_token.models import RequestToken
 
 from .forms  import (
     LoginForm,
-    EnviarFormularioForm
+    EnviarFormularioForm,
+    ContatosForm
 )
 from .models import (
     Perguntas,
@@ -52,7 +53,7 @@ def enviar_formulario(request):
                 }
             )
             token = request_token.jwt()
-            url = f'http://localhost:8000/formulario/?rt={token}'
+            url = f'http://localhost:8000/formulario/cadastro/?rt={token}'
             subject = '[PAMAS] Formulário'
             message = f'Segue o <a href="{url}">link</a> do formulário para preenchimento'
             try:
@@ -85,32 +86,53 @@ def cancelar_form(request, id):
     return redirect('list_sent_form')
 
 
-class Login(LoginView):
+class LoginView(LoginView):
     form_class = LoginForm
     template_name = 'quiz/login.html'
 
 
-class ShowForm(ListView):
+class CreateContatosView(CreateView):
+    form_class = ContatosForm
+    template_name = 'quiz/cad_contato.html'
+
+    @use_request_token_check_expiration
+    def get(self, request, *args, **kwargs):
+        token = request.GET['rt']
+        form_cliente = FomularioClientes.objects.get(token=token)
+
+        if form_cliente:
+            form_cliente.status = 'Acessado'
+            form_cliente.save()
+    
+        return super().get(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        return reverse_lazy('formulario') + '?rt=' + self.request.GET['rt']
+
+
+class FormListView(ListView):
     model = Perguntas
     paginate_by = 20
     template_name = 'quiz/show_form.html'
 
-    @login_not_required
     @use_request_token_check_expiration
-    @use_request_token(scope='mentorado')
     def get(self, request, *args, **kwargs):
-        client_email = (
-            request.token.data['client_email']
-            if hasattr(request, 'token')
-            else None
-        )
-        if not client_email:
-            
-            return render(request, '403.html')
+        token = request.GET['rt']
+        form_cliente = FomularioClientes.objects.get(token=token)
+
+        if form_cliente:
+            form_cliente.status = 'Preenchendo'
+            form_cliente.save()
+    
         return super().get(request, *args, **kwargs)
 
 
-class ListSentForm(LoginRequiredMixin, ListView):
+class ListSentFormsView(LoginRequiredMixin, ListView):
     model = FomularioClientes
     paginate_by = 50
     template_name = 'quiz/list_sent_form.html'
