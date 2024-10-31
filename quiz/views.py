@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.contrib.auth.views import  LoginView
+from django.contrib.auth.views import LoginView
 from django.contrib.auth import logout
 from django.views.generic import CreateView, ListView
 from django.core.mail import send_mail
-from django.conf import  settings
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
@@ -53,7 +53,7 @@ def enviar_formulario(request):
                 }
             )
             token = request_token.jwt()
-            url = f'http://localhost:8000/formulario/cadastro/?rt={token}'
+            url = f'{settings.SITE_URL}/formulario/cadastro/?rt={token}'
             subject = '[PAMAS] Formulário'
             message = f'Segue o <a href="{url}">link</a> do formulário para preenchimento'
             try:

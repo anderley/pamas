@@ -39,22 +39,50 @@ def mercadopago_pagamento(self, data, plano, pagamento_id):
     cartao = data.get('cartao').replace(' ', '')
 
     payment_data = {
-        "transaction_amount": plano.valor,
         "external_reference": pagamento_id,
+        "transaction_amount": plano.valor,
         "token": {
-            'card_number': cartao,
-            'card_expiration_month': vencimento[0],
-            'card_expiration_year': vencimento[1],
-            'security_code': data.get('codigo'),
-            'cardholder_name': data.get('nome'),
-            'identification_type': 'CPF',
-            'identification_number': data.get('cpf')
+                "card_number": cartao,  # Número do cartão (exemplo de cartão de teste)
+                "security_code": data.get('codigo'),  # Código de segurança
+                "card_expiration_month": vencimento[0],  # Mês de expiração
+                "card_expiration_year": vencimento[1],  # Ano de expiração
+                "cardholder_name": data.get('nome'),  # Nome do titular do cartão
+                "identification_type": "CPF",  # Tipo de identificação (ex: "CPF", "CNPJ", "ID")
+                "identification_number": data.get('cpf')  # Número de identificação
         },
-        "description": plano.descricao,
+        "description": plano.titulo,
         "installments": 1,  # Número de parcelas
         "payment_method_id": "visa",  # Método de pagamento (ex: "visa", "master")
         "payer": {
-            "email": self.request.user.email
+            "email": self.request.user.email,
+            "identification": {
+                "type": "CPF",
+                "number": data.get('cpf')
+            }
+        },
+        "additional_info": {
+            "items": [
+                {
+                    "id": plano.id,
+                    "title": plano.titulo,
+                    "description": plano.descricao,
+                    "quantity": 1,
+                    "unit_price": plano.valor
+                }
+            ],
+            "payer": {
+                "name": data.get('nome'),
+                # "surname": "",
+                # "phone": {
+                #     "area_code": "11",
+                #     "number": "987654321"
+                # },
+                # "address": {
+                #     "street_name": "Rua Exemplo",
+                #     "street_number": 123,
+                #     "zip_code": "12345-678"
+                # }
+            }
         }
     }
 
