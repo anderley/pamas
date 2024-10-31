@@ -5,7 +5,8 @@ from .models import (
     Competencias,
     Perguntas,
     Textos,
-    FomularioClientes
+    FomularioClientes,
+    Contatos
 )
 from .resources import (
     GruposResource,
@@ -41,8 +42,13 @@ class FomularioClientesAdmin(admin.ModelAdmin):
     list_display = ['user_name', 'email', 'status', 'token', 'form_url']
 
 
+class ContatosAdmin(admin.ModelAdmin):
+    list_display = ['nome_completo', 'email', 'telefone']
+
+
 admin.site.register(Grupos, GruposAdmin)
 admin.site.register(Competencias, CompetenciasAdmin)
 admin.site.register(Perguntas, PerguntasAdmin)
 admin.site.register(Textos, TextosAdmin)
 admin.site.register(FomularioClientes, FomularioClientesAdmin)
+admin.site.register(Contatos, ContatosAdmin)

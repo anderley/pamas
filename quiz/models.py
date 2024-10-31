@@ -57,6 +57,21 @@ class Textos(models.Model):
         verbose_name_plural = 'textos'
 
 
+class Contatos(models.Model):
+    nome_completo = models.CharField(max_length=180, verbose_name='Nome Completo')
+    email = models.EmailField(max_length=180, unique=True, verbose_name='Email')
+    telefone = models.CharField(max_length=20, verbose_name='Telefone')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario')
+
+    def __str__(self):
+        return self.nome_completo
+    
+    class Meta:
+        db_table = 'contatos'
+        verbose_name = 'contato'
+        verbose_name_plural = 'contatos'
+
+
 class FomularioClientes(models.Model):
     STATUS_ENVIO = [
         ('Enviado', 'Enviado'),

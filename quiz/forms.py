@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 
-from .models import Perguntas
+from .models import Perguntas, Contatos
 
 
 class LoginForm(AuthenticationForm):
@@ -24,3 +24,10 @@ class PerguntasForm(forms.ModelForm):
 
 class EnviarFormularioForm(forms.Form):
     email = forms.EmailField(label='Email', required=True)
+
+
+class ContatosForm(forms.ModelForm):
+    
+    class Meta:
+        model = Contatos
+        fields = ['nome_completo', 'email', 'telefone']

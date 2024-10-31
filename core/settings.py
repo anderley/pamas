@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap4',
     'import_export',
+    'mercadopago',
     'request_token',
     # Apps
     'core',
@@ -132,6 +133,8 @@ USE_I18N = True
 
 USE_TZ = True
 
+MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
@@ -172,8 +175,8 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # Login
 
 LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = "/"
-LOGOUT_REDIRECT_URL = "/login/"
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/login/'
 
 # Email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -184,11 +187,35 @@ EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 
 # JWT Request Token
-REQUEST_TOKEN_EXPIRY = 60
-REQUEST_TOKEN_DEFAULT_MAX_USES = 50
+REQUEST_TOKEN_EXPIRY = '1d'
+REQUEST_TOKEN_DEFAULT_MAX_USES = 10
 FOUR03_TEMPLATE = os.path.join(BASE_DIR,'...','403.html')
 
-MERCADOPAGO_ACCESS_TOKEN = os.environ.get("MERCADOPAGO_ACCESS_TOKEN", "TEST-4634839706246803-052314-c8cd6ae245aa6e578c65ce97de7bce6b-2360331")
+# Logging
+LOGGING = {
+    'version': 1,  # the dictConfig format version
+    'disable_existing_loggers': False,  # retain the default loggers
+    'formatters': {
+        'simple': {
+            'format': '[{asctime}] "{funcName}" {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        }
+    },
+    'loggers': {
+        '': {
+            'level': 'INFO',
+            'handlers': ['console'],
+        }
+    }    
+}
+
+MERCADOPAGO_ACCESS_TOKEN = os.environ.get('MERCADOPAGO_ACCESS_TOKEN', 'TEST-4634839706246803-052314-c8cd6ae245aa6e578c65ce97de7bce6b-2360331')
 
 try:
     from core.local_settings import *

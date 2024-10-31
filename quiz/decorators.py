@@ -3,8 +3,8 @@ import logging
 
 from typing import Any, Callable
 
-from django.http import HttpRequest, HttpResponse
-from django.core.exceptions import PermissionDenied
+from django.http import HttpRequest
+from django.shortcuts import render
 
 from request_token.models import RequestToken
 
@@ -29,20 +29,30 @@ def use_request_token_check_expiration(
     @functools.wraps(view_func)
     def inner(*args, **kwargs):
         request = _get_request_arg(*args)
-        token: RequestToken | None = getattr(request, 'token', None)
-        
+        token = request.GET['rt']
+        request_token: RequestToken | None = getattr(request, 'token', None)
+        form_cliente = FomularioClientes.objects.get(token=token)
+
+        # verifica se o token foi cancelado
+        if form_cliente.status == 'Cancelado':
+            logger.info('Token cancelado pelo usuário!')
+
+            return render(request, '403.html')
+
         try:
-            token.validate_max_uses()
-            token.authenticate(request)
+            request_token.validate_max_uses()
+            request_token.authenticate(request)
 
+            logger.info('Token valido!')
         except Exception as e:
-            if 'rt' in request.GET:
-                token = request.GET['rt']
-                form_cliente = FomularioClientes.objects.get(token=token)
+            # token expirado
+            form_cliente.status = 'Expirado'
 
-                print (form_cliente)
-                form_cliente.status = 'Expirado'
-                form_cliente.save()
+            logger.info('Token expirou!')
+
+            return render(request, '403.html')
+            
+        form_cliente.save()
         
         return view_func(*args, **kwargs)
 

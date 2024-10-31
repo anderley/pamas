@@ -3,51 +3,68 @@
 {% load humanize %}
 
 {% block content %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h3>Advanced Management Assessment Skills</h3>
+    </div>
+
     <div class="col-lg-6">
-        <div class="card mb-4">
-            <h5 class="card-header bg-warning border border-warning text-white mb-3">Questionário</h5>
-            <div class="card-body">
-                <h5 class="card-title mb-5">Responda as perguntas utilizando uma escala de 1 a 5</h5>
-                {% for pergunta in page_obj %}
-                    <p class="card-text">{{ pergunta.descricao }}</p>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="pergunta_{{ forloop.counter }}" id="inlineRadio1" value="1">
-                        <label class="form-check-label" for="inlineRadio1">1</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="pergunta_{{ forloop.counter }}" id="inlineRadio2" value="2">
-                        <label class="form-check-label" for="inlineRadio2">2</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="pergunta_{{ forloop.counter }}" id="inlineRadio3" value="3">
-                        <label class="form-check-label" for="inlineRadio3">3</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="pergunta_{{ forloop.counter }}" id="inlineRadio4" value="4">
-                        <label class="form-check-label" for="inlineRadio4">4</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="pergunta_{{ forloop.counter }}" id="inlineRadio5" value="5">
-                        <label class="form-check-label" for="inlineRadio5">5</label>
-                      </div>
-                {% endfor %}
-                <div class="d-flex flex-row-reverse">
-                    <div class="p-2">
-                        <label>{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</label>
+        {% for pergunta in page_obj %}
+            <div class="row-fluid">
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <h5 class="d-flex">{{ pergunta.descricao }}</h5>
+                        <div class="d-flex justify-content-center">
+                            <span class="mr-2">Discordo Totalmente</span>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="pergunta_{{ forloop.counter }}" id="inlineRadio1" value="1">
+                                <label class="form-check-label" for="inlineRadio1">1</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="pergunta_{{ forloop.counter }}" id="inlineRadio2" value="2">
+                                <label class="form-check-label" for="inlineRadio2">2</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="pergunta_{{ forloop.counter }}" id="inlineRadio3" value="3">
+                                <label class="form-check-label" for="inlineRadio3">3</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="pergunta_{{ forloop.counter }}" id="inlineRadio4" value="4">
+                                <label class="form-check-label" for="inlineRadio4">4</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="pergunta_{{ forloop.counter }}" id="inlineRadio5" value="5">
+                                <label class="form-check-label" for="inlineRadio5">5</label>
+                            </div>
+                            <span>Concordo Plenamente</span>
+                        </div>
                     </div>
                 </div>
-                <div class="d-flex flex-row-reverse">
-                    <div class="p-2">
-                        {% if page_obj.has_previous %}
-                          <a class="btn btn-success" href="{% querystring page=page_obj.previous_page_number %}">Anterior</a>
-                        {% endif %}
-                        {% if page_obj.has_next %}
-                        <a class="btn btn-success" href="{% querystring page=page_obj.next_page_number %}">Próxima</a>
-                        {% else %}
-                        <a class="btn btn-info" href="">Finalizar</a>
-                        {% endif %}
-                    </div>
-                </div>
+            </div>
+        {% endfor %}
+        <div class="d-flex flex-row-reverse">
+            <div class="p-2">
+                <label>{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</label>
+            </div>
+        </div>
+        <div class="d-flex flex-row-reverse mb-4">
+            <div class="p-2">
+                {% if page_obj.has_previous %}
+                    <a class="btn btn-secondary btn-icon-split" href="{% querystring page=page_obj.previous_page_number %}">
+                    <span class="icon text-white-50"><i class="fa fa-arrow-left"></i></span>
+                    <span class="text">Anterior</span>
+                    </a>
+                {% endif %}
+                {% if page_obj.has_next %}
+                    <a class="btn btn-secondary btn-icon-split" href="{% querystring page=page_obj.next_page_number %}">
+                    <span class="text">Próxima</span>
+                    <span class="icon text-white-50"><i class="fa fa-arrow-right"></i></span>
+                    </a>
+                {% else %}
+                    <a class="btn btn-primary btn-icon-split" href="">
+                    <span class="icon text-white-50"><i class="fa fa-check"></i></span>
+                    <span class="text">Finalizar</span>
+                    </a>
+                {% endif %}
             </div>
         </div>
     </div>

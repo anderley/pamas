@@ -1,21 +1,24 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.contrib.auth.views import  LoginView
 from django.contrib.auth import logout
-from django.views.generic import ListView
+from django.views.generic import CreateView, ListView
 from django.core.mail import send_mail
 from django.conf import  settings
-from django.contrib.auth.decorators import login_required, login_not_required
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 
-from request_token.decorators import use_request_token
 from request_token.models import RequestToken
 
 from .forms  import (
     LoginForm,
-    EnviarFormularioForm
+    EnviarFormularioForm,
+    ContatosForm
 )
 from .models import (
     Perguntas,
-    FomularioClientes
+    FomularioClientes,
 )
 from .decorators import use_request_token_check_expiration
 
@@ -50,13 +53,14 @@ def enviar_formulario(request):
                 }
             )
             token = request_token.jwt()
-            url = f'http://localhost:8000/formulario/?rt={token}'
+            url = f'http://localhost:8000/formulario/cadastro/?rt={token}'
             subject = '[PAMAS] Formulário'
             message = f'Segue o <a href="{url}">link</a> do formulário para preenchimento'
             try:
                 send_mail(subject, message, settings.EMAIL_HOST_USER, [email])
-                context['message'] = 'Email enviado coom sucesso!'
-                context['alert'] = 'success'
+
+                messages.success(request, 'Email enviado coom sucesso!')
+                
                 FomularioClientes(
                     user=request.user,
                     email=email,
@@ -64,32 +68,72 @@ def enviar_formulario(request):
                     form_url=url
                 ).save()
             except Exception as e:
-                context['message'] = f'Error no envio do email: {e}'
-                context['alert'] = 'warning'
+                messages.error(request, f'Error no envio do email: {e}')
 
     return render(request, 'quiz/send_form.html', context=context)
 
 
-class Login(LoginView):
+@login_required(redirect_field_name='login')
+def cancelar_form(request, id):
+    form_client = FomularioClientes.objects.get(id=id)
+
+    if form_client:
+        form_client.status = 'Cancelado'
+        form_client.save()
+
+        messages.success(request, 'Formulário Cancelado com sucesso')
+
+    return redirect('list_sent_form')
+
+
+class LoginView(LoginView):
     form_class = LoginForm
     template_name = 'quiz/login.html'
 
 
-class Show(ListView):
+class CreateContatosView(CreateView):
+    form_class = ContatosForm
+    template_name = 'quiz/cad_contato.html'
+
+    @use_request_token_check_expiration
+    def get(self, request, *args, **kwargs):
+        token = request.GET['rt']
+        form_cliente = FomularioClientes.objects.get(token=token)
+
+        if form_cliente:
+            form_cliente.status = 'Acessado'
+            form_cliente.save()
+    
+        return super().get(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        return reverse_lazy('formulario') + '?rt=' + self.request.GET['rt']
+
+
+class FormListView(ListView):
     model = Perguntas
     paginate_by = 20
     template_name = 'quiz/show_form.html'
 
-    @login_not_required
     @use_request_token_check_expiration
-    @use_request_token(scope='mentorado')
     def get(self, request, *args, **kwargs):
-        client_email = (
-            request.token.data['client_email']
-            if hasattr(request, 'token')
-            else None
-        )
-        if not client_email:
-            
-            return render(request, '403.html')
+        token = request.GET['rt']
+        form_cliente = FomularioClientes.objects.get(token=token)
+
+        if form_cliente:
+            form_cliente.status = 'Preenchendo'
+            form_cliente.save()
+    
         return super().get(request, *args, **kwargs)
+
+
+class ListSentFormsView(LoginRequiredMixin, ListView):
+    model = FomularioClientes
+    paginate_by = 50
+    template_name = 'quiz/list_sent_form.html'
+    redirect_field_name = 'login'

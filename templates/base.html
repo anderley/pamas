@@ -30,7 +30,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'home' %}">
@@ -70,7 +70,7 @@
                     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <a class="collapse-item" href="{% url 'send_form' %}">Enviar</a>
-                            <a class="collapse-item" href="#">Listar Envios</a>
+                            <a class="collapse-item" href="{% url 'list_sent_form' %}">Listar Envios</a>
                         </div>
                     </div>
                 </li>
@@ -268,7 +268,11 @@
     <!-- Page level custom scripts -->
     <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
     <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
+    <script src="{% static 'js/inputmask.min.js' %}"></script>
 
+    
+    {% block js_scripts %} {% endblock %}
+    
 </body>
 
 </html>

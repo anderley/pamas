@@ -1,8 +1,7 @@
 from django.urls import path
-from .views import List, PlanoDetailView
-
+from .views import PlanosListView, PlanoDetailView
 
 urlpatterns = [
-    path('', List.as_view(), name='planos'),
+    path('', PlanosListView.as_view(), name='planos'),
     path('<int:pk>/', PlanoDetailView.as_view(), name='planos_detail'),
 ]
