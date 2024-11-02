@@ -4,6 +4,10 @@ from planos.models import Planos
 from .models import Pagamentos
 from django.views.generic import TemplateView
 from django.shortcuts import render
+from django.http import JsonResponse
+# from rest_framework.views import APIView
+# from rest_framework import status
+from django.contrib.auth.models import User
 
 
 class PagamentoView(TemplateView):
@@ -97,3 +101,25 @@ def mercadopago_pagamento(self, data, plano, pagamento_id):
             return False, "Erro ao realizar o pagamento: {}".format(payment_response["response"]["message"]), None
     except:
         return False, "Erro inesperado!", None
+
+
+# class PagamentoCallback(APIView):
+#     def get(self, request):
+#         if request.GET.get('status') == 'approved':
+#
+#             # atualiza o status do pagamento como pago
+#             pagamento = Pagamentos.objects.get(
+#                 id=request.GET.get('external_reference')
+#             )
+#             pagamento.status = 'pago'
+#             pagamento.save()
+#
+#             # aumenta a quantidade de formulários
+#             user = User.objects.get(user=pagamento.user)
+#             user.plano_num_formularios = pagamento.plano_num_formularios
+#             user.save()
+#
+#             return JsonResponse({"success": "ok"}, status=status.HTTP_201_CREATED)
+#         else:
+#             return JsonResponse({"error": "Invalid request data"}, status=status.HTTP_400_BAD_REQUEST)
+
