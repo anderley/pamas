@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class Grupos(models.Model):
@@ -87,19 +88,21 @@ class Contatos(models.Model):
 
 
 class FomularioClientes(models.Model):
-    STATUS_ENVIO = [
-        ('Enviado', 'Enviado'),
-        ('Acessado', 'Acessado'),
-        ('Preenchendo', 'Preenchendo'),
-        ('Finalizado', 'Finalizado'),
-        ('Expirado', 'Expirado'),
-        ('Cancelado', 'Cancelado'),
-    ]
+
+    class Status(models.TextChoices):
+        ENVIADO = 'Enviado', _('Enviado')
+        ACESSADO = 'Acessado', _('Acessado')
+        PREENCHENDO = 'Preenchendo', _('Preenchendo')
+        FINALIZADO = 'Finalizado', _('Finalizado')
+        EXPIRADO = 'Expirado', _('Expirado')
+        CANCELADO = 'Cancelado', _('Cancelado')
+    
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario') # noqa
     email = models.EmailField(max_length=180, verbose_name='Email')
     token = models.CharField(max_length=180, verbose_name='Token')
     form_url = models.CharField(max_length=250, verbose_name='URL Formulário')
-    status = models.CharField(max_length=80, choices=STATUS_ENVIO, default='Enviado') # noqa
+    status = models.CharField(max_length=80, choices=Status.choices,
+        default=Status.ENVIADO)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Atualizado')
 

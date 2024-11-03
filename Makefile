@@ -25,3 +25,6 @@ clear-cache:
 
 run-server:
 	python manage.py runserver
+
+run-gunicorn-wsgi:
+	gunicorn core.wsgi

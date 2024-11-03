@@ -8,12 +8,16 @@ from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, FormView, ListView, UpdateView
+from django.contrib import messages
+
 from request_token.models import RequestToken
 
 from .decorators import use_request_token_check_expiration
 from .forms import (ContatosForm, EnviarFormularioForm, FormularioForm,
                     LoginForm)
 from .models import Contatos, FomularioClientes, Perguntas
+
+from notificacoes.models import Notificacoes
 
 
 def logout_view(request):
@@ -61,6 +65,11 @@ def enviar_formulario(request):
                     token=token,
                     form_url=url
                 ).save()
+                Notificacoes(
+                    user=request.user,
+                    mensagem=f'Formulario enviado com sucesso para o email: {email}',
+                    tipo=Notificacoes.Tipo.INFORMATIVA
+                ).save()
             except Exception as e:
                 messages.error(request, f'Error no envio do email: {e}')
 
@@ -72,8 +81,13 @@ def cancelar_form(request, id):
     form_client = FomularioClientes.objects.get(id=id)
 
     if form_client:
-        form_client.status = 'Cancelado'
+        form_client.status = FomularioClientes.Status.CANCELADO
         form_client.save()
+        Notificacoes(
+            user=request.user,
+            mensagem='Formulario enviado com sucesso para o email: {email}',
+            tipo=Notificacoes.Tipo.ALERTA
+        ).save()
 
         messages.success(request, 'Formulário Cancelado com sucesso')
 
@@ -87,8 +101,14 @@ def show_form(request, pk):
         print(request.POST)
 
     if form_cliente:
-        form_cliente.status = 'Preenchendo'
+        form_cliente.status = FomularioClientes.Status.PREENCHENDO
         form_cliente.save()
+        data_envio = form_cliente.created_at.strftime(settings.DATE_FORMAT_DEFAULT)
+        Notificacoes(
+            user=request.user,
+            mensagem='Formulario enviado para o email: {email} na data {data_envio}, iniciou o preenchimento.',
+            tipo=Notificacoes.Tipo.INFORMATIVA
+        ).save()
 
     page = request.GET['page']
     page = page if page and int(page) > 0 else 1
@@ -119,7 +139,7 @@ class CreateContatosView(CreateView):
         form_cliente = FomularioClientes.objects.get(token=token)
 
         if form_cliente:
-            form_cliente.status = 'Acessado'
+            form_cliente.status = FomularioClientes.Status.ACESSADO
             form_cliente.save()
             # coloca o formulário na sessão
             request.session['form_id'] = form_cliente.id

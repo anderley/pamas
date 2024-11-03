@@ -36,6 +36,9 @@
 {% endblock content %}
 
 {% block js_scripts %}
+
+<script src="{% static 'js/inputmask.min.js' %}"></script>
+
 <script>
     Inputmask('(99) 99999-9999').mask('#id_telefone');
 </script>

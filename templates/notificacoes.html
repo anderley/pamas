@@ -1,0 +1,92 @@
+<!-- Nav Item - Alerts -->
+<li class="nav-item dropdown no-arrow mx-1">
+    <a id="navLinkId" class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-bell fa-fw"></i>
+        <!-- Counter - Alerts -->
+    </a>
+    <!-- Dropdown - Alerts -->
+    <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+        aria-labelledby="alertsDropdown">
+        <h6 id="notificationId" class="dropdown-header">
+            Notificações
+        </h6>
+        
+        <a class="dropdown-item text-center small text-gray-500" href="{% url 'all_notificacoes' %}">Ver Todas</a>
+    </div>
+</li>
+
+{% block js_script %}
+<script>
+    const getNotifications = async function() {
+        const url = "{% url 'notificacoes' %}"
+        
+        try {
+            const response = await fetch(url);
+            
+            if (!response.ok) {
+                throw new Error(`Erro ao recuperar notificações: ${response.error()}`)
+            }
+            return response.json();
+         } catch (error) {
+            consol.error(error)
+        }
+    };
+    
+    document.addEventListener('DOMContentLoaded', async function () {
+        const navLink = document.getElementById('navLinkId');
+        const notificationDiv = document.getElementById('notificationId');
+        const notifications = await getNotifications();
+
+        navLink.insertAdjacentHTML(
+            'beforeend',
+            notifications.count >=10
+            ? '<span class="badge badge-danger badge-counter">10+</span>' 
+            : `<span class="badge badge-primary badge-counter">${ notifications.count }</span>`
+        );
+
+        function getIcon(type) {
+            switch (type) {
+                case 'Alerta':
+                    return `<div class="icon-circle bg-warning">
+                                <i class="fas fa-exclamation text-white"></i>
+                            </div>`
+                case 'Informativa':
+                    return `<div class="icon-circle bg-primary">
+                                <i class="fas fa-info text-white"></i>
+                            </div>`
+                default:
+                    return `<div class="icon-circle bg-success">
+                                <i class="fas fa-check text-white"></i>
+                            </div>`
+            }
+        }
+
+        function getFormattedDate(strDate) {
+            const date = new Date(strDate);
+
+            return `${ date.getDate() }/${ date.getMonth() + 1}/${ date.getFullYear() }`
+        }
+
+        notifications.data.forEach(notification => {
+            console.log(notification);
+
+            notificationDiv.insertAdjacentHTML(
+                'afterend',
+                `
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                    <div class="mr-3">
+                        ${ getIcon(notification.tipo) }
+                    </div>
+                    <div>
+                        <div class="small text-gray-500">${ getFormattedDate(notification.created_at) }</div>
+                        ${ notification.mensagem }
+                    </div>
+                </a>
+                `
+            );
+        });
+    })
+    
+</script>
+{% endblock %}

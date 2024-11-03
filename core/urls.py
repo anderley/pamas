@@ -9,4 +9,5 @@ urlpatterns = [
     path('planos/', include('planos.urls')),
     path('usuarios/', include('usuarios.urls')),
     path('pagamentos/', include('pagamentos.urls')),
+    path('notificacoes/', include('notificacoes.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

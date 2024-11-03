@@ -37,6 +37,37 @@ Para usar Pamas Quiz, siga estas etapas:
 $ python -m manage.py runserver
 ```
 
+## Usando Makefile
+
+Para facilitar operações do projeto siga:
+
+- Criar um virtual env
+```
+$ make criar-env
+```
+
+- Remover um virtual env
+```
+$ make remover-env
+```
+
+- Instalar as libs do projeto
+```
+$ source venv/bin/activate
+$ make instalar-libs
+```
+
+- Rodar o servicor
+```
+$ make run-server
+```
+
+- Rodar gunicorn wsgi
+```
+$ make run-gunicor-wsgi
+```
+
+
 ## Referências / Templates
 
 - [sb-admin-2](https://startbootstrap.com/previews/sb-admin-2)

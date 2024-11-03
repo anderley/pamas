@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'quiz',
     'usuarios',
     'pagamentos',
+    'notificacoes',
 ]
 
 MIDDLEWARE = [
@@ -219,7 +220,4 @@ LOGGING = {
 
 MERCADOPAGO_ACCESS_TOKEN = os.environ.get('MERCADOPAGO_ACCESS_TOKEN', 'TEST-4634839706246803-052314-c8cd6ae245aa6e578c65ce97de7bce6b-2360331')
 
-try:
-    from core.local_settings import *
-except ImportError:
-    print("sem o arquivo local_settings")
+DATE_FORMAT_DEFAULT = '%d/%m/%y'

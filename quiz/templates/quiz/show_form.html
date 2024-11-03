@@ -5,7 +5,7 @@
         <h3>Advanced Management Assessment Skills</h3>
     </div>
 
-    <div class="col-lg-6">
+    <div class="col-lg-4">
 
         <form method="post" >
             {% csrf_token %}
@@ -15,13 +15,12 @@
                 <div class="row-fluid">
                     <div class="card mb-2">
                         <div class="card-body">
-                            <h5 class="d-flex">{{ field.label }}</h5>
+                            <div class="d-flex mb-5">{{ field.label }}</div>
                             <div class="d-flex justify-content-center">
                                 <span class="mr-2">Discordo Totalmente</span>
                                 {% for choice in field %}
                                     <div class="form-check form-check-inline">
                                         {{ choice }}
-                                        <label class="form-check-label" for="inlineRadio1">{{ choice.label }}</label>
                                     </div>
                                 {% endfor %}
                                 <span>Concordo Plenamente</span>
