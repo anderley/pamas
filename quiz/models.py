@@ -4,6 +4,9 @@ from django.db import models
 
 class Grupos(models.Model):
     nome = models.CharField(max_length=80)
+    ativo = models.BooleanField(default=True, verbose_name='Ativo')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Atualizado')
 
     def __str__(self):
         return self.nome
@@ -17,6 +20,9 @@ class Grupos(models.Model):
 class Competencias(models.Model):
     nome = models.CharField(max_length=180)
     grupo = models.ForeignKey(Grupos, on_delete=models.CASCADE)
+    ativo = models.BooleanField(default=True, verbose_name='Ativo')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Atualizado')
 
     def __str__(self):
         return self.nome
@@ -29,8 +35,11 @@ class Competencias(models.Model):
 
 class Perguntas(models.Model):
     descricao = models.TextField(verbose_name='Descrição')
-    competencia = models.ForeignKey(Competencias, on_delete=models.CASCADE, verbose_name='Competência')
-    
+    competencia = models.ForeignKey(Competencias, on_delete=models.CASCADE, verbose_name='Competência') # noqa
+    ativo = models.BooleanField(default=True, verbose_name='Ativo')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Atualizado')
+
     @property
     def grupo(self):
         return self.competencia.grupo
@@ -46,7 +55,10 @@ class Perguntas(models.Model):
 
 class Textos(models.Model):
     texto = models.TextField(verbose_name='Texto')
-    competencia = models.ForeignKey(Competencias, on_delete=models.CASCADE, verbose_name='Competência')
+    competencia = models.ForeignKey(Competencias, on_delete=models.CASCADE, verbose_name='Competência') # noqa
+    ativo = models.BooleanField(default=True, verbose_name='Ativo')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado') # noqa
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Atualizado') # noqa
 
     def __str__(self):
         return self.texto
@@ -58,14 +70,16 @@ class Textos(models.Model):
 
 
 class Contatos(models.Model):
-    nome_completo = models.CharField(max_length=180, verbose_name='Nome Completo')
-    email = models.EmailField(max_length=180, unique=True, verbose_name='Email')
+    nome_completo = models.CharField(max_length=180, verbose_name='Nome Completo') # noqa
+    email = models.EmailField(max_length=180, unique=True, verbose_name='Email') # noqa
     telefone = models.CharField(max_length=20, verbose_name='Telefone')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario') # noqa
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado') # noqa
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Atualizado') # noqa
 
     def __str__(self):
         return self.nome_completo
-    
+
     class Meta:
         db_table = 'contatos'
         verbose_name = 'contato'
@@ -81,16 +95,18 @@ class FomularioClientes(models.Model):
         ('Expirado', 'Expirado'),
         ('Cancelado', 'Cancelado'),
     ]
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario') # noqa
     email = models.EmailField(max_length=180, verbose_name='Email')
     token = models.CharField(max_length=180, verbose_name='Token')
     form_url = models.CharField(max_length=250, verbose_name='URL Formulário')
-    status = models.CharField(max_length=80, choices=STATUS_ENVIO, default='Enviado')
+    status = models.CharField(max_length=80, choices=STATUS_ENVIO, default='Enviado') # noqa
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Atualizado')
 
     @property
     def user_name(self):
         return f'{self.user.first_name} {self.user.last_name}'
-    
+
     def __str__(self):
         return self.email
 
@@ -98,3 +114,19 @@ class FomularioClientes(models.Model):
         db_table = 'formulario_clientes'
         verbose_name = 'formulario_cliente'
         verbose_name_plural = 'formulario_clientes'
+
+
+class Respostas(models.Model):
+    resposta = models.IntegerField(default=0, verbose_name='Resposta')
+    pergunta = models.ForeignKey(Perguntas, on_delete=models.CASCADE, verbose_name='Pergunta') # noqa
+    formulario = models.ForeignKey(FomularioClientes, on_delete=models.CASCADE, verbose_name='Formulario') # noqa
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Atualizado')
+
+    class Meta:
+        db_table = 'resposta'
+        verbose_name = 'resposta'
+        verbose_name_plural = 'respostas'
+        constraints = [
+            models.UniqueConstraint(fields=['formulario', 'pergunta'], name='unique_respostas') # noqa
+        ]

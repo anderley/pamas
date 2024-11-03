@@ -32,6 +32,7 @@
                             <th>Email</th>
                             <th>URL Formulário</th>
                             <th>Status</th>
+                            <th>Resultados</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -40,10 +41,14 @@
                             <tr>
                                 <td>{{ envio.email }}</td>
                                 <td data-toggle="tooltip" data-placement="top" title="Copiar" onclick="copyToclipboard(this)">{{ envio.form_url }}</td>
-                                <td>
+                                <td class="text-center">
                                     <span class="badge badge-pill badge-{{ envio.status|status_class }} p-2">{{ envio.status }}</span>
                                 </td>
-                                <td>
+                                <td class="text-center">
+                                    <!-- Link para tela de resultados -->
+                                    {% if envio.status is not 'Finalizado' %} - {% endif %}
+                                </td>
+                                <td class="text-center">
                                     {% if envio.status in 'Enviado,Acessado,Preenchendo' %}
                                         <a class="btn btn-danger btn-icon-split btn-sm" href="{% url 'cancelar_sent_form' envio.id %}">
                                             <span class="icon text-white-50"><i class="fa fa-ban"></i></span>

@@ -1,49 +1,40 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import (
-    Grupos,
-    Competencias,
-    Perguntas,
-    Textos,
-    FomularioClientes,
-    Contatos
-)
-from .resources import (
-    GruposResource,
-    CompetenciasResource,
-    PerguntasResource
-)
-from .forms import  PerguntasForm
+
+from .forms import PerguntasForm
+from .models import (Competencias, Contatos, FomularioClientes, Grupos,
+                     Perguntas, Textos)
+from .resources import CompetenciasResource, GruposResource, PerguntasResource
 
 
 class GruposAdmin(ImportExportModelAdmin):
     resource_class = GruposResource
-    list_display = ['nome']
+    list_display = ['nome', 'ativo', 'created_at', 'updated_at']
 
 
 class CompetenciasAdmin(ImportExportModelAdmin):
     resource_class = CompetenciasResource
     search_fields = ['grupo']
-    list_display = ['nome', 'grupo']
+    list_display = ['nome', 'grupo', 'ativo', 'created_at', 'updated_at']
 
 
 class PerguntasAdmin(ImportExportModelAdmin):
     resource_class = PerguntasResource
     form = PerguntasForm
     search_fields = ['competencia']
-    list_display = ['descricao', 'competencia', 'grupo']
+    list_display = ['descricao', 'competencia', 'grupo', 'ativo', 'created_at', 'updated_at'] # noqa
 
 
 class TextosAdmin(ImportExportModelAdmin):
-    list_display = ['texto', 'competencia']
+    list_display = ['texto', 'competencia', 'ativo', 'created_at', 'updated_at'] # noqa
 
 
 class FomularioClientesAdmin(admin.ModelAdmin):
-    list_display = ['user_name', 'email', 'status', 'token', 'form_url']
+    list_display = ['user_name', 'email', 'status', 'token', 'form_url', 'created_at', 'updated_at'] # noqa
 
 
 class ContatosAdmin(admin.ModelAdmin):
-    list_display = ['nome_completo', 'email', 'telefone']
+    list_display = ['nome_completo', 'email', 'telefone', 'created_at', 'updated_at'] # noqa
 
 
 admin.site.register(Grupos, GruposAdmin)

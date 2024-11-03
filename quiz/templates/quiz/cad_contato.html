@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h3>Advanced Management Assessment Skills</h3>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card mb-4">
+            <h5 class="card-header">Seus Dados</h5>
+            <div class="card-body">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    {{ form|crispy }}
+                    
+                    <button type="submit" class="btn btn-secondary">Próximo</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+{% block js_scripts %}
+<script>
+    Inputmask('(99) 99999-9999').mask('#id_telefone');
+</script>
+{% endblock %}

@@ -1,11 +1,12 @@
-from django.shortcuts import render
-from django.views.generic import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Planos
-from django.views.generic import ListView, DetailView
+from django.shortcuts import render
+from django.views.generic import DetailView, ListView
+
 from pagamentos.forms import PagamentoForm
 from pagamentos.models import Pagamentos
 from quiz.decorators import use_request_token_check_expiration
+
+from .models import Planos
 
 
 class PlanosListView(LoginRequiredMixin, ListView):

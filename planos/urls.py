@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import PlanosListView, PlanoDetailView
+
+from .views import PlanoDetailView, PlanosListView
 
 urlpatterns = [
     path('', PlanosListView.as_view(), name='planos'),

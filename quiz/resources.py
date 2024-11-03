@@ -1,12 +1,7 @@
 from import_export import fields, resources
 from import_export.widgets import ForeignKeyWidget
 
-
-from .models import (
-    Competencias,
-    Grupos,
-    Perguntas
-)
+from .models import Competencias, Grupos, Perguntas
 
 
 class GruposResource(resources.ModelResource):

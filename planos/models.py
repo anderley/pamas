@@ -9,7 +9,7 @@ class Planos(models.Model):
 
     def __str__(self):
         return self.titulo
-    
+
     class Meta:
         db_table = 'planos'
         verbose_name = 'plano'

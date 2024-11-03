@@ -23,12 +23,12 @@ SITE_URL = os.environ.get("SITE_URL", "http://localhost:8000")
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-g0_%f&v35*+w4srab9jes!9m)877ybk+0ff!s&p!at(%!3pwhp'
+SECRET_KEY = 'django-insecure-g0_%f&v35*+w4srab9jes!9m)877ybk+0ff!s&p!at(%!3pwhp' # noqa
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -110,16 +110,16 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator', # noqa
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator', # noqa
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator', # noqa
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator', # noqa
     },
 ]
 
@@ -141,14 +141,12 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = '/staticfiles/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
+MEDIA_URL = 'mediafiles/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/mediafiles')
 
-MEDIA_URL = '/mediafiles/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'staticfiles/mediafiles')
-
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'staticfiles'),
+    BASE_DIR / 'static/'
 ]
 
 # Default primary key field type
@@ -161,16 +159,16 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap4'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # JAZZMIN_SETTINGS = {
-#     # title of the window (Will default to current_admin_site.site_title if absent or None)
+#     # title of the window (Will default to current_admin_site.site_title if absent or None) # noqa
 #     "site_title": "Library Admin",
 #
-#     # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
+#     # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None) # noqa
 #     "site_header": "Library",
 #
-#     # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
+#     # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None) # noqa
 #     "site_brand": "Library",
 #
-#     # Logo to use for your site, must be present in static files, used for brand on top left
+#     # Logo to use for your site, must be present in static files, used for brand on top left # noqa
 #     "site_logo": "imgs/logo.png",
 # }
 
@@ -191,7 +189,9 @@ EMAIL_HOST_PASSWORD = ''
 # JWT Request Token
 REQUEST_TOKEN_EXPIRY = '1d'
 REQUEST_TOKEN_DEFAULT_MAX_USES = 10
-FOUR03_TEMPLATE = os.path.join(BASE_DIR,'...','403.html')
+FOUR03_TEMPLATE = os.path.join(BASE_DIR, '...', '403.html')
+
+MERCADOPAGO_ACCESS_TOKEN = os.environ.get('MERCADOPAGO_ACCESS_TOKEN', 'TEST-4634839706246803-052314-c8cd6ae245aa6e578c65ce97de7bce6b-2360331') # noqa
 
 # Logging
 LOGGING = {

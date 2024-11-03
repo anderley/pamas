@@ -1,13 +1,11 @@
 import mercadopago
 from django.conf import settings
-from planos.models import Planos
-from .models import Pagamentos
-from django.views.generic import TemplateView
-from django.shortcuts import render
-from django.http import JsonResponse
 # from rest_framework.views import APIView
 # from rest_framework import status
 from django.contrib.auth.models import User
+from django.http import JsonResponse
+from django.shortcuts import render
+from django.views.generic import TemplateView
 
 
 class PagamentoView(TemplateView):
@@ -26,7 +24,7 @@ class PagamentoView(TemplateView):
             status='pendente',
         )
 
-        data['sucesso'], data['mensagem'], data['mercadopago_id'] = mercadopago_pagamento(self, self.request.POST, plano, pagamento.id)
+        data['sucesso'], data['mensagem'], data['mercadopago_id'] = mercadopago_pagamento(self, self.request.POST, plano, pagamento.id) # noqa
         data['pagamento'] = pagamento.id
 
         if data['sucesso']:
@@ -35,6 +33,7 @@ class PagamentoView(TemplateView):
         pagamento.save()
 
         return render(request, self.template_name, data)
+
 
 def mercadopago_pagamento(self, data, plano, pagamento_id):
     sdk = mercadopago.SDK(settings.MERCADOPAGO_ACCESS_TOKEN)
@@ -56,7 +55,7 @@ def mercadopago_pagamento(self, data, plano, pagamento_id):
         },
         "description": plano.titulo,
         "installments": 1,  # Número de parcelas
-        "payment_method_id": "visa",  # Método de pagamento (ex: "visa", "master")
+        "payment_method_id": "visa",  # Método de pagamento (ex: "visa", "master") # noqa
         "payer": {
             "email": self.request.user.email,
             "identification": {
@@ -96,30 +95,8 @@ def mercadopago_pagamento(self, data, plano, pagamento_id):
         payment_response = sdk.payment().create(payment_data)
         if payment_response["status"] == 201:
 
-            return True, "Pagamento realizado com sucesso!", payment_response["response"]["id"]
+            return True, "Pagamento realizado com sucesso!", payment_response["response"]["id"] # noqa
         else:
-            return False, "Erro ao realizar o pagamento: {}".format(payment_response["response"]["message"]), None
-    except:
+            return False, "Erro ao realizar o pagamento: {}".format(payment_response["response"]["message"]), None # noqa
+    except: # noqa
         return False, "Erro inesperado!", None
-
-
-# class PagamentoCallback(APIView):
-#     def get(self, request):
-#         if request.GET.get('status') == 'approved':
-#
-#             # atualiza o status do pagamento como pago
-#             pagamento = Pagamentos.objects.get(
-#                 id=request.GET.get('external_reference')
-#             )
-#             pagamento.status = 'pago'
-#             pagamento.save()
-#
-#             # aumenta a quantidade de formulários
-#             user = User.objects.get(user=pagamento.user)
-#             user.plano_num_formularios = pagamento.plano_num_formularios
-#             user.save()
-#
-#             return JsonResponse({"success": "ok"}, status=status.HTTP_201_CREATED)
-#         else:
-#             return JsonResponse({"error": "Invalid request data"}, status=status.HTTP_400_BAD_REQUEST)
-

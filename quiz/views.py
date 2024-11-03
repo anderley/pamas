@@ -1,26 +1,19 @@
-from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
-from django.contrib.auth.views import LoginView
-from django.contrib.auth import logout
-from django.views.generic import CreateView, ListView
-from django.core.mail import send_mail
 from django.conf import settings
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib import messages
-
+from django.contrib.auth.views import LoginView
+from django.core.mail import send_mail
+from django.core.paginator import Paginator
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, FormView, ListView, UpdateView
 from request_token.models import RequestToken
 
-from .forms  import (
-    LoginForm,
-    EnviarFormularioForm,
-    ContatosForm
-)
-from .models import (
-    Perguntas,
-    FomularioClientes,
-)
 from .decorators import use_request_token_check_expiration
+from .forms import (ContatosForm, EnviarFormularioForm, FormularioForm,
+                    LoginForm)
+from .models import Contatos, FomularioClientes, Perguntas
 
 
 def logout_view(request):
@@ -55,12 +48,13 @@ def enviar_formulario(request):
             token = request_token.jwt()
             url = f'{settings.SITE_URL}/formulario/cadastro/?rt={token}'
             subject = '[PAMAS] Formulário'
-            message = f'Segue o <a href="{url}">link</a> do formulário para preenchimento'
+            message = f'Segue o <a href="{url}">link</a> do formulário para preenchimento' # noqa
+
             try:
                 send_mail(subject, message, settings.EMAIL_HOST_USER, [email])
 
                 messages.success(request, 'Email enviado coom sucesso!')
-                
+
                 FomularioClientes(
                     user=request.user,
                     email=email,
@@ -86,6 +80,29 @@ def cancelar_form(request, id):
     return redirect('list_sent_form')
 
 
+def show_form(request, pk):
+    form_cliente = FomularioClientes.objects.get(id=pk)
+
+    if request.POST:
+        print(request.POST)
+
+    if form_cliente:
+        form_cliente.status = 'Preenchendo'
+        form_cliente.save()
+
+    page = request.GET['page']
+    page = page if page and int(page) > 0 else 1
+    pagination = Paginator(
+        Perguntas.objects.filter(ativo=True).all(),
+        20
+    )
+    context = {
+        'paginator': pagination,
+        'page_obj': pagination.page(page)
+    }
+    return render(request, 'quiz/show_form.html', context=context)
+
+
 class LoginView(LoginView):
     form_class = LoginForm
     template_name = 'quiz/login.html'
@@ -94,6 +111,7 @@ class LoginView(LoginView):
 class CreateContatosView(CreateView):
     form_class = ContatosForm
     template_name = 'quiz/cad_contato.html'
+    success_url = reverse_lazy('formulario')
 
     @use_request_token_check_expiration
     def get(self, request, *args, **kwargs):
@@ -103,33 +121,75 @@ class CreateContatosView(CreateView):
         if form_cliente:
             form_cliente.status = 'Acessado'
             form_cliente.save()
-    
+            # coloca o formulário na sessão
+            request.session['form_id'] = form_cliente.id
+
+            contato = Contatos.objects.get(email=form_cliente.email)
+
+            if contato:
+                return redirect('formulario_cadastro_editar', contato.pk)
+
         return super().get(request, *args, **kwargs)
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        
+
         return super().form_valid(form)
-    
+
     def get_success_url(self):
-        return reverse_lazy('formulario') + '?rt=' + self.request.GET['rt']
+        return reverse_lazy('formulario', kwargs={
+            'pk': self.request.session['form_id']
+        })
 
 
-class FormListView(ListView):
-    model = Perguntas
-    paginate_by = 20
+class ContatosUpdateView(UpdateView):
+    form_class = ContatosForm
+    model = Contatos
+    template_name = 'quiz/cad_contato.html'
+
+    def get_success_url(self):
+        return reverse_lazy('formulario', kwargs={
+            'pk': self.request.session['form_id']
+        })
+
+
+class FormularioFormView(FormView):
+    form_class = FormularioForm
     template_name = 'quiz/show_form.html'
 
-    @use_request_token_check_expiration
-    def get(self, request, *args, **kwargs):
-        token = request.GET['rt']
-        form_cliente = FomularioClientes.objects.get(token=token)
+    def get(self, request, pk, *args, **kwargs):
+        page = request.GET['page']
+        page = page if page and int(page) > 0 else 1
+        form_cliente = FomularioClientes.objects.get(id=pk)
 
-        if form_cliente:
+        if form_cliente and form_cliente.status != 'Preenchendo':
             form_cliente.status = 'Preenchendo'
             form_cliente.save()
-    
+
+        pagination = Paginator(
+            Perguntas.objects.filter(ativo=True).order_by('id').all(),
+            20
+        )
+        self.initial['formulario_id'] = pk
+        self.initial['paginator'] = pagination
+        self.initial['page_obj'] = pagination.page(page)
+
         return super().get(request, *args, **kwargs)
+
+    def post(self, request, pk, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            self.success_url = request.get_full_path()
+            form.save()
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(**self.initial)
+
+        return context
 
 
 class ListSentFormsView(LoginRequiredMixin, ListView):

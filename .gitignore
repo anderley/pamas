@@ -1,5 +1,6 @@
 **/__pycache__
 **/migrations
+/collected_static
 /venv
 .idea
 db.sqlite3

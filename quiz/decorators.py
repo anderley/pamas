@@ -1,15 +1,12 @@
 import functools
 import logging
-
 from typing import Any, Callable
 
 from django.http import HttpRequest
 from django.shortcuts import render
-
 from request_token.models import RequestToken
 
 from .models import FomularioClientes
-
 
 logger = logging.getLogger(__name__)
 
@@ -44,16 +41,16 @@ def use_request_token_check_expiration(
             request_token.authenticate(request)
 
             logger.info('Token valido!')
-        except Exception as e:
+        except Exception:
             # token expirado
             form_cliente.status = 'Expirado'
 
             logger.info('Token expirou!')
 
             return render(request, '403.html')
-            
+
         form_cliente.save()
-        
+
         return view_func(*args, **kwargs)
 
     return inner
