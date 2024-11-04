@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from django.conf import settings
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
@@ -12,7 +14,7 @@ from django.contrib import messages
 
 from request_token.models import RequestToken
 
-from .decorators import use_request_token_check_expiration
+from .decorators import use_request_token_check_expiration, timeout_form, check_contato
 from .forms import (ContatosForm, EnviarFormularioForm, FormularioForm,
                     LoginForm)
 from .models import Contatos, FomularioClientes, Perguntas
@@ -78,49 +80,20 @@ def enviar_formulario(request):
 
 @login_required(redirect_field_name='login')
 def cancelar_form(request, id):
-    form_client = FomularioClientes.objects.get(id=id)
+    form_cliente = FomularioClientes.objects.get(id=id)
 
-    if form_client:
-        form_client.status = FomularioClientes.Status.CANCELADO
-        form_client.save()
+    if form_cliente:
+        form_cliente.status = FomularioClientes.Status.CANCELADO
+        form_cliente.save()
         Notificacoes(
             user=request.user,
-            mensagem='Formulario enviado com sucesso para o email: {email}',
+            mensagem='Formulario enviado para o email: {form_cliente.email}, foi cancelado.',
             tipo=Notificacoes.Tipo.ALERTA
         ).save()
 
         messages.success(request, 'Formulário Cancelado com sucesso')
 
     return redirect('list_sent_form')
-
-
-def show_form(request, pk):
-    form_cliente = FomularioClientes.objects.get(id=pk)
-
-    if request.POST:
-        print(request.POST)
-
-    if form_cliente:
-        form_cliente.status = FomularioClientes.Status.PREENCHENDO
-        form_cliente.save()
-        data_envio = form_cliente.created_at.strftime(settings.DATE_FORMAT_DEFAULT)
-        Notificacoes(
-            user=request.user,
-            mensagem='Formulario enviado para o email: {email} na data {data_envio}, iniciou o preenchimento.',
-            tipo=Notificacoes.Tipo.INFORMATIVA
-        ).save()
-
-    page = request.GET['page']
-    page = page if page and int(page) > 0 else 1
-    pagination = Paginator(
-        Perguntas.objects.filter(ativo=True).all(),
-        20
-    )
-    context = {
-        'paginator': pagination,
-        'page_obj': pagination.page(page)
-    }
-    return render(request, 'quiz/show_form.html', context=context)
 
 
 class LoginView(LoginView):
@@ -135,6 +108,9 @@ class CreateContatosView(CreateView):
 
     @use_request_token_check_expiration
     def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return render(request, '404.html')
+        
         token = request.GET['rt']
         form_cliente = FomularioClientes.objects.get(token=token)
 
@@ -144,9 +120,10 @@ class CreateContatosView(CreateView):
             # coloca o formulário na sessão
             request.session['form_id'] = form_cliente.id
 
-            contato = Contatos.objects.get(email=form_cliente.email)
+            query_contato = Contatos.objects.filter(email=form_cliente.email)
 
-            if contato:
+            if query_contato.exists():
+                contato = query_contato.get()
                 return redirect('formulario_cadastro_editar', contato.pk)
 
         return super().get(request, *args, **kwargs)
@@ -168,6 +145,9 @@ class ContatosUpdateView(UpdateView):
     template_name = 'quiz/cad_contato.html'
 
     def get_success_url(self):
+        if self.request.user:
+            redirect(self.request, '404.html')
+        
         return reverse_lazy('formulario', kwargs={
             'pk': self.request.session['form_id']
         })
@@ -177,20 +157,37 @@ class FormularioFormView(FormView):
     form_class = FormularioForm
     template_name = 'quiz/show_form.html'
 
+    @timeout_form
+    @check_contato
     def get(self, request, pk, *args, **kwargs):
-        page = request.GET['page']
+        page = request.GET['page'] if 'page' in request.GET else 1
         page = page if page and int(page) > 0 else 1
         form_cliente = FomularioClientes.objects.get(id=pk)
 
-        if form_cliente and form_cliente.status != 'Preenchendo':
-            form_cliente.status = 'Preenchendo'
+        if (
+            form_cliente 
+            and form_cliente.status in [
+                FomularioClientes.Status.ENVIADO,
+                FomularioClientes.Status.ACESSADO
+            ]
+        ):
+            form_cliente.status = FomularioClientes.Status.PREENCHENDO
+            form_cliente.iniciado = datetime.now()
             form_cliente.save()
+            data_envio = form_cliente.created_at.strftime(settings.DATE_FORMAT_DEFAULT)
+            Notificacoes(
+                user=form_cliente.user,
+                mensagem=f'Formulario enviado para o email: {form_cliente.email} na data {data_envio}, iniciou o preenchimento',
+                tipo=Notificacoes.Tipo.INFORMATIVA
+            ).save()
 
         pagination = Paginator(
             Perguntas.objects.filter(ativo=True).order_by('id').all(),
             20
         )
+        timeout = form_cliente.iniciado + timedelta(minutes=settings.TIMEOUT_FORMULARIO)
         self.initial['formulario_id'] = pk
+        self.initial['timeout'] = timeout.isoformat()
         self.initial['paginator'] = pagination
         self.initial['page_obj'] = pagination.page(page)
 

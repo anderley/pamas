@@ -1,21 +1,21 @@
 import functools
 import logging
 from typing import Any, Callable
+from datetime import datetime, timedelta
 
 from django.http import HttpRequest
-from django.shortcuts import render
+from django.shortcuts import render, redirect, reverse
 from django.conf import settings
 
 from request_token.models import RequestToken
 
-from .models import FomularioClientes
+from .models import FomularioClientes, Contatos
 from notificacoes.models import Notificacoes
 
 logger = logging.getLogger(__name__)
 
 
 def _get_request_arg(*args: Any) -> HttpRequest | None:
-    """Extract the arg that is an HttpRequest object."""
     for arg in args:
         if isinstance(arg, HttpRequest):
             return arg
@@ -23,7 +23,7 @@ def _get_request_arg(*args: Any) -> HttpRequest | None:
 
 
 def use_request_token_check_expiration(
-    view_func: Callable | None = None,
+    view_func: Callable | None = None
 ) -> Callable:
 
     @functools.wraps(view_func)
@@ -59,6 +59,54 @@ def use_request_token_check_expiration(
             return render(request, '403.html')
 
         form_cliente.save()
+
+        return view_func(*args, **kwargs)
+
+    return inner
+
+
+def timeout_form(
+        view_func: Callable | None = None
+) -> Callable:
+    
+    @functools.wraps(view_func)
+    def inner(*args, **kwargs):
+        if 'pk' in kwargs:
+            form_cliente = FomularioClientes.objects.get(id=kwargs['pk'])
+
+            if form_cliente.iniciado:
+                max_time = form_cliente.iniciado + timedelta(minutes=settings.TIMEOUT_FORMULARIO)
+
+                if (
+                    max_time.replace(tzinfo=None) < datetime.now().replace(tzinfo=None)
+                    and form_cliente.status != FomularioClientes.Status.FINALIZADO
+                ):
+                    form_cliente.status = FomularioClientes.Status.CANCELADO
+                    form_cliente.save()
+
+                    request = _get_request_arg(args)
+                
+                    return render(request, 'quiz/timout_form.html')
+
+        return view_func(*args, **kwargs)
+
+    return inner
+
+
+def check_contato(
+        view_func: Callable | None = None
+) -> Callable:
+    
+    @functools.wraps(view_func)
+    def inner(*args, **kwargs):
+        if 'pk' in kwargs:
+            form_cliente = FomularioClientes.objects.get(id=kwargs['pk'])
+            contato = Contatos.objects.filter(email=form_cliente.email)
+
+            if not contato.exists():
+                return redirect(
+                    reverse('formulario_cadastro') + f'?rt={form_cliente.token}'
+                )
 
         return view_func(*args, **kwargs)
 

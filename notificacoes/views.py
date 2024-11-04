@@ -1,10 +1,11 @@
 from django.views.generic import TemplateView, ListView
 from django.http.response import JsonResponse
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Notificacoes
 
 
-class NotificacoesJsonView(TemplateView):
+class NotificacoesJsonView(LoginRequiredMixin, TemplateView):
 
     def get(self, request, *args, **kwargs):
         notificacoes = Notificacoes.objects.order_by('-created_at').all()[:10]
@@ -21,7 +22,7 @@ class NotificacoesJsonView(TemplateView):
         return JsonResponse(context, safe=False)
 
 
-class NotificacoesListView(ListView):
+class NotificacoesListView(LoginRequiredMixin, ListView):
     model = Notificacoes
     template_name = 'notificacoes/listar.html'
 

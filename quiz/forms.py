@@ -68,28 +68,26 @@ class FormularioForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        for pergunta in self.initial['page_obj']:
-            query = Respostas.objects.filter(
-                pergunta__id=pergunta.id,
-                formulario__id=self.initial['formulario_id']
-            )
-            resposta = query.first().resposta if query.exists() else None
-            # print(f'>>>>>>>>> pergunta: {pergunta.id}')
-            # print(f'>>>>>>>>> formulario: {self.initial['formulario_id']}')
-            # print(f'>>>>>>>>> resposta: {query.exists()}')
+        if 'page_obj' in self.initial:
+            for pergunta in self.initial['page_obj']:
+                query = Respostas.objects.filter(
+                    pergunta__id=pergunta.id,
+                    formulario__id=self.initial['formulario_id']
+                )
+                resposta = query.first().resposta if query.exists() else None
 
-            self.fields[f'pergunta_{pergunta.id}'] = forms.ChoiceField(
-                choices=VALORES_RESPOSTA,
-                widget=forms.RadioSelect,
-                label=pergunta.descricao,
-                required=True,
-                error_messages={'required': 'Campo obrigatório'},
-                initial=resposta
-            )
+                self.fields[f'pergunta_{pergunta.id}'] = forms.ChoiceField(
+                    choices=VALORES_RESPOSTA,
+                    widget=forms.RadioSelect,
+                    label=pergunta.descricao,
+                    required=True,
+                    error_messages={'required': 'Campo obrigatório'},
+                    initial=resposta
+                )
 
     def save(self):
         cleaned_data = self.clean()
-        formulario_id = self.initial['formulario_id']
+        formulario_id = self.initial['formulario_id'] if 'formulario_id' in self.initial else None
 
         if formulario_id:
             for key in cleaned_data.keys():

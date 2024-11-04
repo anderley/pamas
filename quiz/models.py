@@ -103,6 +103,7 @@ class FomularioClientes(models.Model):
     form_url = models.CharField(max_length=250, verbose_name='URL Formulário')
     status = models.CharField(max_length=80, choices=Status.choices,
         default=Status.ENVIADO)
+    iniciado = models.DateTimeField(blank=True, null=True, verbose_name='Inicio Preenchimento')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Atualizado')
 

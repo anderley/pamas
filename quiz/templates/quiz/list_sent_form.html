@@ -21,7 +21,7 @@
                         </div>
                     {% endfor %}
                 {% endif %}
-                <div class="collapse mb-4">
+                <div id="copyMessageId" class="collapse mb-4">
                     <div class="card card-body bg-light border-left-success">
                         Link copiado com sucesso.
                     </div>
@@ -80,9 +80,9 @@
     const copyToclipboard = async (e) => {
         try {
             await navigator.clipboard.writeText(e.textContent);
-            await $('.collapse').collapse('toggle');
+            await $('#copyMessageId').collapse('toggle');
             setTimeout(async () => {
-                await $('.collapse').collapse('toggle');
+                await $('#copyMessageId').collapse('toggle');
             }, 3000);
             
         } catch (error) {
