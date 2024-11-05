@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView
+from planos.models import Planos
+from pagamentos.models import Pagamentos
 
 
 class PagamentoView(TemplateView):
