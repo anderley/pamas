@@ -222,3 +222,8 @@ MERCADOPAGO_ACCESS_TOKEN = os.environ.get('MERCADOPAGO_ACCESS_TOKEN', 'TEST-4634
 
 DATE_FORMAT_DEFAULT = '%d/%m/%y'
 TIMEOUT_FORMULARIO = 120 # Minutos
+
+# try:
+#     from core.local_settings import *
+# except ImportError:
+#     print("sem o arquivo local_settings")
