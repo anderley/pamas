@@ -43,21 +43,37 @@ def mercadopago_pagamento(self, data, plano, pagamento_id):
     vencimento = data.get('vencimento').split('/')
     cartao = data.get('cartao').replace(' ', '')
 
+    card_object = {
+        "card": {
+            "holder": data.get('nome'),
+            "expiration_month": vencimento[0],
+            "expiration_year": vencimento[1],
+            "number": cartao,
+            "security_code": data.get('codigo')
+        }
+    }
+
+    card_response = sdk.card().create(card_object)
+    print("Cartão criado com sucesso!")
+    print(card_response)
+
     payment_data = {
         "external_reference": pagamento_id,
         "transaction_amount": plano.valor,
-        "token": {
-                "card_number": cartao,  # Número do cartão (exemplo de cartão de teste)
-                "security_code": data.get('codigo'),  # Código de segurança
-                "card_expiration_month": vencimento[0],  # Mês de expiração
-                "card_expiration_year": vencimento[1],  # Ano de expiração
-                "cardholder_name": data.get('nome'),  # Nome do titular do cartão
-                "identification_type": "CPF",  # Tipo de identificação (ex: "CPF", "CNPJ", "ID")
-                "identification_number": data.get('cpf')  # Número de identificação
-        },
         "description": plano.titulo,
         "installments": 1,  # Número de parcelas
-        "payment_method_id": "visa",  # Método de pagamento (ex: "visa", "master") # noqa
+        "payment_type_id": "credit_card",
+        "payment_method_id": "visa",  # Método de pagamento (ex: "visa", "master")
+        "token": "ff8080814c11e237014c1ff593b57b4d",
+        # "token": {
+        #         "card_number": cartao,  # Número do cartão (exemplo de cartão de teste)
+        #         "security_code": data.get('codigo'),  # Código de segurança
+        #         "card_expiration_month": vencimento[0],  # Mês de expiração
+        #         "card_expiration_year": vencimento[1],  # Ano de expiração
+        #         "cardholder_name": data.get('nome'),  # Nome do titular do cartão
+        #         "identification_type": "CPF",  # Tipo de identificação (ex: "CPF", "CNPJ", "ID")
+        #         "identification_number": data.get('cpf')  # Número de identificação
+        # },
         "payer": {
             "email": self.request.user.email,
             "identification": {
