@@ -8,6 +8,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from planos.models import Planos
 from pagamentos.models import Pagamentos
+import requests
 
 
 class PagamentoView(TemplateView):
@@ -37,84 +38,99 @@ class PagamentoView(TemplateView):
         return render(request, self.template_name, data)
 
 
-def mercadopago_pagamento(self, data, plano, pagamento_id):
-    sdk = mercadopago.SDK(settings.MERCADOPAGO_ACCESS_TOKEN)
+
+def criando_cartao(self, data):
 
     vencimento = data.get('vencimento').split('/')
     cartao = data.get('cartao').replace(' ', '')
 
-    card_object = {
-        "card": {
-            "holder": data.get('nome'),
-            "expiration_month": vencimento[0],
-            "expiration_year": vencimento[1],
-            "number": cartao,
-            "security_code": data.get('codigo')
+    CLIENT_ID = settings.MERCADOPAGO_CLIENT_ID
+    CLIENT_SECRET = settings.MERCADOPAGO_CLIENT_SECRET
+
+    # Obtendo o access token
+    auth_response = requests.post(
+        'https://api.mercadopago.com/oauth/token',
+        data={
+            'grant_type': 'client_credentials',
+            'client_id': CLIENT_ID,
+            'client_secret': CLIENT_SECRET
         }
+    )
+
+    access_token = auth_response.json().get('access_token')
+
+    card_data = {
+        "card_number": cartao,
+        "card_expiration_month": vencimento[0],
+        "card_expiration_year": vencimento[1],
+        "cardholder_name": "Nome do Titular",
+        "security_code": data.get('codigo'),
+        "email": self.request.user.email
     }
 
-    card_response = sdk.card().create(card_object)
-    print("Cartão criado com sucesso!")
-    print(card_response)
+    print(card_data)
 
-    payment_data = {
-        "external_reference": pagamento_id,
-        "transaction_amount": plano.valor,
-        "description": plano.titulo,
-        "installments": 1,  # Número de parcelas
-        "payment_type_id": "credit_card",
-        "payment_method_id": "visa",  # Método de pagamento (ex: "visa", "master")
-        "token": "ff8080814c11e237014c1ff593b57b4d",
-        # "token": {
-        #         "card_number": cartao,  # Número do cartão (exemplo de cartão de teste)
-        #         "security_code": data.get('codigo'),  # Código de segurança
-        #         "card_expiration_month": vencimento[0],  # Mês de expiração
-        #         "card_expiration_year": vencimento[1],  # Ano de expiração
-        #         "cardholder_name": data.get('nome'),  # Nome do titular do cartão
-        #         "identification_type": "CPF",  # Tipo de identificação (ex: "CPF", "CNPJ", "ID")
-        #         "identification_number": data.get('cpf')  # Número de identificação
-        # },
-        "payer": {
-            "email": self.request.user.email,
-            "identification": {
-                "type": "CPF",
-                "number": data.get('cpf')
-            }
+    token_response = requests.post(
+        'https://api.mercadopago.com/v1/card_tokens',
+        headers={
+            'Authorization': f'Bearer {access_token}',
+            'Content-Type': 'application/json'
         },
-        "additional_info": {
-            "items": [
-                {
-                    "id": plano.id,
-                    "title": plano.titulo,
-                    "description": plano.descricao,
-                    "quantity": 1,
-                    "unit_price": plano.valor
-                }
-            ],
+        json=card_data
+    )
+
+    if token_response.status_code == 201:
+        token = token_response.json().get('id')
+        return True, token
+    else:
+        return False, "Erro ao gerar token:", token_response.json()
+
+
+def mercadopago_pagamento(self, data, plano, pagamento_id):
+    sdk = mercadopago.SDK(settings.MERCADOPAGO_ACCESS_TOKEN)
+
+    gerado, token_or_msg = criando_cartao(self, data)
+    print(gerado, token_or_msg)
+    if gerado:
+
+        payment_data = {
+            "external_reference": pagamento_id,
+            "transaction_amount": plano.valor,
+            "description": plano.titulo,
+            "installments": 1,  # Número de parcelas
+            # "payment_type_id": "credit_card",
+            "payment_method_id": "visa",  # Método de pagamento (ex: "visa", "master")
+            "token": token_or_msg,
             "payer": {
-                "name": data.get('nome'),
-                # "surname": "",
-                # "phone": {
-                #     "area_code": "11",
-                #     "number": "987654321"
-                # },
-                # "address": {
-                #     "street_name": "Rua Exemplo",
-                #     "street_number": 123,
-                #     "zip_code": "12345-678"
-                # }
+                "email": self.request.user.email,
+                "identification": {
+                    "type": "CPF",
+                    "number": data.get('cpf')
+                }
+            },
+            "additional_info": {
+                "items": [
+                    {
+                        "id": plano.id,
+                        "title": plano.titulo,
+                        "description": plano.descricao,
+                        "quantity": 1,
+                        "unit_price": plano.valor
+                    }
+                ],
             }
         }
-    }
 
-    print(payment_data)
+        print(payment_data)
 
-    try:
-        payment_response = sdk.payment().create(payment_data)
-        if payment_response["status"] == 201:
+        try:
+            payment_response = sdk.payment().create(payment_data)
+            if payment_response["status"] == 201:
 
-            return True, "Pagamento realizado com sucesso!", payment_response["response"]["id"] # noqa
-        else:
-            return False, "Erro ao realizar o pagamento: {}".format(payment_response["response"]["message"]), None # noqa
-    except: # noqa
-        return False, "Erro inesperado!", None
+                return True, "Pagamento realizado com sucesso!", payment_response["response"]["id"] # noqa
+            else:
+                return False, "Erro ao realizar o pagamento: {}".format(payment_response["response"]["message"]), None # noqa
+        except: # noqa
+            return False, "Erro inesperado!", None
+    else:
+         return False, token_or_msg, None

@@ -192,8 +192,6 @@ REQUEST_TOKEN_EXPIRY = '1d'
 REQUEST_TOKEN_DEFAULT_MAX_USES = 10
 FOUR03_TEMPLATE = os.path.join(BASE_DIR, '...', '403.html')
 
-MERCADOPAGO_ACCESS_TOKEN = os.environ.get('MERCADOPAGO_ACCESS_TOKEN', 'TEST-4634839706246803-052314-c8cd6ae245aa6e578c65ce97de7bce6b-2360331') # noqa
-
 # Logging
 LOGGING = {
     'version': 1,  # the dictConfig format version
@@ -218,12 +216,15 @@ LOGGING = {
     }    
 }
 
-MERCADOPAGO_ACCESS_TOKEN = os.environ.get('MERCADOPAGO_ACCESS_TOKEN', 'TEST-4634839706246803-052314-c8cd6ae245aa6e578c65ce97de7bce6b-2360331')
+MERCADOPAGO_CLIENT_ID = os.environ.get('MERCADOPAGO_CLIENT_ID', '4634839706246803')
+MERCADOPAGO_CLIENT_SECRET = os.environ.get('MERCADOPAGO_CLIENT_SECRET', 'tRgjoQzo0iCZnKH2xMFDiq37K2vDgG6d')
+MERCADOPAGO_PUBLIC_KEY = os.environ.get('MERCADOPAGO_CLIENT_SECRET', 'APP_USR-3aa02b1a-b3f4-480b-8358-08f3404d2a5e')
+MERCADOPAGO_ACCESS_TOKEN = os.environ.get('MERCADOPAGO_CLIENT_SECRET', 'APP_USR-4634839706246803-052314-df109ee7ee48312e774f0fe89adce662-2360331')
 
 DATE_FORMAT_DEFAULT = '%d/%m/%y'
 TIMEOUT_FORMULARIO = 120 # Minutos
 
-# try:
-#     from core.local_settings import *
-# except ImportError:
-#     print("sem o arquivo local_settings")
+try:
+    from core.local_settings import *
+except ImportError:
+    print("sem o arquivo local_settings")
