@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import User
 
 from .models import Contatos, FomularioClientes, Perguntas, Respostas
 
@@ -27,6 +28,14 @@ class EnviarFormularioForm(forms.Form):
 
 
 class ContatosForm(forms.ModelForm):
+    email = forms.EmailField(label='Email', required=True, disabled=True)
+
+    def save(self, commit=True):
+        print(f'>>>>>>>>> {self.initial}')
+        if 'user_id' in self.initial:
+            self.instance.user = User(id=self.initial['user_id'])
+
+        return super().save(commit)
 
     class Meta:
         model = Contatos

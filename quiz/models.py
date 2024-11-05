@@ -128,7 +128,7 @@ class Respostas(models.Model):
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Atualizado')
 
     class Meta:
-        db_table = 'resposta'
+        db_table = 'respostas'
         verbose_name = 'resposta'
         verbose_name_plural = 'respostas'
         constraints = [

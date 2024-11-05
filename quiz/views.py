@@ -101,10 +101,9 @@ class LoginView(LoginView):
     template_name = 'quiz/login.html'
 
 
-class CreateContatosView(CreateView):
+class ContatosCreateView(CreateView):
     form_class = ContatosForm
     template_name = 'quiz/cad_contato.html'
-    success_url = reverse_lazy('formulario')
 
     @use_request_token_check_expiration
     def get(self, request, *args, **kwargs):
@@ -117,25 +116,24 @@ class CreateContatosView(CreateView):
         if form_cliente:
             form_cliente.status = FomularioClientes.Status.ACESSADO
             form_cliente.save()
-            # coloca o formulário na sessão
-            request.session['form_id'] = form_cliente.id
+            
+            self.initial['formulario_id'] = form_cliente.id
+            self.initial['user_id'] = form_cliente.user.id
+            self.initial['email'] = form_cliente.email
 
             query_contato = Contatos.objects.filter(email=form_cliente.email)
 
             if query_contato.exists():
                 contato = query_contato.get()
+                request.session['formulario_id'] = form_cliente.id
+
                 return redirect('formulario_cadastro_editar', contato.pk)
 
         return super().get(request, *args, **kwargs)
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-
-        return super().form_valid(form)
-
+    
     def get_success_url(self):
         return reverse_lazy('formulario', kwargs={
-            'pk': self.request.session['form_id']
+            'pk': self.initial['formulario_id']
         })
 
 
@@ -145,11 +143,13 @@ class ContatosUpdateView(UpdateView):
     template_name = 'quiz/cad_contato.html'
 
     def get_success_url(self):
-        if self.request.user:
+        if self.request.user.is_authenticated:
             redirect(self.request, '404.html')
+
+        print(self.object)
         
         return reverse_lazy('formulario', kwargs={
-            'pk': self.request.session['form_id']
+            'pk': self.request.session['formulario_id']
         })
 
 
@@ -214,3 +214,6 @@ class ListSentFormsView(LoginRequiredMixin, ListView):
     paginate_by = 50
     template_name = 'quiz/list_sent_form.html'
     redirect_field_name = 'login'
+
+    def get_queryset(self):
+        return super().get_queryset().filter(user=self.request.user)

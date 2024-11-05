@@ -41,9 +41,7 @@
                             <tr>
                                 <td>{{ envio.email }}</td>
                                 <td data-toggle="tooltip" data-placement="top" title="Copiar" onclick="copyToclipboard(this)">{{ envio.form_url }}</td>
-                                <td class="text-center">
-                                    <span class="badge badge-pill badge-{{ envio.status|status_class }} p-2">{{ envio.status }}</span>
-                                </td>
+                                <td>{{ envio.status|envio_status }}</td>
                                 <td class="text-center">
                                     <!-- Link para tela de resultados -->
                                     {% if envio.status is not 'Finalizado' %} - {% endif %}

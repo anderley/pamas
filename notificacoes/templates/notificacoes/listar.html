@@ -15,6 +15,7 @@
                         <tr>
                             <th>Tipo</th>
                             <th>Mensagem</th>
+                            <th>Visualizado</th>
                             <th>Data</th>
                         </tr>
                     </thead>
@@ -23,6 +24,13 @@
                             <tr>
                                 <td>{{ notificacao.tipo }}</td>
                                 <td>{{ notificacao.mensagem }}</td>
+                                <td class="text-center">
+                                    {% if notificacao.is_visualizado %}
+                                        <span class="text-success"><i class="fa fa-check-circle"></i></span>
+                                    {% else %}
+                                        <span class="text-danger"><i class="fa fa-ban"></i></span>
+                                    {% endif %}
+                                </td>
                                 <td>{{ notificacao.created_at|date:'d/m/Y' }}</td>
                             </tr>
                         {% endfor %}

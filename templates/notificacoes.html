@@ -1,5 +1,5 @@
 <!-- Nav Item - Alerts -->
-<li class="nav-item dropdown no-arrow mx-1">
+<li id="dropdownNotifications" class="nav-item dropdown no-arrow mx-1">
     <a id="navLinkId" class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fas fa-bell fa-fw"></i>
@@ -32,6 +32,29 @@
             consol.error(error)
         }
     };
+
+    const setViewedNotifications = async function(ids=null) {
+        const request = new Request('/notificacoes/viewed/', {
+            method: 'PUT',
+            headers: {
+                'X-CSRFToken': '{{csrf_token}}',
+            },
+            body: JSON.stringify({
+                ids: ids
+            }),
+        });
+        
+        try {
+            const response = await fetch(request);
+            
+            if (!response.ok) {
+                throw new Error(`Erro ao recuperar notificações: ${response.error()}`)
+            }
+            return response.json();
+         } catch (error) {
+            consol.error(error)
+        }
+    };
     
     document.addEventListener('DOMContentLoaded', async function () {
         const navLink = document.getElementById('navLinkId');
@@ -42,7 +65,9 @@
             'beforeend',
             notifications.count >=10
             ? '<span class="badge badge-danger badge-counter">10+</span>' 
-            : `<span class="badge badge-primary badge-counter">${ notifications.count }</span>`
+            : notifications.count >0 
+            ? `<span class="badge badge-primary badge-counter">${ notifications.count }</span>`
+            : ''
         );
 
         function getIcon(type) {
@@ -69,12 +94,11 @@
         }
 
         notifications.data.forEach(notification => {
-            console.log(notification);
-
             notificationDiv.insertAdjacentHTML(
                 'afterend',
                 `
                 <a class="dropdown-item d-flex align-items-center" href="#">
+                    <input type="hidden" name="notificacoes" value="${notification.id}"/>
                     <div class="mr-3">
                         ${ getIcon(notification.tipo) }
                     </div>
@@ -86,7 +110,14 @@
                 `
             );
         });
-    })
+
+        $('#dropdownNotifications').on('show.bs.dropdown', async function () {
+            const ids = $('input[name="notificacoes"]').map(function () {
+                return this.value;
+            }).get();
+            const notification = await setViewedNotifications(ids);
+        });
+    });
     
 </script>
 {% endblock %}
