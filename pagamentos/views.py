@@ -137,8 +137,14 @@ def mercadopago_pagamento(self, data, plano, pagamento_id):
 def update_status(request):
     status = 'pago' if request.GET.get('status') == 'approved' else 'pendente'
 
-    Pagamentos.objects.filter(
+    pagamento = Pagamentos.objects.get(
         id=request.GET.get('external_reference')
-    ).update(status=status)
+    )
+
+    if pagamento:
+        pagamento.status = status
+        pagamento.save()
+        # pagamento.user.plano_num_formularios = pagamento.plano_num_formularios
+        # pagamento.user.save()
 
     return JsonResponse({'success': 'ok'})
