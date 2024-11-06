@@ -96,6 +96,7 @@ class FomularioClientes(models.Model):
         FINALIZADO = 'Finalizado', _('Finalizado')
         EXPIRADO = 'Expirado', _('Expirado')
         CANCELADO = 'Cancelado', _('Cancelado')
+        ENCERRADO = 'Encerrado', _('Encerrado')
     
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario') # noqa
     email = models.EmailField(max_length=180, verbose_name='Email')

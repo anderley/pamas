@@ -31,7 +31,7 @@
                                         <span class="text-danger"><i class="fa fa-ban"></i></span>
                                     {% endif %}
                                 </td>
-                                <td>{{ notificacao.created_at|date:'d/m/Y' }}</td>
+                                <td>{{ notificacao.created_at|date:'d/m/Y - H:m:s' }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>

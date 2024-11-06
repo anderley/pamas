@@ -88,9 +88,10 @@
         }
 
         function getFormattedDate(strDate) {
+            const locale = 'pt-BR';
             const date = new Date(strDate);
 
-            return `${ date.getDate() }/${ date.getMonth() + 1}/${ date.getFullYear() }`
+            return `${ date.toLocaleDateString(locale) } - ${ date.toLocaleTimeString(locale) }`
         }
 
         notifications.data.forEach(notification => {

@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from pytz import timezone
 
 from django.conf import settings
 from django.contrib.auth import logout
@@ -87,7 +88,7 @@ def cancelar_form(request, id):
         form_cliente.save()
         Notificacoes(
             user=request.user,
-            mensagem='Formulario enviado para o email: {form_cliente.email}, foi cancelado.',
+            mensagem=f'Formulario enviado para o email: {form_cliente.email}, foi cancelado',
             tipo=Notificacoes.Tipo.ALERTA
         ).save()
 
@@ -186,13 +187,15 @@ class FormularioFormView(FormView):
             20
         )
         timeout = form_cliente.iniciado + timedelta(minutes=settings.TIMEOUT_FORMULARIO)
+        tz_sao_paulo = timezone('America/Sao_Paulo')
         self.initial['formulario_id'] = pk
-        self.initial['timeout'] = timeout.isoformat()
+        self.initial['timeout'] = timeout.astimezone(tz_sao_paulo).isoformat()
         self.initial['paginator'] = pagination
         self.initial['page_obj'] = pagination.page(page)
 
         return super().get(request, *args, **kwargs)
 
+    @timeout_form
     def post(self, request, pk, *args, **kwargs):
         form = self.get_form()
         if form.is_valid():
