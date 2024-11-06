@@ -1,8 +1,8 @@
 from django.urls import path
 
-from .views import PagamentoView
+from .views import PagamentoView, update_status
 
 urlpatterns = [
     path('', PagamentoView.as_view(), name='pagamento'),
-    # path("webhooks/", PagamentoCallback.as_view(), name="pagamento_callback"),
+    path('webhooks/', update_status, name='pagamento_callback'),
 ]

@@ -3,11 +3,11 @@ from django.conf import settings
 # from rest_framework.views import APIView
 # from rest_framework import status
 from django.contrib.auth.models import User
-from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from planos.models import Planos
 from pagamentos.models import Pagamentos
+from django.http import JsonResponse
 import requests
 
 
@@ -132,3 +132,13 @@ def mercadopago_pagamento(self, data, plano, pagamento_id):
             return False, "Erro inesperado!", None
     else:
          return False, token_or_msg, None
+
+
+def update_status(request):
+    status = 'pago' if request.GET.get('status') == 'approved' else 'pendente'
+
+    Pagamentos.objects.filter(
+        id=request.GET.get('external_reference')
+    ).update(status=status)
+
+    return JsonResponse({'success': 'ok'})
