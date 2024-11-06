@@ -61,9 +61,9 @@ def criando_cartao(self, data):
 
     card_data = {
         "card_number": cartao,
-        "card_expiration_month": vencimento[0],
-        "card_expiration_year": vencimento[1],
-        "cardholder_name": "Nome do Titular",
+        "expiration_month": vencimento[0],
+        "expiration_year": vencimento[1],
+        "name": "Nome do Titular",
         "security_code": data.get('codigo'),
         "email": self.request.user.email
     }
@@ -98,8 +98,6 @@ def mercadopago_pagamento(self, data, plano, pagamento_id):
             "transaction_amount": plano.valor,
             "description": plano.titulo,
             "installments": 1,  # Número de parcelas
-            # "payment_type_id": "credit_card",
-            "payment_method_id": "visa",  # Método de pagamento (ex: "visa", "master")
             "token": token_or_msg,
             "payer": {
                 "email": self.request.user.email,
