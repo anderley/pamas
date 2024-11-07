@@ -11,7 +11,11 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 import os
+
 from pathlib import Path
+
+from import_export.formats.base_formats import CSV, XLSX
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -184,7 +188,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'localhost'
 EMAIL_USE_TLS = False
 EMAIL_PORT = 8025
-EMAIL_HOST_USER = ''
+EMAIL_HOST_USER = 'atendimento@pamas.com.br'
 EMAIL_HOST_PASSWORD = ''
 
 # JWT Request Token
@@ -223,7 +227,9 @@ MERCADOPAGO_ACCESS_TOKEN = os.environ.get('MERCADOPAGO_CLIENT_SECRET', 'APP_USR-
 
 DATE_FORMAT_DEFAULT = '%d/%m/%y'
 DATETIME_FORMAT_DEFAULT = '%d/%m/%y %H:%m:%s'
-TIMEOUT_FORMULARIO = 5 # Minutos
+TIMEOUT_FORMULARIO = 120 # Minutos
+
+IMPORT_FORMATS = [CSV, XLSX]
 
 # try:
 #     from core.local_settings import *

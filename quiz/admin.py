@@ -11,11 +11,21 @@ class GruposAdmin(ImportExportModelAdmin):
     resource_class = GruposResource
     list_display = ['nome', 'ativo', 'created_at', 'updated_at']
 
+    class Media:
+        css = {
+            'all': ['css/custom_admin.css']
+        }
+
 
 class CompetenciasAdmin(ImportExportModelAdmin):
     resource_class = CompetenciasResource
     search_fields = ['grupo']
     list_display = ['nome', 'grupo', 'ativo', 'created_at', 'updated_at']
+
+    class Media:
+        css = {
+            'all': ['css/custom_admin.css']
+        }
 
 
 class PerguntasAdmin(ImportExportModelAdmin):
@@ -23,6 +33,11 @@ class PerguntasAdmin(ImportExportModelAdmin):
     form = PerguntasForm
     search_fields = ['competencia']
     list_display = ['descricao', 'competencia', 'grupo', 'ativo', 'created_at', 'updated_at'] # noqa
+
+    class Media:
+        css = {
+            'all': ('css/custom_admin.css',)
+        }
 
 
 class TextosAdmin(ImportExportModelAdmin):

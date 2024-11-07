@@ -1,5 +1,6 @@
-{% extends 'base.html' %}
+{% extends 'base_site.html' %}
 
+{% load static %}
 {% load quiz_extras %}
 
 {% block content %}
@@ -10,7 +11,7 @@
             <h6 class="m-0 font-weight-bold text-primary">Formulários Enviados</h6>
         </div>
         <div class="card-body">
-            <div class="table-responsive">
+            <div class="table">
                 {% if messages %}
                     {% for message in messages %}
                         <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
@@ -67,11 +68,11 @@
 {% block js_scripts %}
 
 <!-- Page level plugins -->
-<script src="vendor/datatables/jquery.dataTables.min.js"></script>
-<script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
 
 <!-- Page level custom scripts -->
-<script src="js/demo/datatables-demo.js"></script>
+<script src="{% static 'js/demo/datatables-demo.js' %}"></script>
 
 <script>
 
