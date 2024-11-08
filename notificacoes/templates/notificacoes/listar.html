@@ -1,5 +1,6 @@
-{% extends 'base.html' %}
+{% extends 'base_site.html' %}
 
+{% load static %}
 
 {% block content %}
 
@@ -9,7 +10,7 @@
             <h6 class="m-0 font-weight-bold text-primary">Notificações</h6>
         </div>
         <div class="card-body">
-            <div class="table-responsive">
+            <div class="table">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
@@ -42,13 +43,13 @@
 
 {% endblock %}
 
-{% block js_script %}
+{% block js_scripts %}
 
 <!-- Page level plugins -->
-<script src="vendor/datatables/jquery.dataTables.min.js"></script>
-<script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
 
 <!-- Page level custom scripts -->
-<script src="js/demo/datatables-demo.js"></script>
+<script src="{% static 'js/demo/datatables-demo.js' %}"></script>
 
 {% endblock %}

@@ -12,6 +12,8 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, FormView, ListView, UpdateView
 from django.contrib import messages
+from django.template.loader import  render_to_string
+from django.utils.html import strip_tags
 
 from request_token.models import RequestToken
 
@@ -30,7 +32,7 @@ def logout_view(request):
 
 @login_required(redirect_field_name='login')
 def home(request):
-    return render(request, 'base.html')
+    return render(request, 'base_site.html')
 
 
 @login_required(redirect_field_name='login')
@@ -53,12 +55,16 @@ def enviar_formulario(request):
                 }
             )
             token = request_token.jwt()
-            url = f'{settings.SITE_URL}/formulario/cadastro/?rt={token}'
+            link_form = f'{settings.SITE_URL}/formulario/cadastro/?rt={token}'
             subject = '[PAMAS] Formulário'
-            message = f'Segue o <a href="{url}">link</a> do formulário para preenchimento' # noqa
+            html_message = render_to_string('quiz/emails/link_form.html', {
+                'user_name': f'{ request.user.first_name } {request.user.last_name}',
+                'link': link_form
+            }) # noqa
+            plain_message = strip_tags(html_message)
 
             try:
-                send_mail(subject, message, settings.EMAIL_HOST_USER, [email])
+                send_mail(subject, plain_message, settings.EMAIL_HOST_USER, [email], html_message=html_message)
 
                 messages.success(request, 'Email enviado coom sucesso!')
 
@@ -66,7 +72,7 @@ def enviar_formulario(request):
                     user=request.user,
                     email=email,
                     token=token,
-                    form_url=url
+                    form_url=link_form
                 ).save()
                 Notificacoes(
                     user=request.user,
@@ -92,7 +98,7 @@ def cancelar_form(request, id):
             tipo=Notificacoes.Tipo.ALERTA
         ).save()
 
-        messages.success(request, 'Formulário Cancelado com sucesso')
+        messages.success(request, 'Envio cancelado com sucesso')
 
     return redirect('list_sent_form')
 
