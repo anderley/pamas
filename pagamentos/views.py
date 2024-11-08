@@ -1,4 +1,5 @@
 import mercadopago
+import requests
 from django.conf import settings
 # from rest_framework.views import APIView
 # from rest_framework import status
@@ -8,7 +9,7 @@ from django.views.generic import TemplateView
 from planos.models import Planos
 from pagamentos.models import Pagamentos
 from django.http import JsonResponse
-import requests
+from django.views.decorators.csrf import csrf_exempt
 
 
 class PagamentoView(TemplateView):
@@ -63,12 +64,12 @@ def criando_cartao(self, data):
         "card_number": cartao,
         "expiration_month": vencimento[0],
         "expiration_year": vencimento[1],
-        "name": "Nome do Titular",
         "security_code": data.get('codigo'),
-        "email": self.request.user.email
+        "email": self.request.user.email,
+        "cardholder": {
+            "name": data.get('nome'),
+        }
     }
-
-    print(card_data)
 
     token_response = requests.post(
         'https://api.mercadopago.com/v1/card_tokens',
@@ -90,7 +91,6 @@ def mercadopago_pagamento(self, data, plano, pagamento_id):
     sdk = mercadopago.SDK(settings.MERCADOPAGO_ACCESS_TOKEN)
 
     gerado, token_or_msg = criando_cartao(self, data)
-    print(gerado, token_or_msg)
     if gerado:
 
         payment_data = {
@@ -119,8 +119,6 @@ def mercadopago_pagamento(self, data, plano, pagamento_id):
             }
         }
 
-        print(payment_data)
-
         try:
             payment_response = sdk.payment().create(payment_data)
             if payment_response["status"] == 201:
@@ -134,6 +132,7 @@ def mercadopago_pagamento(self, data, plano, pagamento_id):
          return False, token_or_msg, None
 
 
+@csrf_exempt
 def update_status(request):
     status = 'pago' if request.GET.get('status') == 'approved' else 'pendente'
 
