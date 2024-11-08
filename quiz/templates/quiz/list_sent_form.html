@@ -12,21 +12,6 @@
         </div>
         <div class="card-body">
             <div class="table">
-                {% if messages %}
-                    {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                            {{ message }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    {% endfor %}
-                {% endif %}
-                <div id="copyMessageId" class="collapse mb-4">
-                    <div class="card card-body bg-light border-left-success">
-                        Link copiado com sucesso.
-                    </div>
-                </div>
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
@@ -75,18 +60,22 @@
 <script src="{% static 'js/demo/datatables-demo.js' %}"></script>
 
 <script>
-
+    
     const copyToclipboard = async (e) => {
         try {
             await navigator.clipboard.writeText(e.textContent);
-            await $('#copyMessageId').collapse('toggle');
-            setTimeout(async () => {
-                await $('#copyMessageId').collapse('toggle');
-            }, 3000);
+            
+            $.toaster({
+                title: '',
+                message : 'Link copiado com sucesso.',
+                priority : 'success',
+                settings: toasterSettings
+            });
             
         } catch (error) {
             console.error('Erro ao copiar para o clipboard: ', error);
         }
     };
+    
 </script>
 {% endblock %}

@@ -40,6 +40,29 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+    <script src="{% static 'js/jquery.toaster.js' %}"></script>
+    
+    <script>
+        const toasterSettings = {
+            'toaster': {
+                'css': {
+                    'position': 'absolute',
+                    'top': '80px',
+                    'right': '25px'
+                }
+            }
+        };
+        {% if messages %}
+            {% for message in messages %}
+                $.toaster({
+                    title: '',
+                    message : '{{ message }}',
+                    priority : '{{ message.tags }}',
+                    settings: toasterSettings
+                });
+            {% endfor %}
+        {% endif %}
+    </script>
 
 </body>
 

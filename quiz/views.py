@@ -98,7 +98,7 @@ def cancelar_form(request, id):
             tipo=Notificacoes.Tipo.ALERTA
         ).save()
 
-        messages.success(request, 'Formulário Cancelado com sucesso')
+        messages.success(request, 'Envio cancelado com sucesso')
 
     return redirect('list_sent_form')
 
