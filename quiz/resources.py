@@ -8,8 +8,8 @@ class GruposResource(resources.ModelResource):
 
     class Meta:
         model = Grupos
-        import_id_fields = ('nome',)
-        fields = ('nome')
+        import_id_fields = ['nome']
+        fields = ['id', 'nome', 'ativo']
 
 
 class CompetenciasResource(resources.ModelResource):
@@ -21,8 +21,8 @@ class CompetenciasResource(resources.ModelResource):
 
     class Meta:
         model = Competencias
-        import_id_fields = ('nome',)
-        fields = ('nome', 'grupo',)
+        import_id_fields = ['nome']
+        fields = ['id', 'nome', 'grupo', 'ativo']
 
 
 class PerguntasResource(resources.ModelResource):
@@ -34,5 +34,5 @@ class PerguntasResource(resources.ModelResource):
 
     class Meta:
         model = Perguntas
-        import_id_fields = ('descricao',)
-        fields = ('descricao',  'competencia',)
+        import_id_fields = ['descricao']
+        fields = ['id', 'descricao',  'competencia', 'ativo']

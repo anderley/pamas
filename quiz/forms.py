@@ -1,19 +1,9 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy as _
 
 from .models import Contatos, FomularioClientes, Perguntas, Respostas
-
-
-class LoginForm(AuthenticationForm):
-    username = forms.EmailField(label="Email", required=False)
-    password = forms.CharField(label="Senha", required=False, widget=forms.PasswordInput()) # noqa
-
-    class Meta:
-        fields = [
-            'username',
-            'password',
-        ]
 
 
 class PerguntasForm(forms.ModelForm):
@@ -31,7 +21,6 @@ class ContatosForm(forms.ModelForm):
     email = forms.EmailField(label='Email', required=True, disabled=True)
 
     def save(self, commit=True):
-        print(f'>>>>>>>>> {self.initial}')
         if 'user_id' in self.initial:
             self.instance.user = User(id=self.initial['user_id'])
 

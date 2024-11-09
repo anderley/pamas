@@ -34,10 +34,9 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'home' %}">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-cube"></i>
+                <div class="sidebar-brand-icon mx-3">
+                    <img src="{% static 'img/pamas/logo.png' %}"/>
                 </div>
-                <div class="sidebar-brand-text mx-3">Pamas <sup>Quiz</sup></div>
             </a>
             
             {% if user.is_authenticated and not user.is_staff %}

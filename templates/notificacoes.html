@@ -18,7 +18,7 @@
 
 {% block js_script %}
 <script>
-    const getNotifications = async function() {
+    async function getNotifications() {
         const url = "{% url 'notificacoes' %}"
         
         try {
@@ -33,7 +33,7 @@
         }
     };
 
-    const setViewedNotifications = async function(ids=null) {
+    async function setViewedNotifications(ids=null) {
         const request = new Request('/notificacoes/viewed/', {
             method: 'PUT',
             headers: {
@@ -50,22 +50,40 @@
             if (!response.ok) {
                 throw new Error(`Erro ao recuperar notificações: ${response.error()}`)
             }
-            return response.json();
+            // return response.json();
          } catch (error) {
             consol.error(error)
         }
     };
-    
-    document.addEventListener('DOMContentLoaded', async function () {
+
+    function getFormattedDate(strDate) {
+        const locale = 'pt-BR';
+        const date = new Date(strDate);
+
+        return `${ date.toLocaleDateString(locale) } - ${ date.toLocaleTimeString(locale) }`
+    }
+
+    async function loadNotifications() {
         const navLink = document.getElementById('navLinkId');
         const notificationDiv = document.getElementById('notificationId');
         const notifications = await getNotifications();
+        const lastNavLink = navLink.querySelector('span');
+        const lastNotifications = notificationDiv.parentNode.querySelectorAll('a');
+
+        // Remove último navLink
+        lastNavLink && lastNavLink.remove();
+        // Remove último indicador
+        lastNotifications && lastNotifications.forEach(notification => {
+            if(notification.href.includes('#')) {
+                notification.remove();
+            }
+        });
 
         navLink.insertAdjacentHTML(
             'beforeend',
             notifications.count >=10
             ? '<span class="badge badge-danger badge-counter">10+</span>' 
-            : notifications.count >0 
+            : notifications.count > 0 
             ? `<span class="badge badge-primary badge-counter">${ notifications.count }</span>`
             : ''
         );
@@ -85,13 +103,6 @@
                                 <i class="fas fa-check text-white"></i>
                             </div>`
             }
-        }
-
-        function getFormattedDate(strDate) {
-            const locale = 'pt-BR';
-            const date = new Date(strDate);
-
-            return `${ date.toLocaleDateString(locale) } - ${ date.toLocaleTimeString(locale) }`
         }
 
         notifications.data.forEach(notification => {
@@ -118,6 +129,19 @@
             }).get();
             const notification = await setViewedNotifications(ids);
         });
+    }
+    
+    document.addEventListener('DOMContentLoaded', async function () {
+        let interval = setInterval(startNotifications, 0);
+
+        async function startNotifications(refreshTime=5, longPooling=false) {
+            clearInterval(interval);
+            await loadNotifications();
+
+            if(longPooling) {
+                interval = setInterval(startNotifications, refreshTime * 60 * 1000);
+            }
+        }
     });
     
 </script>

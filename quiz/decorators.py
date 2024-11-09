@@ -88,10 +88,14 @@ def timeout_form(
 
             if form_cliente.iniciado:
                 max_time = form_cliente.iniciado + timedelta(minutes=settings.TIMEOUT_FORMULARIO)
+                request = _get_request_arg(args)
 
                 if (
                     max_time.replace(tzinfo=None) < datetime.now().replace(tzinfo=None)
-                    and form_cliente.status != FomularioClientes.Status.FINALIZADO
+                    and form_cliente.status not in [
+                        FomularioClientes.Status.CANCELADO,
+                        FomularioClientes.Status.FINALIZADO
+                    ]
                 ):
                     form_cliente.status = FomularioClientes.Status.ENCERRADO
                     form_cliente.save()
@@ -103,9 +107,11 @@ def timeout_form(
                         tipo=Notificacoes.Tipo.ALERTA
                     ).save()
 
-                    request = _get_request_arg(args)
                 
                     return render(request, 'quiz/timout_form.html')
+                
+                if  form_cliente.status == FomularioClientes.Status.CANCELADO:
+                    return render(request, 'quiz/form_cancelado.html')
 
         return view_func(*args, **kwargs)
 

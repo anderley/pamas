@@ -6,6 +6,8 @@ $(document).ready(function() {
     lengthChange: false,
     language: {
         info: 'Exibindo _START_ a _END_ do total de _TOTAL_',
+        infoEmpty: 'Exibindo _START_ a _END_ do total de _TOTAL_',
+        emptyTable: 'Dados não disponível para tabela',
         paginate: {
             first: 'Primeira',
             previous: 'Anterior',

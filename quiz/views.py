@@ -5,12 +5,11 @@ from django.conf import settings
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView
 from django.core.mail import send_mail
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, FormView, ListView, UpdateView
+from django.views.generic import CreateView, FormView, ListView, UpdateView, TemplateView
 from django.contrib import messages
 from django.template.loader import  render_to_string
 from django.utils.html import strip_tags
@@ -18,8 +17,7 @@ from django.utils.html import strip_tags
 from request_token.models import RequestToken
 
 from .decorators import use_request_token_check_expiration, timeout_form, check_contato
-from .forms import (ContatosForm, EnviarFormularioForm, FormularioForm,
-                    LoginForm)
+from .forms import (ContatosForm, EnviarFormularioForm, FormularioForm)
 from .models import Contatos, FomularioClientes, Perguntas
 
 from notificacoes.models import Notificacoes
@@ -66,7 +64,7 @@ def enviar_formulario(request):
             try:
                 send_mail(subject, plain_message, settings.EMAIL_HOST_USER, [email], html_message=html_message)
 
-                messages.success(request, 'Email enviado coom sucesso!')
+                messages.success(request, 'Email enviado com sucesso!')
 
                 FomularioClientes(
                     user=request.user,
@@ -101,11 +99,6 @@ def cancelar_form(request, id):
         messages.success(request, 'Envio cancelado com sucesso')
 
     return redirect('list_sent_form')
-
-
-class LoginView(LoginView):
-    form_class = LoginForm
-    template_name = 'quiz/login.html'
 
 
 class ContatosCreateView(CreateView):
@@ -226,3 +219,7 @@ class ListSentFormsView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user)
+
+
+class PdfTemplateView(TemplateView):
+    template_name = 'quiz/pdf/template.html'

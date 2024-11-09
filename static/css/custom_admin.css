@@ -17,3 +17,11 @@ table.import-preview tr.update {
 .validation-error-container {
     background-color: #cefff0;
 }
+
+table.import-preview td ins {
+    background-color: #e1e6e5 !important;
+  }
+
+  table.import-preview td del {
+    background-color: #92d7cd !important;
+  }
