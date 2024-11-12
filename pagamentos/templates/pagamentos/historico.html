@@ -1,0 +1,61 @@
+{% extends 'base_site.html' %}
+
+{% load static %}
+
+{% block content %}
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Historico de pagamentos</h6>
+        </div>
+        <div class="card-body">
+            <div class="table">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Plano</th>
+                            <th>Descrição</th>
+                            <th>Número de formulários</th>
+                            <th>Valor</th>
+                            <th>Status</th>
+                            <th>Data</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pagamento in object_list %}
+                            <tr>
+                                <td>{{ pagamento.id }}</td>
+                                <td>{{ pagamento.plano_titulo }}</td>
+                                <td>{{ pagamento.plano_descricao }}</td>
+                                <td>{{ pagamento.plano_num_formularios }}</td>
+                                <td>{{ pagamento.plano_valor }}</td>
+                                <td class="text-center">
+                                    {% if pagamento.status == 'pago' %}
+                                        <span class="text-success"><i class="fa fa-check-circle"></i></span>
+                                    {% else %}
+                                        <span class="text-danger"><i class="fa fa-ban"></i></span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ pagamento.criado|date:'d/m/Y - H:m:s' }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js_scripts %}
+
+<!-- Page level plugins -->
+<script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+
+<!-- Page level custom scripts -->
+<script src="{% static 'js/demo/datatables-demo.js' %}"></script>
+
+{% endblock %}

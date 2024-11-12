@@ -16,6 +16,18 @@ from core.utils.email_utils import EmailUtils
 from notificacoes.models import Notificacoes
 from pagamentos.models import Pagamentos
 from planos.models import Planos
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView
+
+
+class PagamentosListView(LoginRequiredMixin, ListView):
+    model = Pagamentos
+    template_name = 'pagamentos/historico.html'
+
+    def get_queryset(self):
+        return super().get_queryset().filter(
+            user=self.request.user
+        ).order_by('-pk')
 
 
 class PagamentoView(TemplateView):
