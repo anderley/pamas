@@ -9,6 +9,7 @@ class Notificacoes(models.Model):
         INFORMATIVA = 'Informativa', _('Informativa')
         SUCESSO = 'Sucesso', _('Sucesso')
         ALERTA = 'Alerta', _('Alerta')
+        PAGAMENTO = 'Pagamento', _('Pagamento')
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario') # noqa
     mensagem = models.TextField(verbose_name='Mensagem')

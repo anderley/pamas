@@ -3,12 +3,17 @@ import requests
 from django.conf import settings
 # from rest_framework.views import APIView
 # from rest_framework import status
+from django.core.mail import send_mail
+from django.utils.html import strip_tags
+from django.template.loader import render_to_string
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
-
+from django.contrib import messages
+from core.utils.email_utils import EmailUtils
+from notificacoes.models import Notificacoes
 from pagamentos.models import Pagamentos
 from planos.models import Planos
 
@@ -34,11 +39,48 @@ class PagamentoView(TemplateView):
 
         if data['sucesso']:
             pagamento.status = 'pago'
+            envia_email_e_cria_notificao(self.request, True)
+        else:
+            envia_email_e_cria_notificao(self.request, False)
         pagamento.mercadopago_id = data['mercadopago_id']
         pagamento.save()
 
+
         return render(request, self.template_name, data)
 
+
+def envia_email_e_cria_notificao(request, paid):
+
+    if paid:
+        subject = '[PAMAS] Pagamento concluído'
+        mensagem = 'Pagamento recebido com sucesso!'
+    else:
+        subject = '[PAMAS] Pagamento falhou'
+        mensagem = 'Ocorreu um problema no seu pagamento!'
+
+    try:
+        html_message = render_to_string(
+            'pagamentos/emails/mensagem.html',
+            {
+                'user_name': f'{request.user.first_name} {request.user.last_name}',
+                'mensagem': f'{mensagem}',
+            }
+        )
+        plain_message = strip_tags(html_message)
+
+        send_mail(
+            subject, plain_message, settings.EMAIL_HOST_USER, [request.user.email], html_message=html_message
+        )
+
+        Notificacoes(
+            user=request.user,
+            mensagem=f'Pagamento recebido do cliente: {request.user.email}', # noqa
+            tipo=Notificacoes.Tipo.PAGAMENTO
+        ).save()
+
+        messages.success(request, f'Novo pagamento recebido do cliente: {request.user.email}')
+    except Exception as e:
+        messages.error(request, f'Erro no pagamento do cliente com o email: {request.user.email}')
 
 def criando_cartao(self, data):
 
@@ -122,7 +164,6 @@ def mercadopago_pagamento(self, data, plano, pagamento_id):
         try:
             payment_response = sdk.payment().create(payment_data)
             if payment_response["status"] == 201:
-
                 return True, "Pagamento realizado com sucesso!", payment_response["response"]["id"] # noqa
             else:
                 return False, "Erro ao realizar o pagamento: {}".format(payment_response["response"]["message"]), None # noqa
@@ -132,18 +173,18 @@ def mercadopago_pagamento(self, data, plano, pagamento_id):
         return False, token_or_msg, None
 
 
-@csrf_exempt
-def update_status(request):
-    status = 'pago' if request.GET.get('status') == 'approved' else 'pendente'
-
-    pagamento = Pagamentos.objects.get(
-        id=request.GET.get('external_reference')
-    )
-
-    if pagamento:
-        pagamento.status = status
-        pagamento.save()
-        # pagamento.user.plano_num_formularios = pagamento.plano_num_formularios  # noqa
-        # pagamento.user.save()
-
-    return JsonResponse({'success': 'ok'})
+# @csrf_exempt
+# def update_status(request):
+#     status = 'pago' if request.GET.get('status') == 'approved' else 'pendente'
+#
+#     pagamento = Pagamentos.objects.get(
+#         id=request.GET.get('external_reference')
+#     )
+#
+#     if pagamento:
+#         pagamento.status = status
+#         pagamento.save()
+#         # pagamento.user.plano_num_formularios = pagamento.plano_num_formularios  # noqa
+#         # pagamento.user.save()
+#
+#     return JsonResponse({'success': 'ok'})
