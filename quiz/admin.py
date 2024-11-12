@@ -3,7 +3,7 @@ from import_export.admin import ImportExportModelAdmin
 
 from .forms import PerguntasForm
 from .models import (Competencias, Contatos, FomularioClientes, Grupos,
-                     Perguntas, Textos, Respostas)
+                     Perguntas, Respostas, Textos)
 from .resources import CompetenciasResource, GruposResource, PerguntasResource
 
 

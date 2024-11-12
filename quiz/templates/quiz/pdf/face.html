@@ -1,0 +1,101 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Custom fonts for this template-->
+        <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+        <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+
+        <!-- Custom styles for this template-->
+        <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+        <style type="text/css">
+            body {
+                color: #000;
+            }
+            .sidebar {
+                background-color: #fff;
+                padding-left: 85px;
+            }
+            .sidebar-head {
+                background-color: #d9d9d9;
+                width: 3px;
+            }
+            .sidebar-body {
+                background-color: #d9d9d9;
+                height: 25px;
+                width: 23px;
+            }
+            .face-page .sidebar {
+                background-color: #fff;
+            }
+            .header img {
+                width: 100%;
+            }
+            .sub-header h1 {
+                font-weight: bold;
+            }
+            .face-page>div>div:nth-child(2) {
+                margin-left: -45px  ;
+            }
+            .face-page h3 {
+                font-weight: bold;
+                margin-left: -38px;
+            }
+            .lead {
+                font-size: 1.8rem;
+            }
+            .face-page h3:first-child {
+                color: #949494;
+                font-weight: normal;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="face-page">
+                <div class="row header">
+                    <div class="col-12">
+                        <img src="{% static 'img/pamas/pdf/face-header.png' %}" />
+                    </div>
+                </div>
+                <div class="row sub-header">
+                    <div class="col-2"></div>
+                    <div class="col-10 pl-5 mb-4">
+                        <h3>01 de Novembro de 2024</h3>
+                    </div>                
+                </div>
+                <div class="row">
+                    <div class="col-2 d-flex sidebar">
+                        <div class="sidebar-head"></div>
+                        <div class="sidebar-body"></div>
+                    </div>
+                    <div class="col-10 text-justify">
+                        <br>
+                        <br>
+                        <h3 class="mb-5">Relatório</h3>
+                        <p class="lead">
+                            A metodologia <span class="font-weight-bold">Performance Advanced
+                            Management Assessment Skills
+                            (PAMAS)</span> combina o melhor de múltiplas
+                            abordagens reconhecidas globalmente para
+                            oferecer uma avaliação abrangente e precisa
+                            das competências essenciais para o sucesso
+                            organizacional.
+                        </p>
+                        <p class="lead">
+                            Ela se baseia em cinco áreas críticas que
+                            formam a espinha dorsal da eficácia
+                            corporativa: performance na gestão
+                            performance em equipes, performance na
+                            participação, performance no desempenho e
+                            performance na organização.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

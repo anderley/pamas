@@ -1,7 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
-from django.utils.translation import gettext_lazy as _
 
 from .models import Contatos, FomularioClientes, Perguntas, Respostas
 
@@ -85,7 +83,7 @@ class FormularioForm(forms.Form):
 
     def save(self):
         cleaned_data = self.clean()
-        formulario_id = self.initial['formulario_id'] if 'formulario_id' in self.initial else None
+        formulario_id = self.initial['formulario_id'] if 'formulario_id' in self.initial else None  # noqa
 
         if formulario_id:
             for key in cleaned_data.keys():

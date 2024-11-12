@@ -1,17 +1,17 @@
 import functools
 import logging
-from typing import Any, Callable
 from datetime import datetime, timedelta
+from typing import Any, Callable
 
-from django.http import HttpRequest
-from django.shortcuts import render, redirect, reverse
 from django.conf import settings
-
+from django.http import HttpRequest
+from django.shortcuts import redirect, render, reverse
 from request_token.exceptions import TokenNotFoundError
 from request_token.models import RequestToken
 
-from .models import FomularioClientes, Contatos
 from notificacoes.models import Notificacoes
+
+from .models import Contatos, FomularioClientes
 
 logger = logging.getLogger(__name__)
 
@@ -27,10 +27,10 @@ def use_request_token_check_expiration(
     view_func: Callable | None = None,
     required: bool = True,
 ) -> Callable:
-    
+
     if view_func is None:
         return functools.partial(
-            use_request_token, scope=scope, required=required, log=log
+            use_request_token_check_expiration, required=required
         )
 
     @functools.wraps(view_func)
@@ -59,10 +59,10 @@ def use_request_token_check_expiration(
         except Exception:
             # token expirado
             form_cliente.status = FomularioClientes.Status.EXPIRADO
-            data_envio = form_cliente.created_at.strftime(settings.DATE_FORMAT_DEFAULT)
+            data_envio = form_cliente.created_at.strftime(settings.DATE_FORMAT_DEFAULT) # noqa
             Notificacoes(
                 user=form_cliente.user,
-                mensagem=f'O Formulario enviado para {form_cliente.email} na data {data_envio}, expirou!',
+                mensagem=f'O Formulario enviado para {form_cliente.email} na data {data_envio}, expirou!', # noqa
                 tipo=Notificacoes.Tipo.ALERTA
             ).save()
 
@@ -80,18 +80,18 @@ def use_request_token_check_expiration(
 def timeout_form(
         view_func: Callable | None = None
 ) -> Callable:
-    
+
     @functools.wraps(view_func)
     def inner(*args, **kwargs):
         if 'pk' in kwargs:
             form_cliente = FomularioClientes.objects.get(id=kwargs['pk'])
 
             if form_cliente.iniciado:
-                max_time = form_cliente.iniciado + timedelta(minutes=settings.TIMEOUT_FORMULARIO)
+                max_time = form_cliente.iniciado + timedelta(minutes=settings.TIMEOUT_FORMULARIO) # noqa
                 request = _get_request_arg(args)
 
                 if (
-                    max_time.replace(tzinfo=None) < datetime.now().replace(tzinfo=None)
+                    max_time.replace(tzinfo=None) < datetime.now().replace(tzinfo=None) # noqa
                     and form_cliente.status not in [
                         FomularioClientes.Status.CANCELADO,
                         FomularioClientes.Status.FINALIZADO
@@ -99,18 +99,17 @@ def timeout_form(
                 ):
                     form_cliente.status = FomularioClientes.Status.ENCERRADO
                     form_cliente.save()
-                    
-                    data_envio = form_cliente.created_at.strftime(settings.DATE_FORMAT_DEFAULT)
+
+                    data_envio = form_cliente.created_at.strftime(settings.DATE_FORMAT_DEFAULT) # noqa
                     Notificacoes(
                         user=form_cliente.user,
-                        mensagem=f'O Formulario enviado para {form_cliente.email} na data {data_envio}, cancelado!',
+                        mensagem=f'O Formulario enviado para {form_cliente.email} na data {data_envio}, cancelado!', # noqa
                         tipo=Notificacoes.Tipo.ALERTA
                     ).save()
 
-                
                     return render(request, 'quiz/timout_form.html')
-                
-                if  form_cliente.status == FomularioClientes.Status.CANCELADO:
+
+                if  form_cliente.status == FomularioClientes.Status.CANCELADO: # noqa
                     return render(request, 'quiz/form_cancelado.html')
 
         return view_func(*args, **kwargs)
@@ -121,7 +120,7 @@ def timeout_form(
 def check_contato(
         view_func: Callable | None = None
 ) -> Callable:
-    
+
     @functools.wraps(view_func)
     def inner(*args, **kwargs):
         if 'pk' in kwargs:
@@ -130,7 +129,7 @@ def check_contato(
 
             if not contato.exists():
                 return redirect(
-                    reverse('formulario_cadastro') + f'?rt={form_cliente.token}'
+                    reverse('formulario_cadastro') + f'?rt={form_cliente.token}' # noqa
                 )
 
         return view_func(*args, **kwargs)

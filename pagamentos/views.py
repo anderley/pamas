@@ -4,12 +4,13 @@ from django.conf import settings
 # from rest_framework.views import APIView
 # from rest_framework import status
 from django.contrib.auth.models import User
-from django.shortcuts import render
-from django.views.generic import TemplateView
-from planos.models import Planos
-from pagamentos.models import Pagamentos
 from django.http import JsonResponse
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import TemplateView
+
+from pagamentos.models import Pagamentos
+from planos.models import Planos
 
 
 class PagamentoView(TemplateView):
@@ -37,7 +38,6 @@ class PagamentoView(TemplateView):
         pagamento.save()
 
         return render(request, self.template_name, data)
-
 
 
 def criando_cartao(self, data):
@@ -129,7 +129,7 @@ def mercadopago_pagamento(self, data, plano, pagamento_id):
         except: # noqa
             return False, "Erro inesperado!", None
     else:
-         return False, token_or_msg, None
+        return False, token_or_msg, None
 
 
 @csrf_exempt
@@ -143,7 +143,7 @@ def update_status(request):
     if pagamento:
         pagamento.status = status
         pagamento.save()
-        # pagamento.user.plano_num_formularios = pagamento.plano_num_formularios
+        # pagamento.user.plano_num_formularios = pagamento.plano_num_formularios  # noqa
         # pagamento.user.save()
 
     return JsonResponse({'success': 'ok'})

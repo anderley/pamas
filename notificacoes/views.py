@@ -2,9 +2,8 @@ import json
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http.response import JsonResponse, HttpResponse
-from django.shortcuts import render
-from django.views.generic import TemplateView, ListView
+from django.http.response import HttpResponse, JsonResponse
+from django.views.generic import ListView, TemplateView
 
 from .models import Notificacoes
 
@@ -30,7 +29,6 @@ class NotificacoesJsonView(LoginRequiredMixin, TemplateView):
             is_visualizado=False,
             user=request.user
         )
-        
         context = {
             'data': [
                 notificacao

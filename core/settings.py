@@ -11,11 +11,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 import os
-
 from pathlib import Path
 
 from import_export.formats.base_formats import CSV, XLSX
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -217,17 +215,17 @@ LOGGING = {
             'level': 'INFO',
             'handlers': ['console'],
         }
-    }    
+    }
 }
 
-MERCADOPAGO_CLIENT_ID = os.environ.get('MERCADOPAGO_CLIENT_ID', '4634839706246803')
-MERCADOPAGO_CLIENT_SECRET = os.environ.get('MERCADOPAGO_CLIENT_SECRET', 'tRgjoQzo0iCZnKH2xMFDiq37K2vDgG6d')
-MERCADOPAGO_PUBLIC_KEY = os.environ.get('MERCADOPAGO_CLIENT_SECRET', 'APP_USR-3aa02b1a-b3f4-480b-8358-08f3404d2a5e')
-MERCADOPAGO_ACCESS_TOKEN = os.environ.get('MERCADOPAGO_CLIENT_SECRET', 'APP_USR-4634839706246803-052314-df109ee7ee48312e774f0fe89adce662-2360331')
+MERCADOPAGO_CLIENT_ID = os.environ.get('MERCADOPAGO_CLIENT_ID', '4634839706246803') # noqa
+MERCADOPAGO_CLIENT_SECRET = os.environ.get('MERCADOPAGO_CLIENT_SECRET', 'tRgjoQzo0iCZnKH2xMFDiq37K2vDgG6d') # noqa
+MERCADOPAGO_PUBLIC_KEY = os.environ.get('MERCADOPAGO_CLIENT_SECRET', 'APP_USR-3aa02b1a-b3f4-480b-8358-08f3404d2a5e') # noqa
+MERCADOPAGO_ACCESS_TOKEN = os.environ.get('MERCADOPAGO_CLIENT_SECRET', 'APP_USR-4634839706246803-052314-df109ee7ee48312e774f0fe89adce662-2360331') # noqa
 
 DATE_FORMAT_DEFAULT = '%d/%m/%y'
 DATETIME_FORMAT_DEFAULT = '%d/%m/%y %H:%m:%s'
-TIMEOUT_FORMULARIO = 15 # Minutos
+TIMEOUT_FORMULARIO = 15  # Minutos
 
 IMPORT_FORMATS = [CSV, XLSX]
 

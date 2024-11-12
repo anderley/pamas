@@ -1,26 +1,25 @@
 from datetime import datetime, timedelta
-from pytz import timezone
 
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.mail import send_mail
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, FormView, ListView, UpdateView, TemplateView
-from django.contrib import messages
-from django.template.loader import  render_to_string
-from django.utils.html import strip_tags
-
+from django.views.generic import (CreateView, FormView, ListView, TemplateView,
+                                  UpdateView)
+from pytz import timezone
 from request_token.models import RequestToken
 
-from .decorators import use_request_token_check_expiration, timeout_form, check_contato
-from .forms import (ContatosForm, EnviarFormularioForm, FormularioForm)
-from .models import Contatos, FomularioClientes, Perguntas
-
+from core.utils.email_utils import EmailUtils
 from notificacoes.models import Notificacoes
+
+from .decorators import (check_contato, timeout_form,
+                         use_request_token_check_expiration)
+from .forms import ContatosForm, EnviarFormularioForm, FormularioForm
+from .models import Contatos, FomularioClientes, Perguntas
 
 
 def logout_view(request):
@@ -54,17 +53,9 @@ def enviar_formulario(request):
             )
             token = request_token.jwt()
             link_form = f'{settings.SITE_URL}/formulario/cadastro/?rt={token}'
-            subject = '[PAMAS] Formulário'
-            html_message = render_to_string('quiz/emails/link_form.html', {
-                'user_name': f'{ request.user.first_name } {request.user.last_name}',
-                'link': link_form
-            }) # noqa
-            plain_message = strip_tags(html_message)
 
             try:
-                send_mail(subject, plain_message, settings.EMAIL_HOST_USER, [email], html_message=html_message)
-
-                messages.success(request, 'Email enviado com sucesso!')
+                EmailUtils.send_email_form(email, link_form, request.user)
 
                 FomularioClientes(
                     user=request.user,
@@ -74,9 +65,11 @@ def enviar_formulario(request):
                 ).save()
                 Notificacoes(
                     user=request.user,
-                    mensagem=f'Formulario enviado com sucesso para o email: {email}',
+                    mensagem=f'Formulario enviado com sucesso para o email: {email}', # noqa
                     tipo=Notificacoes.Tipo.INFORMATIVA
                 ).save()
+
+                messages.success(request, 'Email enviado com sucesso!')
             except Exception as e:
                 messages.error(request, f'Error no envio do email: {e}')
 
@@ -92,7 +85,7 @@ def cancelar_form(request, id):
         form_cliente.save()
         Notificacoes(
             user=request.user,
-            mensagem=f'Formulario enviado para o email: {form_cliente.email}, foi cancelado',
+            mensagem=f'Formulario enviado para o email: {form_cliente.email}, foi cancelado', # noqa
             tipo=Notificacoes.Tipo.ALERTA
         ).save()
 
@@ -109,14 +102,14 @@ class ContatosCreateView(CreateView):
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             return render(request, '404.html')
-        
+
         token = request.GET['rt']
         form_cliente = FomularioClientes.objects.get(token=token)
 
         if form_cliente:
             form_cliente.status = FomularioClientes.Status.ACESSADO
             form_cliente.save()
-            
+
             self.initial['formulario_id'] = form_cliente.id
             self.initial['user_id'] = form_cliente.user.id
             self.initial['email'] = form_cliente.email
@@ -130,7 +123,7 @@ class ContatosCreateView(CreateView):
                 return redirect('formulario_cadastro_editar', contato.pk)
 
         return super().get(request, *args, **kwargs)
-    
+
     def get_success_url(self):
         return reverse_lazy('formulario', kwargs={
             'pk': self.initial['formulario_id']
@@ -146,8 +139,6 @@ class ContatosUpdateView(UpdateView):
         if self.request.user.is_authenticated:
             redirect(self.request, '404.html')
 
-        print(self.object)
-        
         return reverse_lazy('formulario', kwargs={
             'pk': self.request.session['formulario_id']
         })
@@ -165,7 +156,7 @@ class FormularioFormView(FormView):
         form_cliente = FomularioClientes.objects.get(id=pk)
 
         if (
-            form_cliente 
+            form_cliente
             and form_cliente.status in [
                 FomularioClientes.Status.ENVIADO,
                 FomularioClientes.Status.ACESSADO
@@ -174,10 +165,10 @@ class FormularioFormView(FormView):
             form_cliente.status = FomularioClientes.Status.PREENCHENDO
             form_cliente.iniciado = datetime.now()
             form_cliente.save()
-            data_envio = form_cliente.created_at.strftime(settings.DATE_FORMAT_DEFAULT)
+            data_envio = form_cliente.created_at.strftime(settings.DATE_FORMAT_DEFAULT) # noqa
             Notificacoes(
                 user=form_cliente.user,
-                mensagem=f'Formulario enviado para o email: {form_cliente.email} na data {data_envio}, iniciou o preenchimento',
+                mensagem=f'Formulario enviado para o email: {form_cliente.email} na data {data_envio}, iniciou o preenchimento',  # noqa
                 tipo=Notificacoes.Tipo.INFORMATIVA
             ).save()
 
@@ -185,7 +176,7 @@ class FormularioFormView(FormView):
             Perguntas.objects.filter(ativo=True).order_by('id').all(),
             20
         )
-        timeout = form_cliente.iniciado + timedelta(minutes=settings.TIMEOUT_FORMULARIO)
+        timeout = form_cliente.iniciado + timedelta(minutes=settings.TIMEOUT_FORMULARIO) # noqa
         tz_sao_paulo = timezone('America/Sao_Paulo')
         self.initial['formulario_id'] = pk
         self.initial['timeout'] = timeout.astimezone(tz_sao_paulo).isoformat()
@@ -221,5 +212,9 @@ class ListSentFormsView(LoginRequiredMixin, ListView):
         return super().get_queryset().filter(user=self.request.user)
 
 
-class PdfTemplateView(TemplateView):
-    template_name = 'quiz/pdf/template.html'
+class PdfFaceTemplateView(TemplateView):
+    template_name = 'quiz/pdf/face.html'
+
+
+class PdfPagesTemplateView(TemplateView):
+    template_name = 'quiz/pdf/pages.html'

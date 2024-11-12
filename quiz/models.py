@@ -97,14 +97,15 @@ class FomularioClientes(models.Model):
         EXPIRADO = 'Expirado', _('Expirado')
         CANCELADO = 'Cancelado', _('Cancelado')
         ENCERRADO = 'Encerrado', _('Encerrado')
-    
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario') # noqa
     email = models.EmailField(max_length=180, verbose_name='Email')
     token = models.CharField(max_length=180, verbose_name='Token')
     form_url = models.CharField(max_length=250, verbose_name='URL Formulário')
-    status = models.CharField(max_length=80, choices=Status.choices,
-        default=Status.ENVIADO)
-    iniciado = models.DateTimeField(blank=True, null=True, verbose_name='Inicio Preenchimento')
+    status = models.CharField(
+        max_length=80, choices=Status.choices, default=Status.ENVIADO
+    )
+    iniciado = models.DateTimeField(blank=True, null=True, verbose_name='Inicio Preenchimento') # noqa
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Atualizado')
 
