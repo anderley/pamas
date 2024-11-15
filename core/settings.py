@@ -188,6 +188,7 @@ EMAIL_USE_TLS = False
 EMAIL_PORT = 8025
 EMAIL_HOST_USER = 'atendimento@pamas.com.br'
 EMAIL_HOST_PASSWORD = ''
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # JWT Request Token
 REQUEST_TOKEN_EXPIRY = '1d'
