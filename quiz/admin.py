@@ -9,7 +9,14 @@ from .resources import CompetenciasResource, GruposResource, PerguntasResource
 
 class GruposAdmin(ImportExportModelAdmin):
     resource_class = GruposResource
-    list_display = ['id', 'nome', 'ativo', 'created_at', 'updated_at']
+    list_display = [
+        'id',
+        'nome',
+        'cod_cor',
+        'ativo',
+        'created_at',
+        'updated_at'
+    ]
 
     class Media:
         css = {
@@ -20,7 +27,16 @@ class GruposAdmin(ImportExportModelAdmin):
 class CompetenciasAdmin(ImportExportModelAdmin):
     resource_class = CompetenciasResource
     search_fields = ['grupo']
-    list_display = ['id', 'nome', 'grupo', 'ativo', 'created_at', 'updated_at']
+    list_display = [
+        'id',
+        'grupo',
+        'nome',
+        'relevancia',
+        'tipo_performance',
+        'ativo',
+        'created_at',
+        'updated_at'
+    ]
 
     class Media:
         css = {

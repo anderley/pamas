@@ -5,6 +5,9 @@ from django.utils.translation import gettext_lazy as _
 
 class Grupos(models.Model):
     nome = models.CharField(max_length=80)
+    cod_cor = models.CharField(
+        max_length=7, default='#fff', verbose_name='Cód. Cor'
+    )
     ativo = models.BooleanField(default=True, verbose_name='Ativo')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Atualizado')
@@ -19,7 +22,17 @@ class Grupos(models.Model):
 
 
 class Competencias(models.Model):
+
+    class TipoPerformance(models.TextChoices):
+        GESTAO = 'Gestão', _('Gestão')
+        EQUIPE = 'Equipe', _('Equipe')
+
     nome = models.CharField(max_length=180)
+    relevancia = models.SmallIntegerField(default=0, verbose_name='Relevância')
+    tipo_performance = models.CharField(
+        max_length=20, choices=TipoPerformance.choices,
+        default=TipoPerformance.GESTAO, verbose_name='Tipo Performance'
+    )
     grupo = models.ForeignKey(Grupos, on_delete=models.CASCADE)
     ativo = models.BooleanField(default=True, verbose_name='Ativo')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado')

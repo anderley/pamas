@@ -8,6 +8,7 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('login/', auth_view.CustomLoginView.as_view(), name='login'), # noqa
     path('logout/', views.logout_view, name='logout'),
+    path('formulario/instrucoes/', views.InstrucoesTemplateView.as_view(), name='formulario_instrucoes'), # noqa
     path('formulario/cadastro/', views.ContatosCreateView.as_view(), name='formulario_cadastro'), # noqa
     path('formulario/cadastro/<pk>/editar', views.ContatosUpdateView.as_view(), name='formulario_cadastro_editar'), # noqa
     path('formulario/<pk>/', views.FormularioFormView.as_view(), name='formulario'), # noqa

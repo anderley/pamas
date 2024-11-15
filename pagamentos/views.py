@@ -1,23 +1,19 @@
 import mercadopago
 import requests
 from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 # from rest_framework.views import APIView
 # from rest_framework import status
 from django.core.mail import send_mail
-from django.utils.html import strip_tags
-from django.template.loader import render_to_string
-from django.contrib.auth.models import User
-from django.http import JsonResponse
 from django.shortcuts import render
-from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import TemplateView
-from django.contrib import messages
-from core.utils.email_utils import EmailUtils
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.views.generic import ListView, TemplateView
+
 from notificacoes.models import Notificacoes
 from pagamentos.models import Pagamentos
 from planos.models import Planos
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView
 
 
 class PagamentosListView(LoginRequiredMixin, ListView):
@@ -57,7 +53,6 @@ class PagamentoView(TemplateView):
         pagamento.mercadopago_id = data['mercadopago_id']
         pagamento.save()
 
-
         return render(request, self.template_name, data)
 
 
@@ -74,14 +69,14 @@ def envia_email_e_cria_notificao(request, paid):
         html_message = render_to_string(
             'pagamentos/emails/mensagem.html',
             {
-                'user_name': f'{request.user.first_name} {request.user.last_name}',
+                'user_name': f'{request.user.first_name} {request.user.last_name}', # noqa
                 'mensagem': f'{mensagem}',
             }
         )
         plain_message = strip_tags(html_message)
 
         send_mail(
-            subject, plain_message, settings.EMAIL_HOST_USER, [request.user.email], html_message=html_message
+            subject, plain_message, settings.EMAIL_HOST_USER, [request.user.email], html_message=html_message # noqa
         )
 
         Notificacoes(
@@ -90,9 +85,10 @@ def envia_email_e_cria_notificao(request, paid):
             tipo=Notificacoes.Tipo.PAGAMENTO
         ).save()
 
-        messages.success(request, f'Novo pagamento recebido do cliente: {request.user.email}')
-    except Exception as e:
-        messages.error(request, f'Erro no pagamento do cliente com o email: {request.user.email}')
+        messages.success(request, f'Novo pagamento recebido do cliente: {request.user.email}') # noqa
+    except Exception:
+        messages.error(request, f'Erro no pagamento do cliente com o email: {request.user.email}') # noqa
+
 
 def criando_cartao(self, data):
 
@@ -187,7 +183,7 @@ def mercadopago_pagamento(self, data, plano, pagamento_id):
 
 # @csrf_exempt
 # def update_status(request):
-#     status = 'pago' if request.GET.get('status') == 'approved' else 'pendente'
+#     status = 'pago' if request.GET.get('status') == 'approved' else 'pendente' # noqa
 #
 #     pagamento = Pagamentos.objects.get(
 #         id=request.GET.get('external_reference')

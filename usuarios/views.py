@@ -1,3 +1,4 @@
+from django.contrib.auth.views import LoginView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -14,7 +15,7 @@ from django.template.loader import render_to_string
 from django.contrib import messages
 from django.contrib.auth.views import PasswordResetCompleteView
 from django.contrib.auth.views import PasswordResetConfirmView
-from .forms import CadastroUsuarioForm, EsqueceuForm, CustomAuthenticationForm
+from .forms import CadastroUsuarioForm, CustomAuthenticationForm, EsqueceuForm
 
 
 class CadastroView(SuccessMessageMixin, CreateView):
@@ -59,7 +60,7 @@ class CustomPasswordResetCompleteView(PasswordResetCompleteView):
 
 
 class CustomLoginView(LoginView):
-    authentication_form = CustomAuthenticationForm
+    form_class = CustomAuthenticationForm
     template_name = 'usuarios/login.html'
     success_url = reverse_lazy('home')
 

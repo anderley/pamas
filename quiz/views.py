@@ -52,7 +52,7 @@ def enviar_formulario(request):
                 }
             )
             token = request_token.jwt()
-            link_form = f'{settings.SITE_URL}/formulario/cadastro/?rt={token}'
+            link_form = f'{settings.SITE_URL}/formulario/instrucoes/?rt={token}' # noqa
 
             try:
                 EmailUtils.send_email_form(email, link_form, request.user)
@@ -218,3 +218,7 @@ class PdfFaceTemplateView(TemplateView):
 
 class PdfPagesTemplateView(TemplateView):
     template_name = 'quiz/pdf/pages.html'
+
+
+class InstrucoesTemplateView(TemplateView):
+    template_name = 'quiz/instrucoes.html'
