@@ -65,12 +65,12 @@
         try {
             await navigator.clipboard.writeText(e.textContent);
             
-            $.toaster({
-                title: '',
-                message : 'Link copiado com sucesso.',
-                priority : 'success',
-                settings: toasterSettings
-            });
+            $.Toast(
+                'Sucesso',
+                'Link copiado com sucesso.',
+                'success',
+                toastSettings
+            );
             
         } catch (error) {
             console.error('Erro ao copiar para o clipboard: ', error);

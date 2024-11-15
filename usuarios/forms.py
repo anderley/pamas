@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import authenticate
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
 
 
@@ -66,7 +66,7 @@ class CustomAuthenticationForm(AuthenticationForm):
             'email': self.fields['email'],
             'password': self.fields['password']
         }
-    
+
     def clean(self):
         email = self.cleaned_data.get('email')
         password = self.cleaned_data.get('password')
@@ -85,4 +85,3 @@ class CustomAuthenticationForm(AuthenticationForm):
     class Meta:
         model = User
         fields = ['email', 'password']
-

@@ -1,10 +1,10 @@
+from django.contrib.auth.views import LoginView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
-from django.contrib.auth.views import LoginView
 
-from .forms import CadastroUsuarioForm, EsqueceuForm, CustomAuthenticationForm
+from .forms import CadastroUsuarioForm, CustomAuthenticationForm, EsqueceuForm
 
 
 class CadastroView(SuccessMessageMixin, CreateView):
@@ -23,6 +23,6 @@ def esqueceu(request):
 
 
 class CustomLoginView(LoginView):
-    authentication_form = CustomAuthenticationForm
+    form_class = CustomAuthenticationForm
     template_name = 'usuarios/login.html'
     success_url = reverse_lazy('home')
