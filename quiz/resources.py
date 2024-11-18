@@ -27,6 +27,7 @@ class CompetenciasResource(resources.ModelResource):
             'grupo',
             'nome',
             'relevancia',
+            'tipo_impacto',
             'tipo_performance',
             'ativo'
         ]

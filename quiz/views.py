@@ -9,7 +9,14 @@ from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import (CreateView, FormView, ListView, TemplateView,
-                                  UpdateView)
+                                  UpdateView, View, DetailView)
+
+from weasyprint import HTML, CSS
+from django.template.loader import get_template
+from django.http import HttpResponse
+
+from django_weasyprint import WeasyTemplateResponseMixin
+
 from pytz import timezone
 from request_token.models import RequestToken
 
@@ -20,6 +27,7 @@ from .decorators import (check_contato, timeout_form,
                          use_request_token_check_expiration)
 from .forms import ContatosForm, EnviarFormularioForm, FormularioForm
 from .models import Contatos, FomularioClientes, Perguntas
+from .services import PDFService
 
 
 def logout_view(request):
@@ -212,12 +220,48 @@ class ListSentFormsView(LoginRequiredMixin, ListView):
         return super().get_queryset().filter(user=self.request.user)
 
 
-class PdfFaceTemplateView(TemplateView):
-    template_name = 'quiz/pdf/face.html'
+class PdfViewerTemplateView(WeasyTemplateResponseMixin,TemplateView):
+    template_name = 'quiz/pdf/template.html'
+    pdf_serivce = PDFService()
+
+    def get_context_data(self, pk, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["media_gestao_png"] = self.pdf_serivce.generate_grupo_chart_png(pk)
+        context["media_equipes_png"] = self.pdf_serivce.generate_equipes_chart_png(pk)
+        context["performance_png"] = self.pdf_serivce.generate_performance_chart_png(pk)
+        
+        return context
 
 
-class PdfPagesTemplateView(TemplateView):
-    template_name = 'quiz/pdf/pages.html'
+class PdfView(View):
+    template_name = 'quiz/pdf/template.html'
+    pdf_attachment = False
+    pdf_serivce = PDFService()
+
+    def get(self, request, pk, *args, **kwargs):
+        context = {}
+        context["media_gestao_png"] = self.pdf_serivce.generate_grupo_chart_png(pk)
+        context["media_equipes_png"] = self.pdf_serivce.generate_equipes_chart_png(pk)
+        context["performance_png"] = self.pdf_serivce.generate_performance_chart_png(pk)
+
+        ts = datetime.now().strftime('%s')
+        pdf_name = f'/tmp/formulario_{pk}_{ts}.pdf'
+        html_template = get_template(self.template_name).render(context=context)
+
+        pdf_file = HTML(
+            string=html_template,
+            base_url='http://localhost:8000'
+        ).write_pdf(
+            target=pdf_name
+        )
+                
+        response = HttpResponse(pdf_file, content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="formulario_{pk}_{ts}.pdf"'
+
+        with open(pdf_name, 'rb') as f:
+            response.write(f.read())
+
+        return response
 
 
 class InstrucoesTemplateView(TemplateView):

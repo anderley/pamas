@@ -1,0 +1,121 @@
+id,grupo,nome,relevancia,tipo_impacto,tipo_performance,ativo
+1,LIDERANÇA,Integridade Pessoal,1,Gestão,Engajamento,1
+2,LIDERANÇA,Honestidade,2,Gestão,Engajamento,1
+3,LIDERANÇA,Bom senso,9,Gestão,Desempenho,1
+4,LIDERANÇA,Manter a compostura,10,Gestão,Engajamento,1
+5,LIDERANÇA,Gerenciar Recursos Humanos,13,Gestão,Organização,1
+6,LIDERANÇA,Rede de relacionamento,5,Gestão,Engajamento,1
+7,LIDERANÇA,Agilidade organizacional,14,Gestão,Organização,1
+8,LIDERANÇA,Política organizacional,20,Gestão,Organização,1
+9,LIDERANÇA,Ajustar a visão,4,Gestão,Desempenho,1
+10,LIDERANÇA,Pensar globalmente,3,Gestão,Desempenho,1
+11,LIDERANÇA,Conhecer o ambiente externo,8,Gestão,Organização,1
+12,LIDERANÇA,Orientado para o detalhe,6,Gestão,Desempenho,1
+13,LIDERANÇA,Parcerias estratégicas,7,Gestão,Organização,1
+14,LIDERANÇA,Gerenciar processos,16,Gestão,Organização,1
+15,LIDERANÇA,Melhorar processos,12,Gestão,Desempenho,1
+16,LIDERANÇA,Gerenciar o negócio,15,Gestão,Organização,1
+17,LIDERANÇA,Gerenciar finanças,19,Gestão,Organização,1
+18,LIDERANÇA,Gerenciar risco,18,Gestão,Desempenho,1
+19,LIDERANÇA,Gerenciar tecnologia,17,Gestão,Organização,1
+20,LIDERANÇA,Plano de sucessão,11,Gestão,Organização,1
+21,ESTRATÉGIA,Buscar aconselhamento,16,Gestão,Desempenho,1
+22,ESTRATÉGIA,Ambição,14,Gestão,Organização,1
+23,ESTRATÉGIA,Mostrar convicção,13,Gestão,Engajamento,1
+24,ESTRATÉGIA,Tomar atitudes,20,Gestão,Desempenho,1
+25,ESTRATÉGIA,Negociação,4,Gestão,Organização,1
+26,ESTRATÉGIA,Trabalhar com líderes sêniores,5,Gestão,Organização,1
+27,ESTRATÉGIA,Escrever profissionalmente,8,Gestão,Desempenho,1
+28,ESTRATÉGIA,Verbalizar,15,Gestão,Engajamento,1
+29,ESTRATÉGIA,Escuta ativa,6,Gestão,Engajamento,1
+30,ESTRATÉGIA,Comunicação interpessoal,7,Gestão,Organização,1
+31,ESTRATÉGIA,Fazer perguntas difícies ,18,Gestão,Desempenho,1
+32,ESTRATÉGIA,Trabalhar através de fronteiras,17,Gestão,Organização,1
+33,ESTRATÉGIA,Mostrar iniciativa,9,Gestão,Engajamento,1
+34,ESTRATÉGIA,Simplificar coisas complexas,10,Gestão,Organização,1
+35,ESTRATÉGIA,Pensar criativamente ,1,Gestão,Desempenho,1
+36,ESTRATÉGIA,Descobrir as necessidades dos clientes,11,Gestão,Organização,1
+37,ESTRATÉGIA,Inovar,2,Gestão,Engajamento,1
+38,ESTRATÉGIA,Rastrear novas tecnologias,12,Gestão,Organização,1
+39,ESTRATÉGIA,Procurar por feedback,19,Gestão,Desempenho,1
+40,ESTRATÉGIA,Projetar organizações,3,Gestão,Organização,1
+41,ORGANIZAÇÃO,Construção de relacionamentos,2,Gestão,Engajamento,1
+42,ORGANIZAÇÃO,Delegar com eficácia,3,Gestão,Desempenho,1
+43,ORGANIZAÇÃO,Acessível,19,Gestão,Desempenho,1
+44,ORGANIZAÇÃO,Cuidar,18,Gestão,Organização,1
+45,ORGANIZAÇÃO,Criar alinhamento,4,Gestão,Engajamento,1
+46,ORGANIZAÇÃO,Treinar outros,7,Gestão,Engajamento,1
+47,ORGANIZAÇÃO,Comunicação organizacional ,1,Gestão,Organização,1
+48,ORGANIZAÇÃO,Compassivo,20,Gestão,Desempenho,1
+49,ORGANIZAÇÃO,Criar uma cultura de aprendizagem,14,Gestão,Engajamento,1
+50,ORGANIZAÇÃO,Aumentar o desempenho,13,Gestão,Desempenho,1
+51,ORGANIZAÇÃO,Empoderar pessoas,11,Gestão,Engajamento,1
+52,ORGANIZAÇÃO,Reconhecimento,12,Gestão,Engajamento,1
+53,ORGANIZAÇÃO,Fazer fortes apresentações,15,Gestão,Desempenho,1
+54,ORGANIZAÇÃO,Desenvolver os outros,9,Gestão,Desempenho,1
+55,ORGANIZAÇÃO,Direcionar o trabalho,17,Gestão,Organização,1
+56,ORGANIZAÇÃO,Influência e persuasão,6,Gestão,Desempenho,1
+57,ORGANIZAÇÃO,Medir performance ,10,Gestão,Organização,1
+58,ORGANIZAÇÃO,Mentorar outros,8,Gestão,Organização,1
+59,ORGANIZAÇÃO,Desenvolver novos talentos,16,Gestão,Organização,1
+60,ORGANIZAÇÃO,Definir expectativas ,5,Gestão,Organização,1
+61,EXECUÇÃO,Agilidade,1,Gestão,Organização,1
+62,EXECUÇÃO,Resiliência ,4,Gestão,Organização,1
+63,EXECUÇÃO,Flexibilidade,5,Gestão,Desempenho,1
+64,EXECUÇÃO,Autoconciência,8,Gestão,Desempenho,1
+65,EXECUÇÃO,Organização,2,Gestão,Desempenho,1
+66,EXECUÇÃO,Manter o equilíbrio entre a vida e o trabalho,12,Gestão,Organização,1
+67,EXECUÇÃO,Relacionamento com clientes,11,Gestão,Desempenho,1
+68,EXECUÇÃO,Paciência,14,Gestão,Desempenho,1
+69,EXECUÇÃO,Maestria,19,Gestão,Organização,1
+70,EXECUÇÃO,Ágil na aprendizagem,13,Gestão,Engajamento,1
+71,EXECUÇÃO,Antecipação,6,Gestão,Organização,1
+72,EXECUÇÃO,Auto desenvolvimento ,7,Gestão,Engajamento,1
+73,EXECUÇÃO,Siga seus líderes,17,Gestão,Organização,1
+74,EXECUÇÃO,Socialmente responsável,18,Gestão,Organização,1
+75,EXECUÇÃO,Criar unidade,9,Gestão,Organização,1
+76,EXECUÇÃO,Culturalmente adaptado,15,Gestão,Organização,1
+77,EXECUÇÃO,Alavancar a diversidade,16,Gestão,Organização,1
+78,EXECUÇÃO,Tomar decisões inclusivas,3,Gestão,Engajamento,1
+79,EXECUÇÃO,Tolerante com os outros,20,Gestão,Desempenho,1
+80,EXECUÇÃO,Tratar pessoas justamente,10,Gestão,Desempenho,1
+81,LIDERANÇA,Ser ético,10,Equipes,Engajamento,1
+82,LIDERANÇA,Engajar pessoas,9,Equipes,Engajamento,1
+83,LIDERANÇA,Tornar o trabalho divertido,2,Equipes,Engajamento,1
+84,LIDERANÇA,Obter talentos,5,Equipes,Desempenho,1
+85,LIDERANÇA,Avaliação de talentos,1,Equipes,Organização,1
+86,LIDERANÇA,Pensar estrategicamente,7,Equipes,Desempenho,1
+87,LIDERANÇA,Definir estratégia,8,Equipes,Desempenho,1
+88,LIDERANÇA,Planejamento eficaz,4,Equipes,Desempenho,1
+89,LIDERANÇA,Gerenciar projetos,3,Equipes,Desempenho,1
+90,LIDERANÇA,Gerenciar mudanças,6,Equipes,Desempenho,1
+91,ESTRATÉGIA,Confrontar problemas,2,Equipes,Desempenho,1
+92,ESTRATÉGIA,Superar desafios,6,Equipes,Desempenho,1
+93,ESTRATÉGIA,Definir metas,10,Equipes,Desempenho,1
+94,ESTRATÉGIA,Transparência,4,Equipes,Engajamento,1
+95,ESTRATÉGIA,Compartilhar informação,1,Equipes,Desempenho,1
+96,ESTRATÉGIA,Dar feedback,3,Equipes,Desempenho,1
+97,ESTRATÉGIA,Comunicar efetivamente,5,Equipes,Engajamento,1
+98,ESTRATÉGIA,Orientado por valores,7,Equipes,Organização,1
+99,ESTRATÉGIA,Melhoria contínua,8,Equipes,Desempenho,1
+100,ESTRATÉGIA,Promover mudanças,9,Equipes,Organização,1
+101,ORGANIZAÇÃO,Facilitar grupos,3,Equipes,Organização,1
+102,ORGANIZAÇÃO,Romper o isolamento,1,Equipes,Desempenho,1
+103,ORGANIZAÇÃO,Planejar a força de trabalho,2,Equipes,Organização,1
+104,ORGANIZAÇÃO,Criar integração,5,Equipes,Engajamento,1
+105,ORGANIZAÇÃO,Criar uma cultura de responsabilidade,10,Equipes,Desempenho,1
+106,ORGANIZAÇÃO,Desenvolver líderes futuros ,9,Equipes,Desempenho,1
+107,ORGANIZAÇÃO,Inspirar outros,6,Equipes,Desempenho,1
+108,ORGANIZAÇÃO,Gerenciar conflitos,4,Equipes,Organização,1
+109,ORGANIZAÇÃO,Gerenciar desempenho,7,Equipes,Organização,1
+110,ORGANIZAÇÃO,Motivar pessoas,8,Equipes,Desempenho,1
+111,EXECUÇÃO,Orientado para resultados,10,Equipes,Engajamento,1
+112,EXECUÇÃO,Tomada de decisões,9,Equipes,Desempenho,1
+113,EXECUÇÃO,Gestão de tempo,7,Equipes,Desempenho,1
+114,EXECUÇÃO,Estabelecer prioridades,8,Equipes,Desempenho,1
+115,EXECUÇÃO,Resolver problemas,6,Equipes,Engajamento,1
+116,EXECUÇÃO,Lidar com as incertezas,2,Equipes,Desempenho,1
+117,EXECUÇÃO,Assumir responsabilidade,5,Equipes,Engajamento,1
+118,EXECUÇÃO,Construir equipes,4,Equipes,Organização,1
+119,EXECUÇÃO,Obter confiança,3,Equipes,Desempenho,1
+120,EXECUÇÃO,Criar um ambiente de trabalho positivo,1,Equipes,Engajamento,1

@@ -2,6 +2,7 @@
 **/migrations
 /collected_static
 /venv
+/staticfiles
 .idea
 db.sqlite3
 core/local_settings.py

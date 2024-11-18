@@ -1,0 +1,122 @@
+id,competencia,descricao,ativo
+1,Integridade Pessoal,"Quando cometo um erro, considero importante refletir sobre ele e aprender com a experiência.",1
+2,Honestidade,"Em situações desafiadoras, às vezes é difícil ser completamente honesto, mas tento ser transparente",1
+3,Bom senso,"Em situações complexas, procuro avaliar rapidamente os fatos antes de tomar uma decisão.",1
+4,Manter a compostura,"Em situações estressantes, faço um esforço consciente para manter a calma e focar na solução.",1
+5,Gerenciar Recursos Humanos,Considero o treinamento de novos funcionários uma parte essencial para o sucesso da equipe.,1
+6,Rede de relacionamento,Gosto de conectar pessoas que conheço quando vejo que elas podem se beneficiar mutuamente.,1
+7,Agilidade organizacional,"Numa equipe, o trabalho colaborativo é importante para identificar e superar obstáculos de maneira eficaz.",1
+8,Política organizacional,Acredito que é possível ser diplomático no trabalho e ainda assim manter a honestidade.,1
+9,Ajustar a visão,Prefiro aprender e explorar novas informações conforme avanço nos projetos.,1
+10,Pensar globalmente,Valorizo a oportunidade de aprender sobre diferentes culturas e perspectivas.,1
+11,Conhecer o ambiente externo,Procuro me manter atualizado sobre as últimas informações e tendências no meu campo.,1
+12,Orientado para o detalhe,Valorizo a atenção aos detalhes e busco garantir a precisão no meu trabalho.,1
+13,Parcerias estratégicas,Gosto de incentivar colegas a explorar novas abordagens para melhorar processos.,1
+14,Gerenciar processos,Acredito que mesmo processos eficazes podem ser revistos para identificar oportunidades de melhoria.,1
+15,Melhorar processos,"Na minha função, busco clareza nos processos de trabalho para garantir eficiência.",1
+16,Gerenciar o negócio,Sinto-me confiante nas minhas habilidades para executar bem minhas tarefas.,1
+17,Gerenciar finanças,Tenho interesse em elaborar orçamentos e planejar recursos de forma eficaz.,1
+18,Gerenciar risco, Apoio meus colegas a considerar riscos calculados para promover inovação.,1
+19,Gerenciar tecnologia,Vejo a automação como uma ferramenta valiosa para aumentar a eficiência com menos recursos.,1
+20,Plano de sucessão,"
+Eu sei exatamente quem deve ser o próximo na fila para preencher meu papel de liderança.",1
+21,Buscar aconselhamento, Acredito que minhas contribuições podem impactar positivamente as decisões e resultados.,1
+22,Ambição,Gosto de desafiar limites e explorar novas possibilidades que outros podem não considerar.,1
+23,Mostrar convicção,"Quando algo é significativo para mim, procuro expressar minhas opiniões e valores de forma assertiva.",1
+24,Tomar atitudes,"Esforço-me para superar as expectativas sempre que possível, buscando excelência em minhas tarefas.",1
+25,Negociação,Valorizo a construção de relacionamentos sólidos com clientes para promover confiança e satisfação.,1
+26,Trabalhar com líderes sêniores,"Comprometo-me a ser transparente e comunicar os fatos, independentemente das circunstâncias.",1
+27,Escrever profissionalmente,Tenho um projeto criativo pessoal que desejo desenvolver quando encontrar tempo adequado.,1
+28,Verbalizar, Sou conhecido por ser direto e compartilhar meus pensamentos de maneira honesta.,1
+29,Escuta ativa,Procuro estar acessível e disponível para apoiar e ouvir os outros quando necessário.,1
+30,Comunicação interpessoal, Costumo oferecer apoio aos amigos quando percebo que podem estar enfrentando dificuldades.,1
+31,Fazer perguntas difícies ,"Durante conversas, procuro entender melhor a perspectiva e interesses da outra pessoa.",1
+32,Trabalhar através de fronteiras,Valorizo a inclusão de diferentes perspectivas no processo de tomada de decisão.,1
+33,Mostrar iniciativa,Comprometo-me a encontrar soluções eficazes para garantir a conclusão bem-sucedida das tarefas.,1
+34,Simplificar coisas complexas,Recebo frequentemente feedback sobre minha habilidade de manter a calma em situações desafiadoras.,1
+35,Pensar criativamente ,Gosto de explorar ideias inovadoras que podem ser vistas como não convencionais.,1
+36,Descobrir as necessidades dos clientes,Costumo buscar feedback dos clientes para melhorar continuamente meus serviços.,1
+37,Inovar,Tenho o hábito de buscar melhorias contínuas em meus processos e métodos de trabalho.,1
+38,Rastrear novas tecnologias,"Antes de adotar novas tecnologias, dedico tempo para investigar e entender suas implicações.",1
+39,Procurar por feedback,Encaro críticas construtivas como oportunidades para crescimento pessoal e profissional.,1
+40,Projetar organizações,"Tenho habilidade para comunicar eventos de forma clara e convincente, promovendo compreensão e confiança.",1
+41,Construção de relacionamentos,"Em projetos colaborativos, procuro incentivar as pessoas a utilizarem seus pontos fortes.",1
+42,Delegar com eficácia,"Ao planejar tarefas, busco alinhar as habilidades dos membros da equipe com as necessidades do projeto.",1
+43,Acessível,Recebo frequentemente feedback positivo sobre minha habilidade de conviver bem com os outros.,1
+44,Cuidar, Acredito que dedicar tempo para apoiar colegas em suas dificuldades pessoais pode ser valioso.,1
+45,Criar alinhamento,Esforço-me para comunicar de forma clara e eficiente o objetivo das minhas atividades.,1
+46,Treinar outros,Gosto de motivar as pessoas a explorar novas possibilidades e superar desafios.,1
+47,Comunicação organizacional ,Valorizo a comunicação eficaz para promover a coesão e o alinhamento dentro da equipe.,1
+48,Compassivo,"Procuro reconhecer qualidades positivas nas pessoas, mesmo quando temos diferenças.",1
+49,Criar uma cultura de aprendizagem,Considero participar de conferências e workshops como uma oportunidade valiosa para aprendizado e desenvolvimento.,1
+50,Aumentar o desempenho,Observo que as ações das pessoas frequentemente refletem suas verdadeiras intenções e valores.,1
+51,Empoderar pessoas,"Em situações desafiadoras, confio que as pessoas podem se superar quando lhes são dadas oportunidades.",1
+52,Reconhecimento," Vejo o reconhecimento como uma forma de expressar apreço, além de incentivar o desenvolvimento contínuo.",1
+53,Fazer fortes apresentações,"Em apresentações, procuro manter a confiança, independentemente do tamanho do público.",1
+54,Desenvolver os outros,"Ao delegar tarefas, considero como elas podem contribuir para o crescimento profissional dos membros da equipe.",1
+55,Direcionar o trabalho,"Frequentemente, sou consultado para oferecer orientação em decisões importantes.",1
+56,Influência e persuasão,Acredito no uso das narrativas para facilitar a compreensão e o engajamento em discussões complexas.,1
+57,Medir performance , Gosto de apoiar e acompanhar o progresso das pessoas em suas metas pessoais e profissionais.,1
+58,Mentorar outros,"Em situações de erro, valorizo a importância de reconhecer minhas falhas e buscar a resolução.",1
+59,Desenvolver novos talentos, Acredito que definir metas claras no início de um projeto é fundamental para alcançar bons resultados.,1
+60,Definir expectativas ,"Esforço-me para comunicar expectativas de forma clara e aberta, promovendo alinhamento e compreensão.",1
+61,Agilidade,"Em situações de desafio, procuro responder de forma eficiente e eficaz.",1
+62,Resiliência ," Em ambientes de alta pressão, busco estratégias para manter meu foco e produtividade.",1
+63,Flexibilidade," Em momentos de estresse no trabalho, frequentemente sou consultado para oferecer suporte e orientação.",1
+64,Autoconciência,Reconheço minhas áreas de força e identifico oportunidades para desenvolvimento pessoal.,1
+65,Organização,"Ao planejar, considero etapas intermediárias importantes para alcançar objetivos.",1
+66,Manter o equilíbrio entre a vida e o trabalho,Valorizo o equilíbrio entre minhas responsabilidades familiares e profissionais.,1
+67,Relacionamento com clientes, Vejo as reclamações dos clientes como oportunidades valiosas para melhorar e ajustar processos.,1
+68,Paciência,"Em equipes diversificadas, procuro colaborar de forma eficaz e respeitosa.",1
+69,Maestria,Costumo ser uma fonte de informação e esclarecimento sobre minhas atividades profissionais.,1
+70,Ágil na aprendizagem,Busco oportunidades diárias para expandir meu conhecimento e habilidades.,1
+71,Antecipação,"Em situações de mudança, adapto-me para encontrar soluções eficazes.",1
+72,Auto desenvolvimento ,Na maioria das  vezes tento estabelecer metas que sejam alinhadas com meus valores e aspirações.,1
+73,Siga seus líderes,"Procuro entender e respeitar diferentes perspectivas, mesmo quando discordo.",1
+74,Socialmente responsável,"Considero o impacto social de nossas decisões, mesmo quando há desafios financeiros.",1
+75,Criar unidade,Busco estratégias para colaborar de forma construtiva com colegas em situações desafiadoras.,1
+76,Culturalmente adaptado,É importante valorizar o contexto e as experiências das pessoas para promover uma compreensão mais profunda.,1
+77,Alavancar a diversidade,"Encaro o recrutamento com uma mente aberta, focando nas competências e potencial dos candidatos.",1
+78,Tomar decisões inclusivas,Procuro criar um ambiente onde as pessoas se sintam à vontade para expressar suas ideias e opiniões.,1
+79,Tolerante com os outros,"Valorizo a criatividade e a inovação, incentivando sugestões fora do comum.",1
+80,Tratar pessoas justamente,Procuro aprender com o passado e seguir em frente de maneira construtiva.,1
+81,Ser ético,"Em certas situações, considero alternativas criativas para alcançar objetivos.",1
+82,Engajar pessoas,Valorizo a lealdade e busco equilibrá-la com a obtenção de resultados.,1
+83,Tornar o trabalho divertido,Acredito na importância de promover um ambiente onde as pessoas possam ser autênticas e expressivas.,1
+84,Obter talentos,O processo de seleção deve atender às necessidades específicas de cada função.,1
+85,Avaliação de talentos,Procuro entender as qualidades das pessoas ao longo de nossas interações iniciais.,1
+86,Pensar estrategicamente,Geralmente analiso problemas de forma estruturada para encontrar soluções eficazes.,1
+87,Definir estratégia,Busco maneiras de tornar situações complexas mais compreensíveis e gerenciáveis.,1
+88,Planejamento eficaz,Planejo cuidadosamente para que os resultados atendam às expectativas.,1
+89,Gerenciar projetos,É importante identificar marcos claros para garantir o cumprimento dos prazos.,1
+90,Gerenciar mudanças,Reconheço a importância da comunicação eficaz para o sucesso dos planos.,1
+91,Confrontar problemas,Questões difíceis devem ser abordadas de forma imediata.,1
+92,Superar desafios,"Manter uma atitude positiva, mesmo em situações desafiadoras, é possível.",1
+93,Definir metas,Criar listas de tarefas é uma estratégia eficaz para alcançar objetivos.,1
+94,Transparência,Valorizar a comunicação como elemento central dos relacionamentos é essencial.,1
+95,Compartilhar informação,Compartilhar informações adequadas no momento certo é importante.,1
+96,Dar feedback,Equilibrar feedback positivo e corretivo é considerado benéfico.,1
+97,Comunicar efetivamente,Observar movimentos físicos pode oferecer insights sobre o estado emocional de uma pessoa.,1
+98,Orientado por valores,Discordar respeitosamente das crenças alheias é possível.,1
+99,Melhoria contínua,Mudar de direção de forma espontânea é uma habilidade útil.,1
+100,Promover mudanças,Realizar atividades diferentes pode ser energizante.,1
+101,Facilitar grupos,Discussões prolongadas podem ser redirecionadas para manter o foco.,1
+102,Romper o isolamento,Compartilhar conhecimentos com os outros é uma prática valorizada.,1
+103,Planejar a força de trabalho, Selecionar a pessoa certa para cada cargo contribui para o desenvolvimento organizacional.,1
+104,Criar integração,O trabalho de cada membro em uma organização tem igual importância.,1
+105,Criar uma cultura de responsabilidade,Permitir que alguém enfrente desafios pode ser benéfico.,1
+106,Desenvolver líderes futuros ,Esforços para mentorar a próxima geração de líderes são essenciais.,1
+107,Inspirar outros,Reconhecer um bom trabalho é importante para motivação.,1
+108,Gerenciar conflitos,Alguma tensão pode ser necessária para manter o progresso.,1
+109,Gerenciar desempenho,Oferecer oportunidades de crescimento e desenvolvimento é fundamental.,1
+110,Motivar pessoas,Incentivar outros a realizar o inesperado pode ser uma habilidade valiosa.,1
+111,Orientado para resultados,A tomada de decisões frequentemente envolve a aceitação de riscos calculados.,1
+112,Tomada de decisões,Compreender todos os aspectos de um problema antes de decidir é considerado essencial.,1
+113,Gestão de tempo,Anotações feitas previamente podem ajudar a começar cada dia com clareza.,1
+114,Estabelecer prioridades,Organizar listas de tarefas de forma eficaz pode aumentar a produtividade.,1
+115,Resolver problemas,Resolver problemas complexos é encarado como um desafio estimulante.,1
+116,Lidar com as incertezas,Manter a calma diante de incertezas é visto como uma habilidade valiosa.,1
+117,Assumir responsabilidade,Cumprir promessas feitas é fundamental para a construção de confiança.,1
+118,Construir equipes,Erros de funcionários são frequentemente usados como oportunidades de aprendizado.,1
+119,Obter confiança,A confidencialidade é mantida em situações apropriadas.,1
+120,Criar um ambiente de trabalho positivo,Conhecer bem os colegas de trabalho é importante para a colaboração eficaz.,1

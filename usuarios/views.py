@@ -1,20 +1,18 @@
-from django.contrib.auth.views import LoginView
-from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import render
-from django.urls import reverse_lazy
 from django.conf import settings
-from django.views.generic import CreateView
-from django.contrib.auth.views import LoginView
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
+from django.contrib.auth.views import (LoginView, PasswordResetCompleteView,
+                                       PasswordResetConfirmView)
+from django.contrib.messages.views import SuccessMessageMixin
 from django.core.mail import send_mail
-from django.shortcuts import render, redirect
-from django.utils.http import urlsafe_base64_encode
-from django.utils.encoding import force_bytes
+from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
-from django.contrib import messages
-from django.contrib.auth.views import PasswordResetCompleteView
-from django.contrib.auth.views import PasswordResetConfirmView
+from django.urls import reverse_lazy
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+from django.views.generic import CreateView
+
 from .forms import CadastroUsuarioForm, CustomAuthenticationForm, EsqueceuForm
 
 
@@ -43,11 +41,11 @@ def password_reset_request(request):
                     "token": default_token_generator.make_token(user)
                 }
                 email = render_to_string(email_template_name, context)
-                send_mail(subject, email, settings.EMAIL_HOST_USER, [user.email])
-            messages.success(request, "Um email foi enviado com instruções para redefinir sua senha.")
+                send_mail(subject, email, settings.EMAIL_HOST_USER, [user.email]) # noqa
+            messages.success(request, "Um email foi enviado com instruções para redefinir sua senha.") # noqa
             return redirect("esqueceu_usuario")
         else:
-            messages.error(request, "Nenhum usuário encontrado com esse email.")
+            messages.error(request, "Nenhum usuário encontrado com esse email.") # noqa
     return render(request, "usuarios/password_reset.html", {'form': form})
 
 
@@ -63,4 +61,3 @@ class CustomLoginView(LoginView):
     form_class = CustomAuthenticationForm
     template_name = 'usuarios/login.html'
     success_url = reverse_lazy('home')
-

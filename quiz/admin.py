@@ -32,6 +32,7 @@ class CompetenciasAdmin(ImportExportModelAdmin):
         'grupo',
         'nome',
         'relevancia',
+        'tipo_impacto',
         'tipo_performance',
         'ativo',
         'created_at',

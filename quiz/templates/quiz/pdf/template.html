@@ -1,0 +1,528 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Custom fonts for this template-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+        
+        <!-- Custom styles for this template-->
+        <link href="{% static 'css/pdf.css' %}" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <div class="wrapper">
+            <div class="face-page">
+                <div class="row header">
+                    <div class="col-12">
+                        <img src="{% static 'img/pdf/pdf-header.png' %}" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2"></div>
+                    <div class="col-10 mb-1 ml-n3">
+                        <h4 class="text-secondary font-weight-bold">{% now 'd \d\e F \d\e Y' %}</h4>
+                    </div>                
+                </div>
+                <div class="row mt-2">
+                    <div class="col-3 d-flex sidebar">
+                        <div class="sidebar-head"></div>
+                        <div class="sidebar-body"></div>
+                    </div>
+                    <div class="col-9">
+                        <h4 class="mt-4 mb-3 font-weight-bold">Relatório</h4>
+                        <p>
+                            A metodologia <b>Performance Advanced
+                            Management Assessment Skills (PAMAS)</b>
+                            combina o melhor de múltiplas abordagens
+                            reconhecidas globalmente para oferecer uma
+                            avaliação abrangente e precisa das
+                            competências essenciais para o sucesso
+                            organizacional.
+                        </p>
+                        <p>
+                            Ela se baseia em cinco áreas críticas que
+                            formam a espinha dorsal da eficácia
+                            corporativa: performance na gestão
+                            performance em equipes, performance na
+                            participação, performance no desempenho e
+                            performance na organização.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row pages">
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title"></div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <h3 class="mb-5">Comparação de Estilos</h3>
+                    <p>
+                        O <b>PAMAS</b> é uma ferramenta valiosa de assessment
+                        concebida para avaliar cinco distintas performances
+                        críticas para o sucesso organizacional. Composto por
+                        120 perguntas, este instrumento detém um papel
+                        central na identificação de forças e áreas de
+                        desenvolvimento dentro de uma organização
+                    </p>
+                    <img src="data:image/png;base64,{{ media_gestao_png }}" />
+                    <table class="resumo">
+                        <thead>
+                            <tr>
+                                <td>Nível</td>
+                                <td>Resumo</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Muito baixo (1)</td>
+                                <td>
+                                    Você tende a ser extremamente conservador em suas abordagens e pode estar
+                                    perdendo oportunidades importantes de crescimento e desenvolvimento.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Baixo (2)</td>
+                                <td>
+                                    Você adota uma postura cautelosa, o que pode ser benéfico em algumas situações,
+                                    mas também pode limitar seu potencial em outras.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Mediano (3)</td>
+                                <td>
+                                    Você não é extremista e é capaz de equilibrar as necessidades dos outros e as suas,
+                                    mantendo uma abordagem flexível e adaptável.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Alto (4)</td>
+                                <td>
+                                    Você demonstra confiança e competência em suas habilidades, frequentemente
+                                    superando expectativas e inspirando os outros ao seu redor.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Muito alto (5)</td>
+                                <td>
+                                    Você exibe um nível excepcional de habilidade e dedicação, frequentemente
+                                    estabelecendo novos padrões de excelência em sua área de atuação.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row pages">
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title">
+                            <img src="{% static 'img/pdf/icon.png' %}" />
+                        </div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <h4 class="mt-3 ml-5 mb-5 font-weight-bold">Performance na Gestão:</h4>
+                    <p>
+                        É como você se posiciona na linha de frente de uma
+                        organização, guiando sua equipe com estratégia e
+                        visão para alcançar metas e objetivos comuns. Esse
+                        conceito é essencialmente sobre a eficácia com que
+                        um líder pode orquestrar recursos, motivar pessoas e
+                        implementar processos para produzir resultados
+                        excepcionais. A gestão de alta performance não é
+                        apenas sobre alcançar números; é sobre cultivar um
+                        ambiente onde a inovação e a excelência se tornam
+                        naturais.
+                    </p>
+                    <table class="gestao">
+                        <thead>
+                            <tr>
+                                <td>Categoria</td>
+                                <td>Perfil na Performance na Gestão</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Liderança</td>
+                                <td>
+                                    Foca em desenvolver competências essenciais para inspirar e motivar equipes,
+                                    promover uma cultura de excelência e criar um ambiente de trabalho que capacite
+                                    todos os colaboradores.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Estratégia</td>
+                                <td>
+                                    Envolve a definição de metas claras e realistas alinhadas aos objetivos
+                                    organizacionais, além de realizar o planejamento estratégico para alcançar
+                                    resultados sustentáveis.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Organização</td>
+                                <td>
+                                    Refere-se à capacidade de estruturar processos e sistemas eficientes que facilitem a
+                                    operação da organização, maximizando a eficácia e minimizando o desperdício.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Execução</td>
+                                <td>
+                                    Diz respeito à habilidade de implementar planos de maneira eficaz e eficiente,
+                                    garantindo que os recursos sejam utilizados de forma otimizada para atingir os
+                                    objetivos estabelecidos
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p>
+                        A avaliação Performance na Gestão é formada por 80
+                        perguntas, divididas em quatro categorias principais:
+                        liderança, estratégia, organização e execução. Cada
+                        pergunta utiliza uma escala linear de 1 a 5. Os
+                        resultados são calculados pela média das respostas
+                        em cada categoria, com o valor de referência sendo 3.
+                        A máxima média alcançada entre as categorias
+                        determina a sua área de força, enquanto a mínima
+                        representa a sua área de risco, sugerindo onde o
+                        desenvolvimento é necessário.
+                    </p>
+                </div>
+            </div>
+            <div class="row pages">
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title">
+                            <img src="{% static 'img/pdf/icon.png' %}" />
+                        </div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <img src="data:image/png;base64,{{ media_equipes_png }}" />
+                    <table class="resumo">
+                        <thead>
+                            <tr>
+                                <td>Nível</td>
+                                <td>Resumo</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Muito baixo (1)</td>
+                                <td>
+                                    Você tende a ser extremamente conservador em suas abordagens e pode estar
+                                    perdendo oportunidades importantes de crescimento e desenvolvimento.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Baixo (2)</td>
+                                <td>
+                                    Você adota uma postura cautelosa, o que pode ser benéfico em algumas situações,
+                                    mas também pode limitar seu potencial em outras.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Mediano (3)</td>
+                                <td>
+                                    Você não é extremista e é capaz de equilibrar as necessidades dos outros e as suas,
+                                    mantendo uma abordagem flexível e adaptável.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Alto (4)</td>
+                                <td>
+                                    Você demonstra confiança e competência em suas habilidades, frequentemente
+                                    superando expectativas e inspirando os outros ao seu redor.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Muito alto (5)</td>
+                                <td>
+                                    Você exibe um nível excepcional de habilidade e dedicação, frequentemente
+                                    estabelecendo novos padrões de excelência em sua área de atuação.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row pages">
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title">
+                            <img src="{% static 'img/pdf/icon.png' %}" />
+                        </div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <h4 class="mt-3 ml-5 mb-5 font-weight-bold">Performance em Equipes:</h4>
+                    <p>
+                        É como você transforma um grupo de indivíduos em
+                        um time coeso e altamente eficaz, capaz de alcançar
+                        objetivos ambiciosos com sinergia e colaboração.
+                        Trata-se de maximizar o potencial coletivo através de
+                        uma liderança que inspira, estrutura que facilita e
+                        uma cultura que valoriza a contribuição de todos.
+                    </p>
+                    <table class="equipe">
+                        <thead>
+                            <tr>
+                                <td>Categoria</td>
+                                <td>Perfil na Performance na Equipes</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Liderança</td>
+                                <td>
+                                    Envolve a capacidade de conduzir equipes de alto desempenho, criando um
+                                    ambiente onde a colaboração e a comunicação são incentivadas e cada membro se
+                                    sente valorizado.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Estratégia</td>
+                                <td>
+                                    Diz respeito a garantir que todos os membros da equipe compreendam e estejam
+                                    alinhados com os objetivos da equipe, promovendo o engajamento coletivo nas
+                                    metas comuns.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Organização</td>
+                                <td>
+                                    Refere-se à habilidade de coordenar esforços dentro da equipe, garantindo que as
+                                    funções e responsabilidades sejam claras para todos os membros, promovendo a
+                                    eficiência grupal.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Execução</td>
+                                <td>
+                                    Foca em assegurar que a equipe possa implementar suas tarefas e projetos de
+                                    maneira eficaz, superando desafios e alcançando resultados desejados em
+                                    conjunto.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p>
+                        Similar à Performance na Gestão, a Performance em
+                        Equipes avalia 40 perguntas igualmente divididas
+                        entre liderança, estratégia, organização e execução.
+                        As médias das respostas em cada categoria,
+                        determinam o resultado final, seguindo a mesma
+                        lógica de identificar forças e áreas de risco com base
+                        na comparação com a média de referência de 3.
+                    </p>
+                </div>
+            </div>
+            <div class="row pages">
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title">
+                            <img src="{% static 'img/pdf/icon.png' %}" />
+                        </div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <img src="data:image/png;base64,{{ performance_png }}" />
+                    <h4 class="mt-3 ml-5 mb-5 font-weight-bold">Performance no Desempenho:</h4>
+                    <p>
+                        É como você transforma potencial em resultados
+                        tangíveis, elevando continuamente os padrões de
+                        excelência pessoal e profissional. Trata-se de otimizar
+                        as habilidades individuais e coletivas para alcançar e
+                        superar metas organizacionais, impulsionando uma
+                        cultura de alta performance e inovação.
+                    </p>
+                    <table class="referencia mt-5">
+                        <thead>
+                            <tr>
+                                <td>Nível</td>
+                                <td>Referência</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ruim</td>
+                                <td>0-48</td>
+                            </tr>
+                            <tr>
+                                <td>Insatisfatório</td>
+                                <td>49-96</td>
+                            </tr>
+                            <tr>
+                                <td>Satisfatório</td>
+                                <td>97-144</td>
+                            </tr>
+                            <tr>
+                                <td>Muito Satisfatório</td>
+                                <td>144-192</td>
+                            </tr>
+                            <tr>
+                                <td>Excelente</td>
+                                <td>193-240</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p>
+                        Esta área analisa o desempenho através da soma de
+                        48 respostas de uma escala de 1 a 5, resultando numa
+                        pontuação total. Esta pontuação é então atribuída a
+                        um nível dentro de uma escala de referência.
+                    </p>
+                    <h4 class="mt-3 ml-5 mb-5 font-weight-bold">Performance no Engajamento:</h4>
+                    <p>
+                        É como você captura os corações e mentes dos
+                        colaboradores, gerando um profundo senso de
+                        compromisso e entusiasmo pelo trabalho que
+                        realizam. É sobre criar uma conexão emocional e
+                        intelectual que motiva os indivíduos a darem o
+                        melhor de si, não apenas para cumprir suas funções,
+                        mas para superar expectativas e se envolverem
+                        ativamente nos objetivos da organização.
+                    </p>
+                    <table class="referencia mt-5">
+                        <thead>
+                            <tr>
+                                <td>Nível</td>
+                                <td>Referência</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ruim</td>
+                                <td>0-28</td>
+                            </tr>
+                            <tr>
+                                <td>Insatisfatório</td>
+                                <td>29-56</td>
+                            </tr>
+                            <tr>
+                                <td>Satisfatório</td>
+                                <td>57-84</td>
+                            </tr>
+                            <tr>
+                                <td>Muito Satisfatório</td>
+                                <td>85-112</td>
+                            </tr>
+                            <tr>
+                                <td>Excelente</td>
+                                <td>113-140</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row pages">
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title">
+                            <img src="{% static 'img/pdf/icon.png' %}" />
+                        </div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <p>
+                        Avaliando 28 perguntas, a avaliação de engajamento
+                        também recorre à soma das respostas para
+                        determinar uma pontuação total, que é categorizada
+                        nos mesmos níveis que a avaliação de desempenho. A
+                        escala de referência para o engajamento varia de 0 a
+                        140, oferecendo uma medida clara e acionável do
+                        nível de participação.
+                    </p>
+                    <h4 class="mt-5 ml-5 font-weight-bold">Performance no Organização:</h4>
+                    <p>
+                        É como você cria um ecossistema eficiente e
+                        sinérgico, onde cada componente opera em harmonia
+                        para impulsionar o sucesso e a sustentabilidade a
+                        longo prazo. É sobre alinhar estratégias, processos e
+                        culturas para maximizar a eficácia organizacional e
+                        garantir vantagem competitiva.
+                    </p>
+                    <table class="referencia mt-5">
+                        <thead>
+                            <tr>
+                                <td>Nível</td>
+                                <td>Referência</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ruim</td>
+                                <td>0-44</td>
+                            </tr>
+                            <tr>
+                                <td>Insatisfatório</td>
+                                <td>45-88</td>
+                            </tr>
+                            <tr>
+                                <td>Satisfatório</td>
+                                <td>89-132</td>
+                            </tr>
+                            <tr>
+                                <td>Muito Satisfatório</td>
+                                <td>133-176</td>
+                            </tr>
+                            <tr>
+                                <td>Excelente</td>
+                                <td>177-220</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p>
+                        Com um foco em 44 perguntas, esta avaliação
+                        também utiliza a soma das respostas para determinar
+                        a eficácia organizacional. Os resultados são
+                        segmentados de acordo com níveis que vão de ruim a
+                        excelente, com a escala de referência ajustada de 0 a
+                        220, proporcionando um indicador robusto da saúde
+                        organizacional.
+                    </p>
+                    <p>
+                        O <b>PAMAS</b>, portanto, não apenas oferece um
+                        diagnóstico detalhado sobre cada área avaliada, mas
+                        também fornece um caminho claro para o
+                        desenvolvimento organizacional através da análise de
+                        pontos fortes e fracos, embasando decisões
+                        estratégicas com dados precisos e comparativos.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -23,17 +23,26 @@ class Grupos(models.Model):
 
 class Competencias(models.Model):
 
-    class TipoPerformance(models.TextChoices):
+    class TipoImpacto(models.TextChoices):
         GESTAO = 'Gestão', _('Gestão')
-        EQUIPE = 'Equipe', _('Equipe')
+        EQUIPES = 'Equipes', _('Equipes')
 
+    class TipoPerformance(models.TextChoices):
+        DESEMPENHO = 'Desempenho', _('Desempenho')
+        ENGAJAMENTO = 'Engajamento', _('Engajamento')
+        ORGANIZACAO = 'Organização', _('Organização')
+
+    grupo = models.ForeignKey(Grupos, on_delete=models.CASCADE)
     nome = models.CharField(max_length=180)
     relevancia = models.SmallIntegerField(default=0, verbose_name='Relevância')
+    tipo_impacto = models.CharField(
+        max_length=20, choices=TipoImpacto.choices,
+        default=TipoImpacto.GESTAO, verbose_name='Tipo Impacto'
+    )
     tipo_performance = models.CharField(
         max_length=20, choices=TipoPerformance.choices,
-        default=TipoPerformance.GESTAO, verbose_name='Tipo Performance'
+        default=TipoPerformance.DESEMPENHO, verbose_name='Tipo Performance'
     )
-    grupo = models.ForeignKey(Grupos, on_delete=models.CASCADE)
     ativo = models.BooleanField(default=True, verbose_name='Ativo')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Atualizado')

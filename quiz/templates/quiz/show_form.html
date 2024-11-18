@@ -95,7 +95,7 @@
                                                 <span class="icon text-white-50"><i class="fa fa-arrow-right"></i></span>
                                             </a>
                                         {% else %}
-                                            <a class="btn btn-primary btn-icon-split" href="">
+                                            <a id="btn-next" class="btn btn-primary btn-icon-split" href="{% querystring page=paginator.num_pages %}" onclick="submit">
                                                 <span class="icon text-white-50"><i class="fa fa-check"></i></span>
                                                 <span class="text">Finalizar</span>
                                             </a>

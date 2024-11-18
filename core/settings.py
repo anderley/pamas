@@ -147,6 +147,7 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 MEDIA_URL = 'mediafiles/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/mediafiles')
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static/'
@@ -226,9 +227,13 @@ MERCADOPAGO_ACCESS_TOKEN = os.environ.get('MERCADOPAGO_CLIENT_SECRET', 'APP_USR-
 
 DATE_FORMAT_DEFAULT = '%d/%m/%y'
 DATETIME_FORMAT_DEFAULT = '%d/%m/%y %H:%m:%s'
-TIMEOUT_FORMULARIO = 5  # Minutos
+TIMEOUT_FORMULARIO = 30  # Minutos
 
 IMPORT_FORMATS = [CSV, XLSX]
+
+# WKHTMLTOPDF_CMD_OPTIONS = {
+#     'quiet': True,
+# }
 
 # try:
 #     from core.local_settings import *
