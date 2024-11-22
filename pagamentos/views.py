@@ -14,6 +14,7 @@ from django.views.generic import ListView, TemplateView
 from notificacoes.models import Notificacoes
 from pagamentos.models import Pagamentos
 from planos.models import Planos
+from usuarios.models import UsuarioEnvioFormulario
 
 
 class PagamentosListView(LoginRequiredMixin, ListView):
@@ -46,6 +47,13 @@ class PagamentoView(TemplateView):
         data['pagamento'] = pagamento.id
 
         if data['sucesso']:
+            userEnvioFormulario, created = UsuarioEnvioFormulario.objects.get_or_create(
+                user=self.request.user, pagamento=pagamento
+            )
+            if userEnvioFormulario:
+                userEnvioFormulario.num_formularios += pagamento.num_formularios
+                userEnvioFormulario.save()
+
             pagamento.status = 'pago'
             envia_email_e_cria_notificao(self.request, True)
         else:
