@@ -235,7 +235,7 @@ IMPORT_FORMATS = [CSV, XLSX]
 #     'quiet': True,
 # }
 
-# try:
-#     from core.local_settings import *
-# except ImportError:
-#     print("sem o arquivo local_settings")
+try:
+    from core.local_settings import *
+except ImportError:
+    pass
