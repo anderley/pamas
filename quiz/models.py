@@ -54,6 +54,9 @@ class Competencias(models.Model):
         db_table = 'competencias'
         verbose_name = 'competencia'
         verbose_name_plural = 'competencias'
+        indexes = [
+            models.Index(fields=['tipo_impacto', 'tipo_performance'])
+        ]
 
 
 class Perguntas(models.Model):
@@ -77,8 +80,45 @@ class Perguntas(models.Model):
 
 
 class Textos(models.Model):
+
+    class Tipo(models.TextChoices):
+        LIVRO = 'Livro', _('Livro')
+        RESUMO = 'Resumo', _('Resumo')
+
+    class Secao(models.TextChoices):
+        DESEMPENHO = 'Performance no Desempenho', _('Performance no Desempenho') # noqa
+        EQUIPES = 'Performance em Equipes', _('Performance em Equipes')
+        ENGAJAMENTO = 'Performance no Engajamento', _('Performance no Engajamento') # noqa
+        FORCAS = 'Forças', _('Forças')
+        FRAQUEZAS = 'Fraquezas', _('Fraquezas')
+        GESTAO = 'Performance na Gestão', _('Performance na Gestão')
+        ORGANIZACAO = 'Performance na Organização', _('Performance na Organização') # noqa
+
+    class Nivel(models.TextChoices):
+        BOM = 'Bom', _('Bom')
+        EXCELENTE = 'Excelente', _('Excelente')
+        EXECUCAO = 'Execucao', _('Execucao')
+        EXTRATEGIA = 'Extrategia', _('Extrategia')
+        INSATISFATORIO = 'Insatisfatório', _('Insatisfatório')
+        LIDERANCA = 'Liderança', _('Liderança')
+        MUITO_INSATISFATORIO = 'Muito Insatisfatório', _('Muito Insatisfatório') # noqa
+        ORGANIZACAO = 'Organização', _('Organização')
+        SATISFATORIO = 'Satisfatório', _('Satisfatório')
+
     texto = models.TextField(verbose_name='Texto')
-    competencia = models.ForeignKey(Competencias, on_delete=models.CASCADE, verbose_name='Competência') # noqa
+    tipo = models.CharField(
+        max_length=10, choices=Tipo.choices,
+        default=Tipo.LIVRO, verbose_name='Tipo'
+    )
+    secao = models.CharField(
+        max_length=40, choices=Secao.choices,
+        default=Secao.DESEMPENHO, verbose_name='Seção'
+    )
+    nivel = models.CharField(
+        max_length=40, choices=Nivel.choices,
+        default=Nivel.BOM, verbose_name='Nível'
+    )
+    competencia =  models.CharField(max_length=180, blank=True, null=True, verbose_name='Competencia') # noqa
     ativo = models.BooleanField(default=True, verbose_name='Ativo')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado') # noqa
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Atualizado') # noqa
@@ -88,8 +128,11 @@ class Textos(models.Model):
 
     class Meta:
         db_table = 'textos'
-        verbose_name = 'texto'
+        verbose_name = 'textos'
         verbose_name_plural = 'textos'
+        indexes = [
+            models.Index(fields=['tipo', 'secao', 'nivel', 'competencia'])
+        ]
 
 
 class Contatos(models.Model):

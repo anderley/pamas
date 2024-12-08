@@ -194,6 +194,7 @@ EMAIL_HOST_PASSWORD = ''
 # JWT Request Token
 REQUEST_TOKEN_EXPIRY = '1d'
 REQUEST_TOKEN_DEFAULT_MAX_USES = 10
+
 FOUR03_TEMPLATE = os.path.join(BASE_DIR, '...', '403.html')
 
 # Logging

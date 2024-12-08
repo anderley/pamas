@@ -4,7 +4,8 @@ django-crispy-forms==2.3
 crispy-bootstrap4==2024.10
 django-jazzmin==3.0.1
 django-import-export==4.2.0
-django-request-token==2.3.1
+django-request-token==2.3
+PyJWT==2.9.0
 mercadopago===2.2.3
 gunicorn==23.0.0
 pytz==2024.2
@@ -12,3 +13,5 @@ openpyxl==3.1.5
 django-weasyprint==2.3.0
 plotly==5.24.1
 kaleido==0.2.1
+python-docx==1.1.2
+html2image==2.0.5

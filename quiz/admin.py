@@ -57,8 +57,8 @@ class PerguntasAdmin(ImportExportModelAdmin):
         }
 
 
-class TextosAdmin(ImportExportModelAdmin):
-    list_display = ['texto', 'competencia', 'ativo', 'created_at', 'updated_at'] # noqa
+class TextosAdmin(admin.ModelAdmin):
+    list_display = ['texto', 'tipo', 'secao', 'nivel', 'ativo', 'created_at', 'updated_at'] # noqa
 
 
 class FomularioClientesAdmin(admin.ModelAdmin):

@@ -6,3 +6,5 @@
 .idea
 db.sqlite3
 core/local_settings.py
+/scripts/Textos
+.vscode

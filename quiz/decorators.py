@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from typing import Any, Callable
 
 from django.conf import settings
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render, reverse
 from request_token.exceptions import TokenNotFoundError
 from request_token.models import RequestToken
@@ -17,6 +17,7 @@ logger = logging.getLogger(__name__)
 
 
 def _get_request_arg(*args: Any) -> HttpRequest | None:
+    """Extract the arg that is an HttpRequest object."""
     for arg in args:
         if isinstance(arg, HttpRequest):
             return arg
@@ -25,16 +26,19 @@ def _get_request_arg(*args: Any) -> HttpRequest | None:
 
 def use_request_token_check_expiration(
     view_func: Callable | None = None,
-    required: bool = True,
+    scope: str | None = None,
+    required: bool = False,
+    log: bool = True,
 ) -> Callable:
 
     if view_func is None:
         return functools.partial(
-            use_request_token_check_expiration, required=required
+            use_request_token_check_expiration, scope=scope,
+            required=required, log=log
         )
 
     @functools.wraps(view_func)
-    def inner(*args, **kwargs):
+    def inner(*args: Any, **kwargs: Any) -> HttpResponse:
         request = _get_request_arg(*args)
         token = request.GET['rt']
         request_token: RequestToken | None = getattr(request, 'token', None)
@@ -65,6 +69,7 @@ def use_request_token_check_expiration(
                 mensagem=f'O Formulario enviado para {form_cliente.email} na data {data_envio}, expirou!', # noqa
                 tipo=Notificacoes.Tipo.ALERTA
             ).save()
+            form_cliente.save()
 
             logger.info('Token expirou!')
 
@@ -72,7 +77,9 @@ def use_request_token_check_expiration(
 
         form_cliente.save()
 
-        return view_func(*args, **kwargs)
+        response: HttpResponse = view_func(*args, **kwargs)
+
+        return response
 
     return inner
 

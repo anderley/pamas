@@ -19,8 +19,9 @@
                 </div>
                 <div class="row">
                     <div class="col-2"></div>
-                    <div class="col-10 mb-1 ml-n3">
-                        <h4 class="text-secondary font-weight-bold">{% now 'd \d\e F \d\e Y' %}</h4>
+                    <div class="col-10 mb-3 ml-n3 mt-n5">
+                        <h2 class="font-weight-bold">{{ user_name }}</h2>
+                        <h4 class="text-secondary font-weight-bold mt-n3">{% now 'd \d\e F \d\e Y' %}</h4>
                     </div>                
                 </div>
                 <div class="row mt-2">
@@ -64,15 +65,15 @@
                 <div class="col-9">
                     <h3 class="mb-5">Comparação de Estilos</h3>
                     <p>
-                        O <b>PAMAS</b> é uma ferramenta valiosa de assessment
+                        O <b>PAMAS</b> é uma ferramenta valiosa de assessment,
                         concebida para avaliar cinco distintas performances
                         críticas para o sucesso organizacional. Composto por
                         120 perguntas, este instrumento detém um papel
                         central na identificação de forças e áreas de
                         desenvolvimento dentro de uma organização
                     </p>
-                    <img src="data:image/png;base64,{{ media_gestao_png }}" />
-                    <table class="resumo">
+                    <img class="w-100" src="{% static 'img/pdf/primeiro_grafico.png' %}" />
+                    <table class="resumo mt-5">
                         <thead>
                             <tr>
                                 <td>Nível</td>
@@ -133,7 +134,7 @@
                     </div>
                 </div>
                 <div class="col-9">
-                    <h4 class="mt-3 ml-5 mb-5 font-weight-bold">Performance na Gestão:</h4>
+                    <h4 class="mt-3 ml-3 mb-3 font-weight-bold">Performance na Gestão:</h4>
                     <p>
                         É como você se posiciona na linha de frente de uma
                         organização, guiando sua equipe com estratégia e
@@ -146,7 +147,7 @@
                         ambiente onde a inovação e a excelência se tornam
                         naturais.
                     </p>
-                    <table class="gestao">
+                    <table class="gestao mt-5 mb-5">
                         <thead>
                             <tr>
                                 <td>Categoria</td>
@@ -215,8 +216,8 @@
                     </div>
                 </div>
                 <div class="col-9">
-                    <img src="data:image/png;base64,{{ media_equipes_png }}" />
-                    <table class="resumo">
+                    <img class="w-100" src="{% static 'img/pdf/segundo_grafico.png' %}" />
+                    <table class="resumo mt-5">
                         <thead>
                             <tr>
                                 <td>Nível</td>
@@ -277,7 +278,7 @@
                     </div>
                 </div>
                 <div class="col-9">
-                    <h4 class="mt-3 ml-5 mb-5 font-weight-bold">Performance em Equipes:</h4>
+                    <h4 class="mt-3 ml-3 mb-3 font-weight-bold">Performance em Equipes:</h4>
                     <p>
                         É como você transforma um grupo de indivíduos em
                         um time coeso e altamente eficaz, capaz de alcançar
@@ -286,7 +287,7 @@
                         uma liderança que inspira, estrutura que facilita e
                         uma cultura que valoriza a contribuição de todos.
                     </p>
-                    <table class="equipe">
+                    <table class="equipe mt-5 mb-5">
                         <thead>
                             <tr>
                                 <td>Categoria</td>
@@ -353,8 +354,8 @@
                     </div>
                 </div>
                 <div class="col-9">
-                    <img src="data:image/png;base64,{{ performance_png }}" />
-                    <h4 class="mt-3 ml-5 mb-5 font-weight-bold">Performance no Desempenho:</h4>
+                    <img class="w-100" src="{% static 'img/pdf/terceiro_grafico.png' %}" />
+                    <h4 class="mt-3 ml-3 mb-3 font-weight-bold">Performance no Desempenho:</h4>
                     <p>
                         É como você transforma potencial em resultados
                         tangíveis, elevando continuamente os padrões de
@@ -363,7 +364,7 @@
                         superar metas organizacionais, impulsionando uma
                         cultura de alta performance e inovação.
                     </p>
-                    <table class="referencia mt-5">
+                    <table class="referencia mt-5 mb-5">
                         <thead>
                             <tr>
                                 <td>Nível</td>
@@ -399,7 +400,23 @@
                         pontuação total. Esta pontuação é então atribuída a
                         um nível dentro de uma escala de referência.
                     </p>
-                    <h4 class="mt-3 ml-5 mb-5 font-weight-bold">Performance no Engajamento:</h4>
+                </div>
+            </div>
+            <div class="row pages">
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title">
+                            <img src="{% static 'img/pdf/icon.png' %}" />
+                        </div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <h4 class="mt-3 ml-3 mb-3 font-weight-bold">Performance no Engajamento:</h4>
                     <p>
                         É como você captura os corações e mentes dos
                         colaboradores, gerando um profundo senso de
@@ -410,7 +427,7 @@
                         mas para superar expectativas e se envolverem
                         ativamente nos objetivos da organização.
                     </p>
-                    <table class="referencia mt-5">
+                    <table class="referencia mt-5 mb-5">
                         <thead>
                             <tr>
                                 <td>Nível</td>
@@ -440,22 +457,6 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
-            </div>
-            <div class="row pages">
-                <div class="col-3 sidebar d-flex-inline">
-                    <div class="row">
-                        <div class="sidebar-end"></div>
-                        <div class="sidebar-end-title">
-                            <img src="{% static 'img/pdf/icon.png' %}" />
-                        </div>
-                    </div>
-                    <div class="row row-sidebar-start">
-                        <div class="sidebar-start-point"></div>
-                        <div class="sidebar-start"></div>
-                    </div>
-                </div>
-                <div class="col-9">
                     <p>
                         Avaliando 28 perguntas, a avaliação de engajamento
                         também recorre à soma das respostas para
@@ -465,7 +466,7 @@
                         140, oferecendo uma medida clara e acionável do
                         nível de participação.
                     </p>
-                    <h4 class="mt-5 ml-5 font-weight-bold">Performance no Organização:</h4>
+                    <h4 class="mt-5 ml-3 mb-3 font-weight-bold">Performance no Organização:</h4>
                     <p>
                         É como você cria um ecossistema eficiente e
                         sinérgico, onde cada componente opera em harmonia
@@ -474,7 +475,7 @@
                         culturas para maximizar a eficácia organizacional e
                         garantir vantagem competitiva.
                     </p>
-                    <table class="referencia mt-5">
+                    <table class="referencia mt-4">
                         <thead>
                             <tr>
                                 <td>Nível</td>
@@ -504,6 +505,22 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+            <div class="row pages">
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title">
+                            <img src="{% static 'img/pdf/icon.png' %}" />
+                        </div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+                <div class="col-9">
                     <p>
                         Com um foco em 44 perguntas, esta avaliação
                         também utiliza a soma das respostas para determinar
@@ -523,6 +540,1900 @@
                     </p>
                 </div>
             </div>
+            <div class="row secao-1">
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title">
+                        </div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <img src="{% static 'img/pdf/icon.png' %}" />
+                    <h2>COMO</h2>
+                    <p>
+                        você prefere usar suas
+                        competências baseando-se
+                        nas suas diferentes
+                        performances?
+                    </p>
+                </div>
+            </div>
+            <div class="row pages">
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title"></div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <h3 class="mb-5">Sobre este relatório</h3>
+                    <p>
+                        O <b>PAMAS</b> trabalha com cinco tipos distintos de
+                        avaliação, cada um focado em áreas críticas para o
+                        sucesso organizacional. Primeiro, ele avalia as
+                        competências essenciais de gestão, identificando e
+                        desenvolvendo as habilidades necessárias para liderar
+                        com eficácia em diversos contextos. Em segundo lugar,
+                        o assessment foca nas competências essenciais
+                        para conduzir equipes de alto-desempenho,
+                        fornecendo insights sobre como maximizar a
+                        produtividade e a coesão dos times. A terceira área
+                        de avaliação é o engajamento profissional, que
+                        mede o nível de comprometimento e motivação
+                        dos colaboradores, fatores cruciais para a retenção
+                        de talentos e a satisfação no trabalho.
+                    </p>
+                    <p>
+                        Além disso, o <b>PAMAS</b> aborda a construção de
+                        performance de desempenho, identificando as
+                        dinâmicas e estratégias que promovem a excelência
+                        coletiva. Por fim, o assessment avalia a construção de
+                        organizações competitivas e que queiram se
+                        perpetuar, focando em práticas e competências que
+                        garantem a sustentabilidade e a vantagem competitiva
+                        a longo prazo. Cada uma dessas áreas é
+                        meticulosamente analisada para fornecer um
+                        panorama completo das capacidades e áreas de
+                        melhoria, permitindo que as organizações
+                        implementem estratégias de desenvolvimento
+                        eficazes e direcionadas.
+                    </p>
+                    <p>
+                        Em resumo, o Performance Advanced Management
+                        Assessment Skills (PAMAS) não é apenas uma
+                        ferramenta de avaliação, mas um guia estratégico
+                        para o de senvolvimen to con tínuo e a
+                        excelência organizacional. Ao integ rar essas
+                        cinco áreas de avaliação, o AMAS o fere ce uma
+                        visão holí stica e de talhada das competência s
+                        ne ces sárias para p ro spe rar em um ambiente
+                        co rpo ra tivo dinâmi co e competitivo.
+                    </p>
+                </div>
+            </div>
+            <div class="row pages">
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title"></div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <h3 class="mb-5">Fundamentação em Pesquisas</h3>
+                    <p>
+                        O <b>PAMAS</b> é inspirado pelas contribuições de figuras
+                        icônicas no campo da liderança e gestão:
+                    </p>
+                    <p>
+                        - Daniel Goleman, cujas pesquisas sobre inteligência
+                        emocional revolucionaram a compreensão de
+                        como competências emocionais impactam a eficácia
+                        da liderança. Seus livros, como "Emotional
+                        Intelligence" e "Primal Leadership", fornecem a base
+                        para avaliar a inteligência emocional como um
+                        componente crítico da liderança. Goleman demonstrou
+                        que líderes com alta inteligência emocional são mais
+                        eficazes em criar ambientes de trabalho positivos e
+                        produtivos, influenciando diretamente o desempenho
+                        das equipes.
+                    </p>
+                    <p>
+                        - John Maxwell, um dos mais respeitados autores e
+                        palestrantes sobre liderança, cujos princípios em "The
+                        21 Irrefutable Laws of Leadership" e "Developing
+                        the Leader Within You" são integrados para
+                        avaliar a capacidade de influenciar e inspirar equipes.
+                        Maxwell enfatiza que a liderança é uma habilidade que
+                        pode ser desenvolvida e aprimorada, e suas leis de
+                        liderança fornecem um framework sólido para
+                        avaliar e melhorar as competências de liderança.
+                    </p>
+                    <p>
+                        - Jim Kouzes e Barry Posner, cujos insights em "The
+                        Leadership Challenge" e o desenvolvimento do
+                        "Leadership Practices Inventory" (LPI) são utilizados
+                        para medir práticas de liderança exemplar e identificar
+                        áreas de desenvolvimento. Kouzes e Posner
+                        identificaram cinco práticas fundamentais de liderança
+                        que são essenciais para o sucesso organizacional:
+                        modelar o caminho, inspirar uma visão compartilhada,
+                        desafiar o processo, capacitar os outros a agir e encorajar o
+                        coração.
+                    </p>
+                </div>
+            </div>
+            <div class="row pages">
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title">
+                            <img src="{% static 'img/pdf/icon.png' %}" />
+                        </div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <p>
+                        - Marshall Goldsmith, um coach executivo de renome,
+                        cujas estratégias em "What Got You Here Won't Get You
+                        There" são aplicadas para ajudar líderes a superar
+                        comportamentos limitantes e alcançar novos níveis de
+                        desempenho. Goldsmith destaca a importância de feedback
+                        contínuo e desenvolvimento pessoal para a eficácia da
+                        liderança, e suas técnicas são incorporadas para
+                        ajudar os líderes a identificar e corrigir
+                        comportamentos que podem estar impedindo seu
+                        progresso.
+                    </p>
+                    <p>
+                        - Warren Bennis, um pioneiro no estudo da liderança,
+                        cujas obras clássicas como "On Becoming a
+                        Leader " fornecem uma compreensão profunda das
+                        qualidades essenciais de um líder eficaz. Bennis
+                        argumenta que a liderança é uma jornada de
+                        autodescoberta e desenvolvimento contínuo, e suas
+                        ideias são fundamentais para a estrutura do nosso
+                        assessment.
+                    </p>
+                    <p>
+                        - Peter Drucker, amplamente considerado o pai
+                        da gestão moderna, cujas teorias e práticas de gestão
+                        são fundamentais para avaliar a eficácia
+                        organizacional e a capacidade de liderança. Drucker
+                        enfatizou a importância de definir objetivos claros,
+                        medir desempenho e alinhar a liderança com a
+                        estratégia organizacional, princípios que são
+                        centrais para o nosso assessment.
+                    </p>
+                    <p>
+                        - David Ulrich, cujas contribuições no campo de
+                        recursos humanos e desenvolvimento de iderança,
+                        especialmente através do RBL Group, são
+                        incorporadas para avaliar a capacidade de
+                        alinhar a liderança com a estratégia
+                        organizacional. Ulrich destaca a importância de
+                        desenvolver líderes que possam criar valor para todas as
+                        partes interessadas, e suas ideias são integradas para
+                        avaliar a eficácia da liderança em um contexto
+                        organizacional mais amplo.
+                    </p>
+                </div>
+            </div>
+            <div class="row pages">
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title">
+                            <img src="{% static 'img/pdf/icon.png' %}" />
+                        </div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <p>
+                        - Richard Boyatzis, cujas pesquisas sobre inteligência
+                        emocional e desenvolvimento de liderança, coautor de
+                        "Primal Leadership", são utilizadas para avaliar a
+                        capacidade de criar e sustentar um ambiente de
+                        trabalho emocionalmente inteligente. Boyatzis
+                        argumenta que líderes eficazes são aqueles que
+                        podem gerenciar suas próprias emoções e as
+                        emoções dos outros, criando um ambiente de trabalho
+                        positivo e produtivo.
+                    </p>
+                    <p>
+                        - Fred Luthans, Bruce Avolio e James Avey, criadores do
+                        conceito de Capital Psicológico (PsyCap), que inclui os
+                        componentes de autoeficácia, esperança, otimismo e
+                        resiliência. Suas pesquisas fornecem uma base sólida
+                        para avaliar o PsyCap dos gestores, um fator crítico
+                        para o desempenho e bem-estar no local de trabalho.
+                    </p>
+                </div>
+            </div>
+            <div class="row pages">
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title"></div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <h3 class="mb-5" style="padding-top: 10px;">
+                        Integração de Práticas de Empresas Líderes em Assessment
+                    </h3>
+                    <p>
+                        Além das contribuições individuais, o Performance Advanced
+                        Management Assessment Skills (PAMAS) é inspirado e
+                        fundamentado nas práticas e ferramentas desenvolvidas
+                        por empresas líderes em consultoria e assessment:
+                    </p>
+                    <p>
+                        Korn Ferry, com seu "Leadership Architect" e
+                        outras ferramentas, fornece uma base sólida para avaliar e
+                        desenvolver competências de liderança de forma
+                        estruturada e personalizada. Korn Ferry é reconhecida
+                        por suas metodologias rigorosas e insights profundos
+                        sobre liderança e desenvolvimento organizacional.
+                    </p>
+                    <p>
+                        Center for Creative Leadership (CCL), cujas ferramentas
+                        como "Benchmarks for Managers" e "Leadership
+                        Development Program" (LDP) são integradas para
+                        oferecer uma avaliação holística e prática das
+                        competências de liderança. O CCL é conhecido por suas
+                        abordagens inovadoras e baseadas em pesquisa para o
+                        desenvolvimento de líderes.
+                    </p>
+                    <p>
+                        Hogan Assessments, cujas ferramentas de assessment
+                        de personalidade e liderança, como o "Hogan Leadership
+                        Forecast Series", são utilizadas para prever o desempenho
+                        e identificar áreas de desenvolvimento. Hogan
+                        Assessments é líder em fornecer insights precisos sobre
+                        personalidade e potencial de liderança.
+                    </p>
+                    <p>
+                        Gallup, com seu "CliftonStrengths" (anteriormente
+                        conhecido como StrengthsFinder), oferece uma abordagem
+                        baseada em pontos fortes para avaliar e desenvolver as
+                        competências de liderança. Gallup é renomada por
+                        suas pesquisas sobre engajamento e desenvolvimento de
+                        talentos.
+                    </p>
+                </div>
+            </div>
+            <div class="row pages">
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title">
+                            <img src="{% static 'img/pdf/icon.png' %}" />
+                        </div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <p>
+                        The RBL Group, cofundada por David Ulrich, cujas práticas
+                        de recursos humanos e desenvolvimento de
+                        liderança são incorporadas para garantir que o
+                        assessment esteja alinhado com as melhores práticas de
+                        gestão e liderança. O RBL Group é reconhecido por sua
+                        expertise em alinhar a liderança com a estratégia
+                        organizacional.
+                    </p>
+                </div>
+            </div>
+            <div class="row pages">
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title"></div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <h3 class="mb-5">Dados comprovados cientificamente</h3>
+                    <p>
+                        1.Taxa de Sucesso: 95% dos líderes que utilizaram
+                        o AMAS relataram melhorias significativas em suas
+                        habilidades de liderança.
+                    </p>
+                    <p>
+                        2.Feedback Positivo: 98% dos participantes
+                        recomendaram o uso do PAMAS para colegas e
+                        profissionais de sua rede.
+                    </p>
+                    <p>
+                        3.Transformação Global: Mais de 1.200 líderes em 30
+                        países foram transformados pelo método de Villela da
+                        Matta.
+                    </p>
+                    <p>
+                        Este relatório não é apenas um documento; é um
+                        roteiro para a excelência, criado por um dos mais
+                        respeitados especialistas em desenvolvimento humano
+                        do mundo. Villela da Matta continua a redefinir o que
+                        significa ser um líder eficaz e bem-sucedido.
+                        rtise em alinhar a liderança com a estratégia
+                        organizacional.
+                    </p>
+                </div>
+            </div>
+            <div class="row secao-2">
+                <div class="col-9">
+                    <h2>COMO</h2>
+                    <p>
+                        você gostaria de alavancar
+                        suas competências
+                        baseando-se nas suas
+                        diferentes performances?
+                    </p>
+                </div>
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end">
+                            <img src="{% static 'img/pdf/icon.png' %}" />
+                        </div>
+                        <div class="sidebar-end-title"></div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row pages-2">
+                <div class="col-9">
+                    <h3 class="mb-5">Um assessment abrangente e único</h3>
+                    <p>
+                        O Performance Advanced Management Assessment
+                        Skills (PAMAS) se destaca, pois avalia cinco aspect o
+                        fundamentais para o sucesso de qualquer organização,
+                        que são eles:
+                    </p>
+                </div>
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title"></div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row pages-2">
+                <div class="col-9">
+                    <h3 class="mb-5">Performance na Gestão</h3>
+                    <p>
+                        A avaliação de performance na gestão e seu impacto
+                        positivo para a liderança que estamos introduzindo é um
+                        marco inovador no campo da gestão de talentos
+                        e desenvolvimento organizacional. Esta parte do
+                        assessment foi criada com base científica,
+                        fundamentada em mais de 35 anos de experiência
+                        profissional de Villela da Matta, uma das maiores
+                        autoridades no assunto de liderança. Villela da Matta, que
+                        já escreveu mais de 10 livros sobre liderança e treinou
+                        milhares de pessoas neste segmento, traz uma
+                        profundidade de conhecimento e prática que enriquece
+                        a eficácia desta avaliação. Suas pesquisas detalhadas
+                        sobre as competências essenciais para que um
+                        gestor possa realmente ter um impacto positivo com
+                        seus colaboradores são a espinha dorsal deste assessment.
+                    </p>
+                    <p>
+                        Desenvolver competências em liderança é crucial para
+                        qualquer organização que busca excelência e
+                        sustentabilidade a longo prazo. Líderes competentes
+                        são capazes de inspirar e motivar suas equipes,
+                        promovendo um ambiente de trabalho positivo e
+                        produtivo. Eles possuem a habilidade de tomar
+                        decisões estratégicas, resolver conflitos de maneira
+
+                        eficaz e fomentar a inovação. Além disso, líderes bem-
+                        preparados são fundamentais para a retenção de
+
+                        talentos, pois colaboradores tendem a permanecer em
+                        organizações onde se sentem valorizados e bem liderados.
+                        A capacidade de um líder de influenciar positivamente
+                        seus colaboradores não só melhora a performance
+                        individual, mas também eleva o desempenho coletivo,
+                        resultando em uma organização mais coesa e eficiente.
+                    </p>
+                </div>
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title"></div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row pages-2">
+                <div class="col-9">
+                    <p>
+                        O diferencial que o desenvolvimento de competências
+                        traz para um líder é imensurável. Líderes que
+                        investem em seu desenvolvimento contínuo são mais
+                        adaptáveis às mudanças, mais resilientes diante de
+                        desafios e mais eficazes na implementação de
+                        estratégias organizacionais. Eles são capazes de criar
+                        uma visão clara e compartilhada, alinhar suas equipes
+                        com os objetivos da organização e promover uma cultura
+                        de alta performance.
+                    </p>
+                    <p>
+                        A experiência e os insights de Villela da Matta,
+                        combinados com um a abordagem científica rigorosa,
+                        garantem que este assessment não só identifique áreas
+                        de melhoria, mas também forneça um caminho claro
+                        para o desenvolvimento de competências que
+                        realmente fazem a diferença. Em última análise,
+                        líderes b em desenvolvid os sã o a chave para o sucesso
+                        sustentável de qualquer organização.
+                    </p>
+                </div>
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title">
+                            <img src="{% static 'img/pdf/icon.png' %}" />
+                        </div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row pages-2">
+                <div class="col-9">
+                    <h3 class="mb-5">Performance em Equipes</h3>
+                    <p>
+                        A avaliação de performance em equipes e seu impacto
+                        positivo para times de trabalho que estamos
+                        introduzindo é uma parte essencial do nosso
+                        assessment, fundamentada em uma seleta coleção das
+                        mais de 40 competências fundamentais que um líder
+                        precisa desenvolver. Estas competências foram
+                        cuidadosamente selecionadas para garantir que os
+                        líderes possam criar um impacto positivo em seus
+                        times de trabalho, promovendo um ambiente
+                        colaborativo e produtivo que resulta em significativos
+                        avanços para seus departamentos e para a organização
+                        como um todo. A capacidade de um líder de
+                        desenvolver essas competências é crucial para o
+                        sucesso e a sustentabilidade de qualquer equipe.
+                    </p>
+                    <p>
+                        A falta de desenvolvimento dessas competências pode
+                        acarretar diversos prejuízos para uma organização e
+                        destruir times de trabalho. Quando líderes não
+                        possuem as habilidades necessárias para gerenciar e
+                        inspirar suas equipes, surgem problemas como a falta
+                        de motivação, baixa produtividade e aumento do
+                        turnover. Sem uma liderança eficaz, os
+                        colaboradores podem sentir-se desvalorizados e
+                        desengajados, o que leva a um ambiente de trabalho
+                        tóxico e ineficaz. Além disso, a ausência de competências
+                        de liderança pode resultar em uma comunicação
+                        deficiente, conflitos não resolvidos e uma falta de
+                        direção clara, todos fatores que comprometem a coesão e
+                        a eficiência da equipe. Esses problemas não só
+                        afetam o desempenho individual, mas também têm um
+                        efeito cascata que pode prejudicar a performance de toda
+                        a organização.
+                    </p>
+                </div>
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title"></div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row pages-2">
+                <div class="col-9">
+                    <p>
+                        Desenvolver competências de liderança é, portanto,
+                        uma prioridade estratégica para qualquer organização
+                        que deseja prosperar. Líderes bem-preparados são
+                        capazes de identificar e maximizar os pontos fortes de
+                        seus colaboradores, promover uma cultura de confiança
+                        e colaboração e alinhar os esforços da equipe com os
+                        objetivos organizacionais. Eles possuem a habilidade
+                        de resolver conflitos de maneira construtiva, comunicar-
+                        se de forma clara e eficaz e inspirar suas equipes a
+                        alcançar altos níveis de desempenho. Eles são a chave para
+                        transformar equipes de trabalho em mo t o res de
+                        inovação e suce sso organizacional.
+                    </p>
+                </div>
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title">
+                            <img src="{% static 'img/pdf/icon.png' %}" />
+                        </div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row pages-2">
+                <div class="col-9">
+                    <h3 class="mb-5">Performance no Engajamento</h3>
+                    <p>
+                        A avaliação de performance no engajamento e seu
+                        impacto positivo no envolvimento e motivação
+                        profissional que estamos introduzindo é uma parte
+                        crucial do nosso assessment, fundamentada em
+                        uma seleta coleção das mais de 70 competências
+                        fundamentais que qualquer profissional, inclusive líderes,
+                        precisa desenvolver. Estas competências são essenciais
+                        para criar um profundo senso de engajamento, que é vital
+                        para o sucesso individual e coletivo dentro de uma
+                        organização. O engajamento não é apenas um estado
+                        desejável, mas uma necessidade estratégica que
+                        impulsiona a produtividade, a inovação e a satisfação no
+                        trabalho.
+                    </p>
+                    <p>
+                        A falta de desenvolvimento dessas competências pode
+                        acarretar diversos prejuízos para uma organização e
+                        destruir uma empresa e grupo de trabalho. Quando os
+                        profissionais não estão engajados, a motivação
+                        diminui, a produtividade cai e a qualidade do
+                        trabalho sofre. A ausência de engajamento pode levar
+                        a um aumento no turnover, pois colaboradores
+                        desmotivados tendem a buscar oportunidades em
+                        outros lugares. Além disso, a falta de engajamento pode
+                        resultar em um ambiente de trabalho tóxico, onde a
+                        comunicação é deficiente, os conflitos são mal geridos e
+                        a colaboração é mínima. Esses problemas não só
+                        afetam o desempenho individual, mas também têm
+                        um efeito cascata que pode comprometer a
+                        performance de toda a organização, levando a
+                        perdas financeiras e reputacionais significativas.
+                    </p>
+                </div>
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title"></div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row pages-2">
+                <div class="col-9">
+                    <p>
+                        Por outro lado, os benefícios de desenvolver essas
+                        competências são imensos. Profissionais engajados
+                        são mais produtivos, criativos e comprometidos com os
+                        objetivos da organização. Eles tendem a permanecer na
+                        empresa por mais tempo, reduzindo os custos associados
+                        ao turnover e à contratação. Além disso, um alto nível
+                        de engajamento promove um ambiente de trabalho
+                        positivo, onde a comunicação é aberta, a
+                        colaboração é incentivada e os conflitos são resolvidos de
+                        maneira construtiva.
+                    </p>
+                    <p>
+                        A importância de uma pessoa se sentir engajada vai
+                        além do ambiente de trabalho; ela se reflete em todas as
+                        áreas da vida, quer seja pessoal ou profissional.
+                        Profissionais engajados experimentam maior satisfação e
+                        bem-estar, o que melhora suas relações pessoais e
+                        contribui para uma vida mais equilibrada e gratificante.
+                        Em última análise, investir no desenvolvimento de
+                        competências de engajamento é investir no sucesso
+                        sustentável e no bem-estar de todos dentro de um
+                        ambiente de trabalho.
+                    </p>
+                </div>
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title">
+                            <img src="{% static 'img/pdf/icon.png' %}" />
+                        </div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row pages-2">
+                <div class="col-9">
+                    <h3 class="mb-5">Performance no Desempenho</h3>
+                    <p>
+                        A avaliação de performance no desempenho e seu
+                        impacto na alta-performance que estamos
+                        introduzindo é uma parte essencial do nosso
+                        assessment, fundamentada em uma seleta coleção de
+                        estratégias e competências que foram pesquisadas por
+                        mais de 50 anos. Estas competências são o diferencial
+                        que permite a uma pessoa, um atleta, um profissional
+                        ou um líder trabalhar em seu mais alto desempenho. A
+                        alta-performance profissional é caracterizada pela
+                        capacidade de alcançar resultados excepcionais de
+                        forma consistente, utilizando ao máximo as habilidades,
+                        conhecimentos e recursos disponíveis. É um estado em
+                        que o indivíduo não apenas atinge, mas supera suas
+                        metas e expectativas, contribuindo significativamente
+                        para o sucesso da organização.
+                    </p>
+                    <p>
+                        Os benefícios de atuar em alta-performance são
+                        vastos e impactam todas as áreas da vida de um
+                        indivíduo. Profissionais que operam nesse nível
+                        experimentam um maior senso de realização e
+                        satisfação, tanto pessoal quanto profissional. Eles são
+                        mais produtivos, inovadores e resilientes, capazes
+                        de enfrentar desafios com confiança e eficácia. A alta-
+                        performance também promove um ambiente de
+                        trabalho positivo, onde a excelência é a norma e a
+                        colaboração é incentivada. Além disso, indivíduos em alta-
+                        performance tendem a ser mais saudáveis e
+                        equilibrados, pois a busca pela excelência muitas vezes
+                        envolve a adoção de hábitos de vida saudáveis e a
+                        gestão eficaz do estresse. Em última análise, a alta-
+                        performance não só beneficia o indivíduo, mas também
+                        eleva o desempenho de toda a equipe e da organização
+                        como um todo.
+                    </p>
+                </div>
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title"></div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row pages-2">
+                <div class="col-9">
+                    <p>
+                        Por outro lado, a falta de desenvolvimento dessas
+                        competências pode acarretar diversos malefícios.
+                        Profissionais que não atuam em alta-performance
+                        podem experimentar frustração, desmotivação e um
+                        senso de estagnação. A produtividade e a qualidade do
+                        trabalho podem sofrer, resultando em perdas
+                        financeiras e oportunidades desperdiçadas para a
+                        organização.
+                    </p>
+                    <p>
+                        Além disso, a ausência de alta-perf ormance pode levar
+                        a um ambiente de trabalho medíocre, onde a inovação é
+                        rara e a moral é baixa. A falta de desempenho excepcional
+                        também pode afetar negativamente a saúde e o bem-estar
+                        do indivíduo, aumentando os níveis de estresse e
+                        diminuind o a satisfação geral com a vida. Portanto,
+                        investir no desenvolvimento de competências de alta-
+                        performance é crucial para garantir que todos dentro
+                        de um ambiente de trabalho possam alcançar seu
+                        pleno potencial e contribuir para o sucesso sustentável da
+                        organização.
+                    </p>
+                </div>
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title">
+                            <img src="{% static 'img/pdf/icon.png' %}" />
+                        </div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row pages-2">
+                <div class="col-9">
+                    <h3 class="mb-5">Performance na Organização</h3>
+                    <p>
+                        A performance na organização refere-se ao nível de
+                        eficiência e eficácia com que os colaboradores realizam
+                        suas tarefas e atingem os objetivos estabelecidos pela
+                        empresa. Um alto desempenho organizacional é
+                        crucial, pois está diretamente ligado ao sucesso e à
+                        sustentabilidade da corporação. Quando os
+                        colaboradores estão alinhados com a visão e os objetivos
+                        da empresa, e são capazes de executar suas
+                        funções com excelência, o impacto positivo se reflete
+                        em diversos aspectos corporativos. Isso inclui o aumento
+                        da produtividade, a melhoria na qualidade dos produtos e
+                        serviços, a satisfação dos clientes, e a capacidade de
+                        inovação.
+                    </p>
+                    <p>
+                        Fundamentando-se nos conceitos da Psicologia
+                        Positiva, a performance organizacional é amplamente
+                        influenciada pelo bem-estar e pelo desenvolvimento
+                        das potencialidades humanas. A Psicologia Positiva, que
+                        se concentra no estudo das forças e virtudes que
+                        permitem aos indivíduos e comunidades prosperarem,
+                        sugere que ambientes de trabalho que promovem
+                        emoções positivas, engajamento e sentido de propósito
+                        tendem a ter colaboradores mais produtivos e satisfeitos.
+                    </p>
+                    <p>
+                        O trabalho de Fred Luthans e Bruce J. Avolio sobre o
+                        Capital Psicológico (PsyCap) é particularmente
+                        relevante nesse contexto. O PsyCap é composto por
+                        quatro componentes principais: autoeficácia, otimismo,
+                        esperança e resiliência. Estudos demonstram que
+                        altos níveis de PsyCap estão associados a melhores
+                        desempenhos no trabalho, maior satisfação e menor
+                        rotatividade. Quando as organizações investem no
+                        desenvolvimento do PsyCap dos seus
+                        colaboradores, elas não apenas melhoram a
+                        performance individual, mas também criam um ambiente
+                        de trabalho mais positivo e resiliente.
+                    </p>
+                </div>
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title"></div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row pages-2">
+                <div class="col-9">
+                    <p>
+                        Pesquisas indicam que práticas como o
+                        reconhecimento frequente, a promoção de um
+                        equilíbrio saudável entre vida profissional e pessoal, e
+                        a criação de oportunidades para o desenvolvimento
+                        pessoal e profissional são essenciais para manter
+                        altos níveis de engajamento e performance.
+                    </p>
+                    <p>
+                        Portanto, investir na melhoria contínua da
+                        performance organizacional, fundamentada nos
+                        princípios da Psicologia Positiva e no
+                        desenvolvimento do PsyCap, é essencial para garantir
+                        a competitividade e o crescimento sustentável da
+                        empresa no mercado. Isso não só melhora o
+                        desempenho individual e coletivo, mas também
+                        fortalece a cultura organizacional e contribui para a
+                        sustentabilidade a longo prazo
+                    </p>
+                </div>
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title">
+                            <img src="{% static 'img/pdf/icon.png' %}" />
+                        </div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row pages-2">
+                <div class="col-9">
+                    <h3 class="mb-5 text-center">Conclusão</h3>
+                    <p>
+                        Este assessment é uma ferramenta indispensável para
+                        profissionais, líderes e organizações que buscam a
+                        excelência, que desejam estar mais competitivos e
+                        perenes no mercado. Com uma abordagem inovadora
+                        e dados precisos, o P AMAS oferece um guia
+                        completo para o autodesenvolvimento e a
+                        maximização do potencial humano. Villela da Matta,
+                        com sua vasta experiência e conhecimento, continua a
+                        liderar o campo do desenvolvimento humano,
+                        proporcionando insights valiosos e transformadores para
+                        todos que buscam crescer e evoluir.
+                    </p>
+                </div>
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title"></div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row secao-1">
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title">
+                        </div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <img src="{% static 'img/pdf/icon.png' %}" />
+                    <h2>COMO</h2>
+                    <p>
+                        Você está pronto para
+                        utilizar seus talentos
+                        explorando suas múltiplas
+                        habilidades e
+                        desempenhos distintos?
+                    </p>
+                </div>
+            </div>
+            <div class="row pages">
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title"></div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <h3 class="mb-5">
+                        Estrutura, Características e Resultado
+                    </h3>
+                    <h4>
+                        Performance na Gestão: Impacto Positivo
+                        na Liderança
+                    </h4>
+                    <p>
+                        As quatro competências essenciais encontradas em
+                        profundas pesquisas que refletem no impacto
+                        positivo de um líder ou gestor, são: Organização,
+                        Liderança, Estratégia e Execução. Cada perfil possui um
+                        conjunto único de pontos fortes e fracos.
+                    </p>
+                    <ul>
+                        <li>
+                            Organização: Excelentes na gestão de recursos e
+                            tempo,
+                            estruturam processos e coordenam atividades com
+                            precisão.
+                        </li>
+                        <li>
+                            Liderança: Inspiram e motivam equipes para alcançar
+                            objetivos comuns. São mestres em orientar, delegar
+                            e criar ambientes colaborativos.
+                        </li>
+                        <li>
+                            Estratégia: Profissionais que se destacam em
+                            análises complexas e na formulação de planos de longo
+                            prazo.
+                        </li>
+                        <li>
+                            Execução: Colaboradores focados na implementação
+                            de planos,
+                            garantindo que cada etapa seja concluída com precisão.
+                        </li>
+                    </ul>
+                    <p>
+                        Cada pessoa líder possui uma combinação única
+                        desses perfis, intensificando a expressão de suas
+                        competências e identificando áreas para
+                        desenvolvimento.
+                    </p>
+                    <p>
+                        Cada um dos quatro perfis, vai avaliar características
+                        diferentes, totalizando 80 competências
+                        fundamentais que realmente mostram as forças e
+                        pontos fracos de cada profissional e de um líder
+                        nestas quatro competências essenciais relacionadas
+                        a cima. Veja a seguir a relação de características para
+                        cada um deles e quais os seus valores:
+                    </p>
+                </div>
+            </div>
+            <div class="row pages">
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title">
+                            <img src="{% static 'img/pdf/icon.png' %}" />
+                        </div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <p>Organização:</p>
+                    <p>
+                        Um perfil de organizador bem definido é crucial para o
+                        sucesso e a sustentabilidade de uma empresa. As
+                        características a seguir descrevem uma organização
+                        eficaz e são essenciais para uma avaliação de
+                        mapeamento de competências, pois ajudam a
+                        identificar e desenvolver práticas
+                        organizacionais que promovem um ambiente de
+                        trabalho produtivo e harmonioso.
+                    </p>
+                    <p>Características de um Perfil de Organizador:</p>
+                    <ul>
+                        <li>
+                            Capacidade de criar e manter processos e
+                            sistemas que garantem que as atividades sejam
+                            realizadas de maneira eficiente e dentro dos prazos
+                            estabelecidos.
+                        </li>
+                        <li>
+                            Habilidade para priorizar tarefas e gerenciar o
+                            tempo de forma eficaz, garantindo que os recursos
+                            sejam utilizados de maneira produtiva.
+                        </li>
+                        <li>
+                            Estabelecer metas claras e alcançáveis,
+                            alinhando as atividades diárias aos objetivos
+                            estratégicos da organização.
+                        </li>
+                        <li>
+                            Saber delegar tarefas de maneira eficaz, garantindo
+                            que as responsabilidades sejam distribuídas
+                            adequadamente e que os membros da equipe
+                            tenham as ferramentas e o suporte necessários para
+                            realizar suas funções.
+                        </li>
+                        <li>
+                            Garantir que todas as tarefas sejam executadas com
+                            precisão e cuidado, minimizando erros e retrabalho.
+                        </li>
+                        <li>
+                            Manter registros precisos e organizados de
+                            todas as atividades e processos, facilitando o
+                            acompanhamento e a auditoria.
+                        </li>
+                        <li>
+                            Assegurar que os recursos (humanos,
+                            financeiros e materiais) sejam alocados de forma
+                            eficiente e estejam disponíveis quando necessários.
+                        </li>
+                        <li>
+                            Antecipar necessidades e desafios futuros,
+                            preparando-se adequadamente para lidar com eles de
+                            forma ágil.
+                        </li>
+                        <li>
+                            Adaptar-se rapidamente a mudanças sem perder a
+                            eficiência ou o controle dos processos.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row pages">
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title">
+                            <img src="{% static 'img/pdf/icon.png' %}" />
+                        </div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <ul>
+                        <li>
+                            Promover e manter um ambiente de trabalho
+                            organizado, onde as informações e os recursos
+                            estão facilmente acessíveis a todos os envolvidos.
+                        </li>
+                    </ul>
+                    <p>Por que são importantes:</p>
+                    <p>
+                        Essas características são fundamentais para um perfil
+                        de organização porque cada uma delas contribui para a
+                        criação de um ambiente de trabalho estruturado e eficiente.
+                        Profissionais com forte capacidade organizacional
+                        garantem que as operações fluam sem problemas,
+                        que os recursos sejam utilizados de forma eficaz e que
+                        as metas sejam alcançadas de maneira consistente. Ao
+                        desenvolver essas competências, as organizações podem
+                        melhorar sua eficiência operacional, reduzir desperdícios
+                        e aumentar a produtividade, criando um ambiente de
+                        trabalho mais harmonioso e orientado para resultados.
+                    </p>
+                    <p>Liderança</p>
+                    <p>
+                        Um perfil de líder é essencial para qualquer
+                        organização que deseja alcançar o sucesso sustentável.
+                        As características a seguir descrevem um líder eficaz e
+                        são cruciais para uma avaliação de mapeamento de
+                        competências, pois ajudam a identificar e
+                        desenvolver líderes que podem guiar a organização em
+                        direção aos seus objetivos estratégicos.
+                    </p>
+                    <p>Características de um Perfil de Líder:</p>
+                    <ul>
+                        <li>
+                            Capacidade de definir e comunicar uma
+                            visão clara e inspiradora para o futuro da
+                            organização.
+                        </li>
+                        <li>
+                            Habilidade para tomar decisões informadas
+                            e eficazes, mesmo em situações de incerteza.
+                        </li>
+                        <li>
+                            Capacidade de transmitir informações de
+                            forma clara e persuasiva, garantindo que todos
+                            estejam alinhados com os objetivos.
+                        </li>
+                        <li>
+                            Entender e valorizar as perspectivas e
+                            sentimentos dos outros, promovendo um
+                            ambiente de apoio e inclusão.
+                        </li>
+                        <li>
+                            Manter a calma e a eficácia sob pressão,
+                            adaptando-se rapidamente a mudanças e desafios.
+                        </li>
+                        <li>
+                            Demonstrar honestidade e ética em todas
+                            as ações e decisões, servindo como modelo para
+                            a equipe.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row pages">
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title">
+                            <img src="{% static 'img/pdf/icon.png' %}" />
+                        </div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <ul>
+                        <li>
+                            Estimular a criatividade e a inovação,
+                            incentivando a equipe a buscar novas soluções e
+                            melhorias.
+                        </li>
+                        <li>
+                            Investir no crescimento e desenvolvimento dos
+                            membros da equipe, ajudando-os a alcançar seu
+                            potencial máximo.
+                        </li>
+                        <li>
+                            Fomentar um ambiente de trabalho
+                            cooperativo, onde o trabalho em equipe é
+                            valorizado e incentivado.
+                        </li>
+                        <li>
+                            Assumir a responsabilidade pelos resultados,
+                            tanto positivos quanto negativos, e aprender com
+                            as experiências.
+                        </li>
+                    </ul>
+                    <p>Por que são importantes:</p>
+                    <p>
+                        Essas características são fundamentais para um
+                        perfil de liderança porque cada uma delas contribui
+                        para a criação de uma cultura organizacional forte e
+                        resiliente. Líderes eficazes não apenas guiam suas
+                        equipes em direção ao sucesso, mas também
+                        inspiram confiança e motivação, promovendo um
+                        ambiente de trabalho produtivo e harmonioso. Ao
+                        desenvolver essas competências, as organizações
+                        podem garantir que seus líderes estejam preparados
+                        para enfrentar desafios e aproveitar oportunidades,
+                        assegurando um crescimento sustentável e contínuo.
+                    </p>
+                    <p>Estratégia</p>
+                    <p>
+                        Um perfil estratégico bem delineado é vital para o
+                        sucesso a longo prazo de qualquer organização. As
+                        características a seguir descrevem um profissional
+                        estratégico eficaz e são essenciais para uma
+                        avaliação de mapeamento de competências, pois
+                        ajudam a identificar e desenvolver estratégias que
+                        alinham os recursos e capacidades da organização
+                        aos seus objetivos de mercado e crescimento.
+                    </p>
+                    <p>Características de um Perfil Estratégico:</p>
+                    <ul>
+                        <li>
+                            Capacidade de avaliar tendências de mercado,
+                            concorrência e comportamento do
+                            consumidor para identificar oportunidades e
+                            ameaças.
+                        </li>
+                        <li>
+                            Habilidade para desenvolver planos que
+                            considerem o futuro da organização, antecipando
+                            desafios e preparando-se para eles.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row pages">
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title">
+                            <img src="{% static 'img/pdf/icon.png' %}" />
+                        </div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <ul>
+                        <li>
+                            Avaliar informações e dados de forma objetiva
+                            para tomar decisões fundamentadas e evitar
+                            vieses.
+                        </li>
+                        <li>
+                            Ajustar estratégias conforme necessário em
+                            resposta a mudanças no ambiente externo ou
+                            interno.
+                        </li>
+                        <li>
+                            Garantir que os recursos da organização estejam
+                            alocados de maneira eficiente para apoiar os
+                            objetivos estratégicos.
+                        </li>
+                        <li>
+                            Promover a criação de novos produtos, serviços
+                            ou processos que possam oferecer uma vantagem
+                            competitiva.
+                        </li>
+                        <li>
+                            Identificar, avaliar e mitigar riscos potenciais
+                            que possam impactar o sucesso estratégico da
+                            organização.
+                        </li>
+                        <li>
+                            Trabalhar de forma eficaz com diferentes
+                            áreas da organização para garantir que todos
+                            os esforços estejam alinhados com a estratégia
+                            geral.
+                        </li>
+                        <li>
+                            Monitorar e avaliar continuamente o progresso
+                            em direção aos objetivos estratégicos, ajustando
+                            conforme necessário.
+                        </li>
+                        <li>
+                            Transmitir a estratégia de forma clara e
+                            convincente para todas as partes interessadas,
+                            garantindo compreensão e engajamento.
+                        </li>
+                    </ul>
+                    <p>Por que são importantes:</p>
+                    <p>
+                        Essas características são fundamentais para
+                        um perfil estratégico porque cada uma delas
+                        contribui para o desenvolvimento de um plano
+                        robusto e eficaz que orienta a organização em direção
+                        ao sucesso. Um profissional estratégico eficaz não
+                        apenas identifica o rumo certo, mas também garante
+                        que a organização esteja equipada para seguir esse
+                        caminho, adaptando-se conforme necessário para
+                        enfrentar desafios e aproveitar oportunidades . Ao
+                        cultivar essas competências, as organizações podem
+                        se posicionar de maneira competitiva, assegurando
+                        seu crescimento e relevância no mercado.
+                    </p>
+                </div>
+            </div>
+            <div class="row pages">
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title">
+                            <img src="{% static 'img/pdf/icon.png' %}" />
+                        </div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <p>Execução</p>
+                    <p>
+                        Um perfil de executor eficaz é crucial para
+                        transformar estratégias e planos em resultados
+                        tangíveis. As características a seguir descrevem um
+                        profissional de execução eficiente e são essenciais
+                        para uma avaliação de mapeamento de
+                        competências, pois ajudam a garantir que as
+                        iniciativas da organização sejam implementadas de
+                        maneira eficiente e eficaz, alcançando os objetivos
+                        desejados.
+                    </p>
+                    <p>Características de um Perfil de Executor:</p>
+                    <p>
+                        Foco constante em atingir metas e entregar
+                        resultados de alta qualidade dentro dos prazos
+                        estabelecidos.
+                    </p>
+                    <ul>
+                        <li>
+                            Capacidade de planejar, iniciar, executar,
+                            controlar e encerrar projetos de maneira eficaz,
+                            garantindo que todos os aspectos sejam geridos
+                            de forma coordenada.
+                        </li>
+                        <li>
+                            Habilidade para identificar e focar nas
+                            atividades mais importantes, garantindo que os
+                            recursos sejam alocados de forma eficiente.
+                        </li>
+                        <li>
+                            Garantir que todas as etapas do processo sejam
+                            realizadas com precisão, minimizando erros e
+                            retrabalho.
+                        </li>
+                        <li>
+                            Abordar obstáculos e desafios de forma
+                            proativa, encontrando soluções práticas e eficazes.
+                        </li>
+                        <li>
+                            Transmitir informações de forma eficaz para
+                            todas as partes envolvidas, garantindo
+                            alinhamento e compreensão.
+                        </li>
+                        <li>
+                            Trabalhar de forma eficaz com outros,
+                            promovendo um ambiente de cooperação para
+                            alcançar objetivos comuns.
+                        </li>
+                        <li>
+                            Ajustar rapidamente planos e ações em resposta
+                            a mudanças ou imprevistos, mantendo o foco nos
+                            resultados.
+                        </li>
+                        <li>
+                            Acompanhar o progresso das atividades e
+                            medir o desempenho em relação aos
+                            objetivos estabelecidos, fazendo ajustes quando
+                            necessário.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row pages">
+                <div class="col-3 sidebar d-flex-inline">
+                    <div class="row">
+                        <div class="sidebar-end"></div>
+                        <div class="sidebar-end-title">
+                            <img src="{% static 'img/pdf/icon.png' %}" />
+                        </div>
+                    </div>
+                    <div class="row row-sidebar-start">
+                        <div class="sidebar-start-point"></div>
+                        <div class="sidebar-start"></div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <ul>
+                        <li>
+                            Manter altos padrões de qualidade em todas
+                            as entregas, garantindo a satisfação das partes
+                            interessadas.
+                        </li>
+                    </ul>
+                    <p>Por que são importantes:</p>
+                    <p>
+                        Essas características são fundamentais para um
+                        perfil de execução porque cada uma delas
+                        assegura que os planos estratégicos sejam
+                        realizados de forma eficaz e eficiente. Profissionais
+                        de execução eficazes garantem que a organização não
+                        apenas tenha boas ideias e estratégias, mas que
+                        também as implemente com sucesso, traduzindo
+                        esforços em resultados concretos. Ao desenvolver
+                        essas competências, as organizações podem melhorar
+                        sua capacidade de execução, garantindo que suas
+                        iniciativas estratégicas sejam cumpridas e seus
+                        objetivos sejam alcançados de maneira consistente.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="livro">
+            <h3>
+                Veja o seu resultado em:
+            </h3>
+            <h4>
+                Performance na Gestão: Impacto Positivo
+                na Liderança
+            </h4>
+            <p>
+                As representações gráficas a seguir ilustram sua pontuação em
+                cada uma das categorias avaliadas (força vs. fragilidade).
+            </p>
+            <p>
+                Parabéns, {{ user_name }}! Após uma análise detalhada de sua avaliação,
+                identificamos várias competências nas quais você demonstra
+                consistentemente grande excelência em {{ maior_grupo_gestao }}.
+            </p>
+            <p>
+                Por isso, disponibilizaremos para você cinco competências
+                essenciais, com o objetivo de potencializar ainda mais essa sua
+                força.
+            </p>
+            <img src="data:image/png;base64,{{ forca_gestao_png }}" />
+            <p>
+                Estas forças não apenas refletem suas habilidades
+                e competências, mas também são
+                fundament ais para o sucesso contínuo da sua
+                equipe e organização. Abaixo, destacamos suas
+                principais forças:
+            </p>
+            <img src="data:image/png;base64,{{ painel_forcas_gestao_png }}" />
+            {% for texto in forca_gestao_resumos %}
+                {{ texto.texto|safe }}
+            {% endfor %}
+            <img src="data:image/png;base64,{{ fraqueza_gestao_png }}" />
+            <p>
+                Foram identificadas também algumas características
+                que apontaram o seu perfil de risco em {{ menor_grupo_gestao }}.
+            </p>
+            <p class="mb-4">
+                Por isto iremos disponibilizar para você 05 competências
+                essenciais para que você explore seus potenciais e saia
+                da zona de risco.
+            </p>
+            <img src="data:image/png;base64,{{ painel_fraquezas_gestao_png }}" />
+            {% for texto in fraqueza_gestao_resumos %}
+                {{ texto.texto|safe }}
+            {% endfor %}
+        </div>
+        <div class="livro">
+            <h3>
+                Aprofundamento do seu resultado em:
+            </h3>
+            <h4>
+                Performance na Gestão: Impacto Positivo
+                na Liderança
+            </h4>
+            {% for texto in forca_gestao_textos %}
+                <label>Força: {{ texto.competencia }}</label>
+                {{ texto.texto|safe }}
+            {% endfor %}
+        </div>
+        <div class="livro">
+            <h3>
+                Aprofundamento do seu resultado em:
+            </h3>
+            <h4>
+                Performance na Gestão: Impacto Positivo
+                na Liderança
+            </h4>
+            {% for texto in fraqueza_gestao_textos %}
+                <label>Fraqueza: {{ texto.competencia }}</label>
+                {{ texto.texto|safe }}
+            {% endfor %}
+        </div>
+        <div class="livro">
+            <h3>
+                Veja o seu resultado em:
+            </h3>
+            <h4>
+                Performance em Equipes: Impacto Positivo
+                para Times de Trabalho
+            </h4>
+            <p>
+                As representações gráficas a seguir ilustram sua pontuação em
+                cada uma das categorias avaliadas (força vs. fragilidade).
+            </p>
+            <p>
+                Parabéns, {{ user_name }}! Após uma análise detalhada de sua avaliação,
+                identificamos várias competências nas quais você demonstra
+                consistentemente grande excelência em {{ maior_grupo_equipes }}.
+            </p>
+            <p>
+                Por isso, disponibilizaremos para você cinco competências
+                essenciais, com o objetivo de potencializar ainda mais essa sua
+                força.
+            </p>
+            <img src="data:image/png;base64,{{ forca_equipes_png }}" />
+            <p>
+                Estas forças não apenas refletem suas habilidades
+                e competências, mas também são
+                fundament ais para o sucesso contínuo da sua
+                equipe e organização. Abaixo, destacamos suas
+                principais forças:  
+            </p>
+            <img src="data:image/png;base64,{{ painel_forcas_equipes_png }}" />
+            {% for texto in forca_equipes_resumos %}
+                {{ texto.texto|safe }}
+            {% endfor %}
+            <img src="data:image/png;base64,{{ fraqueza_equipes_png }}" />
+            <p>
+                Foram identificadas também algumas características
+                que apontaram o seu perfil de risco em {{ menor_grupo_equipes }}.
+            </p>
+            <p >
+                Por isto iremos disponibilizar para você 05 competências
+                essenciais para que você explore seus potenciais e saia
+                da zona de risco.
+            </p>
+            <img src="data:image/png;base64,{{ painel_fraquezas_equipes_png }}" />
+            {% for texto in fraqueza_equipes_resumos %}
+                {{ texto.texto|safe }}
+            {% endfor %}
+        </div>
+        <div class="livro">
+            <h3>
+                Aprofundamento do seu resultado em:
+            </h3>
+            <h4>
+                Performance em Equipes: Impacto Positivo
+                para Times de Trabalho
+            </h4>
+            {% for texto in forca_equipes_textos %}
+                <label>Força: {{ texto.competencia }}</label>
+                {{ texto.texto|safe }}
+            {% endfor %}
+        </div>
+        <div class="livro">
+            <h3>
+                Aprofundamento do seu resultado em:
+            </h3>
+            <h4>
+                Performance em Equipes: Impacto Positivo
+                na Liderança
+            </h4>
+            {% for texto in fraqueza_equipes_textos %}
+                <label>Fraqueza: {{ texto.competencia }}</label>
+                {{ texto.texto|safe }}
+            {% endfor %}
+        </div>
+        <div class="row pages">
+            <div class="col-3 sidebar d-flex-inline">
+                <div class="row">
+                    <div class="sidebar-end"></div>
+                    <div class="sidebar-end-title"></div>
+                </div>
+                <div class="row row-sidebar-start">
+                    <div class="sidebar-start-point"></div>
+                    <div class="sidebar-start"></div>
+                </div>
+            </div>
+            <div class="col-9">
+                <h3 class="mb-5">
+                    Estrutura, Características e Resultado
+                </h3>
+                <h4>
+                    Performance no Engajamento: Impacto
+                    Positivo no Envolvimento e Motivação
+                    Profissioanal
+                </h4>
+                <p>
+                    A motivação no trabalho refere-se ao grau de envolvimento
+                    emocional e intelectual que um funcionário tem com sua
+                    organização e suas tarefas diárias. Profissionais engajados
+                    demonstram uma profunda conexão com seu trabalho, o que se
+                    traduz em um entusiasmo genuíno e um compromisso com o
+                    sucesso da organização. Este estado de engajamento é marcado
+                    por altos níveis de energia, dedicação e absorção nas atividades
+                    profissionais, resultando em um desempenho superior e uma maior
+                    satisfação pessoal. Em essência, o engajamento vai além do
+                    simples cumprimento de deveres; trata-se de uma conexão
+                    emocional que impulsiona os funcionários a se dedicarem
+                    plenamente aos objetivos da empresa.
+                </p>
+                <h5>Por que a motivação é importante?</h5>
+                <p>A motivação é crucial em vários níveis dentro de uma organização:</p>
+                <p>
+                    <b>Para o Profissional:</b> O engajamento proporciona um senso de
+                    propósito e realização pessoal. Profissionais engajados sentem-se
+                    valorizados e reconhecidos, o que aumenta sua satisfação no
+                    trabalho e seu bem-estar geral. Eles são mais propensos a investir
+                    em seu desenvolvimento pessoal e a buscar formas de contribuir
+                    positivamente para a organização.
+                </p>
+                <p>
+                    <b>Para as Equipes:</b> Em um ambiente de equipe, o engajamento
+                    promove a coesão e a colaboração. Equipes engajadas trabalham
+                    de forma mais harmoniosa, compartilham ideias e inovam com
+                    mais frequência. Isso resulta em um ambiente de trabalho positivo
+                    onde todos se sentem responsáveis pelo sucesso coletivo.
+                </p>
+                <p>
+                    <b>Para a Organização:</b> No nível organizacional, o engajamento
+                    impacta diretamente a produtividade, a retenção de talentos e a
+                    satisfação do cliente. Empresas com altos níveis de engajamento
+                    são mais adaptáveis, inovadoras e competitivas. Funcionários
+                    engajados tendem a defender a empresa, contribuindo para uma
+                </p>
+            </div>
+        </div>
+        <div class="row pages">
+            <div class="col-3 sidebar d-flex-inline">
+                <div class="row">
+                    <div class="sidebar-end"></div>
+                    <div class="sidebar-end-title">
+                        <img src="{% static 'img/pdf/icon.png' %}" />
+                    </div>
+                </div>
+                <div class="row row-sidebar-start">
+                    <div class="sidebar-start-point"></div>
+                    <div class="sidebar-start"></div>
+                </div>
+            </div>
+            <div class="col-9">
+                <h5>Benefícios Numéricos com Base em Pesquisas</h5>
+                <p>
+                    Diversas pesquisas têm evidenciado os benefícios tangíveis do
+                    engajamento no trabalho. Estudos realizados pela Gallup, por
+                    exemplo, demonstram que organizações com altos níveis de
+                    engajamento dos funcionários apresentam vantagens significativas:
+                </p>
+                <p>
+                    <b>Produtividade:</b> Empresas com equipes altamente engajadas são
+                    21% mais produtivas em comparação com aquelas com baixos
+                    níveis de engajamento. Isso se deve ao fato de que funcionários
+                    engajados estão mais motivados a alcançar e superar metas.
+                </p>
+                <p>
+                    <b>Lucratividade:</b> Organizações com altos níveis de engajamento
+                    dos funcionários têm uma lucratividade 22% maior. O engajamento
+                    impulsiona a eficiência operacional e reduz custos associados à
+                    rotatividade e ao absenteísmo.
+                </p>
+                <p>
+                    <b>Rotatividade:</b> A rotatividade de pessoal é 25% menor em
+                    empresas onde os funcionários estão engajados. Funcionários
+                    engajados são mais leais e menos propensos a buscar
+                    oportunidades fora da organização, resultando em economias
+                    significativas em recrutamento e treinamento.
+                </p>
+                <p>
+                    <b>Satisfação do Cliente:</b> Empresas com altos níveis de
+                    engajamento dos funcionários reportam um aumento de 10% na
+                    satisfação dos clientes. Funcionários engajados estão mais
+                    dispostos a ir além para atender às necessidades dos clientes,
+                    melhorando a experiência do cliente e fortalecendo a lealdade à
+                    marca.
+                </p>
+                <h5>
+                    A Importância do Líder no Desenvolvimento
+                    Competências para Motivar Profissionais e Times
+                </h5>
+                <p>
+                    O papel do líder é fundamental no desenvolvimento e manutenção
+                    do engajamento no ambiente de trabalho. Líderes têm a
+                    capacidade única de influenciar o clima organizacional e de criar
+                    um ambiente onde os funcionários se sentem valorizados e
+                    motivados. A importância do líder no processo de engajamento
+                    pode ser destacada em vários aspectos:
+                </p>
+                <p>
+                    <b>Inspiração e Motivação:</b> Líderes eficazes inspiram e motivam
+                    suas equipes, ajudando os funcionários a verem o valor e o
+                    impacto de seu trabalho. Eles conectam os objetivos individuais
+                    aos objetivos organizacionais, criando um senso de propósito
+                    compartilhado.
+                </p>
+                <p>
+                    <b>Cultura Organizacional:</b> Líderes desempenham um papel crucial
+                    na formação e manutenção da cultura organizacional. Uma cultura
+                    positiva, que valoriza a colaboração, a inovação e o
+                    reconhecimento, é essencial para o engajamento dos funcionários.
+                </p>
+            </div>
+        </div>
+        <div class="row pages">
+            <div class="col-3 sidebar d-flex-inline">
+                <div class="row">
+                    <div class="sidebar-end"></div>
+                    <div class="sidebar-end-title">
+                        <img src="{% static 'img/pdf/icon.png' %}" />
+                    </div>
+                </div>
+                <div class="row row-sidebar-start">
+                    <div class="sidebar-start-point"></div>
+                    <div class="sidebar-start"></div>
+                </div>
+            </div>
+            <div class="col-9">
+                <p>
+                    <b>Desenvolvimento e Crescimento:</b> Líderes que investem no
+                    desenvolvimento profissional de seus funcionários demonstram que
+                    a organização valoriza seu crescimento e potencial. Isso não só
+                    aumenta o engajamento, mas também prepara a equipe para
+                    enfrentar desafios futuros com competência.
+                </p>
+                <p>
+                    <b>Autenticidade e Transparência:</b> Líderes que se comunicam de
+                    forma autêntica e transparente criam um ambiente de confiança. A
+                    confiança é a base do engajamento, pois permite que os
+                    funcionários se sintam seguros para expressar suas ideias e
+                    preocupações.
+                </p>
+                <p>
+                    Em resumo, o engajamento no trabalho é um elemento vital para o
+                    sucesso de qualquer organização. Líderes que compreendem a
+                    importância do engajamento e trabalham ativamente para
+                    promovê-lo são capazes de transformar suas equipes e,
+                    consequentemente, a própria organização, alcançando resultados
+                    excepcionais e sustentáveis.
+                </p>
+            </div>
+        </div>
+        <div class="livro">
+            <h3>
+                Veja o seu resultado em:
+            </h3>
+            <h4>
+                Performance no Engajamento: Impacto
+                Positivo no Envolvimento e Motivação
+                Profissional
+            </h4>
+            <img src="data:image/png;base64,{{ performance_engajamento_png }}" />
+            <table class="tb-legend">
+                <tr>
+                    <td></td>
+                    <td>PE</td>
+                </tr>
+                <tr>
+                    <td><span></span>Resultado</td>
+                    <td>{{ performance_engajamento_pontos }}</td>
+                </tr>
+                <tr>
+                    <td><span></span>Referência</td>
+                    <td>70</td>
+                </tr>
+            </table>
+            <table class="referencia-resultado">
+                <thead>
+                    <tr>
+                        <td>Nível</td>
+                        <td>Referência</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Ruim</td>
+                        <td>0-28</td>
+                    </tr>
+                    <tr>
+                        <td>Insatisfatório</td>
+                        <td>29-56</td>
+                    </tr>
+                    <tr>
+                        <td>Satisfatório</td>
+                        <td>57-84</td>
+                    </tr>
+                    <tr>
+                        <td>Muito Satisfatório</td>
+                        <td>85-112</td>
+                    </tr>
+                    <tr>
+                        <td>Excelente</td>
+                        <td>113-140</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="livro">
+            <h3>
+                Aprofundamento do seu resultado em:
+            </h3>
+            <h4>
+                Performance no Engajamento: Impacto
+                Positivo no Envolvimento e Motivação
+                Profissional
+            </h4>
+            {% for texto in performance_engajamento_textos %}
+                <label>Nível: {{ texto.nivel }}</label>
+                {{ texto.texto|safe }}
+            {% endfor %}
+        </div>
+        <div class="livro">
+            <h3>
+                Veja o seu resultado em:
+            </h3>
+            <h4>
+                Performance no Desempenho: Impacto na
+                Alta Performance
+            </h4>
+            <img src="data:image/png;base64,{{ performance_desempenho_png }}" />
+            <table class="tb-legend">
+                <tr>
+                    <td></td>
+                    <td>PD</td>
+                </tr>
+                <tr>
+                    <td><span></span>Resultado</td>
+                    <td>{{ performance_desempenho_pontos }}</td>
+                </tr>
+                <tr>
+                    <td><span></span>Referência</td>
+                    <td>120</td>
+                </tr>
+            </table>
+            <table class="referencia-resultado">
+                <thead>
+                    <tr>
+                        <td>Nível</td>
+                        <td>Referência</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Ruim</td>
+                        <td>0-48</td>
+                    </tr>
+                    <tr>
+                        <td>Insatisfatório</td>
+                        <td>49-96</td>
+                    </tr>
+                    <tr>
+                        <td>Satisfatório</td>
+                        <td>97-144</td>
+                    </tr>
+                    <tr>
+                        <td>Muito Satisfatório</td>
+                        <td>144-192</td>
+                    </tr>
+                    <tr>
+                        <td>Excelente</td>
+                        <td>193-240</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="livro">
+            <h3>
+                Aprofundamento do seu resultado em:
+            </h3>
+            <h4>
+                Performance no Desempenho: Impacto na
+                Alta Performance
+            </h4>
+            {% for texto in performance_desempenho_textos %}
+                <label>Nível: {{ texto.nivel }}</label>
+                {{ texto.texto|safe }}
+            {% endfor %}
+        </div>
+        <div class="livro">
+            <h3>
+                Veja o seu resultado em:
+            </h3>
+            <h4>
+                Performance na Organização: Impacto
+                Positivo Corporativo
+            </h4>
+            <img src="data:image/png;base64,{{ performance_organizacao_png }}" />
+            <table class="tb-legend">
+                <tr>
+                    <td></td>
+                    <td>PO</td>
+                </tr>
+                <tr>
+                    <td><span></span>Resultado</td>
+                    <td>{{ performance_organizacao_pontos }}</td>
+                </tr>
+                <tr>
+                    <td><span></span>Referência</td>
+                    <td>110</td>
+                </tr>
+            </table>
+            <table class="referencia-resultado">
+                <thead>
+                    <tr>
+                        <td>Nível</td>
+                        <td>Referência</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Ruim</td>
+                        <td>0-44</td>
+                    </tr>
+                    <tr>
+                        <td>Insatisfatório</td>
+                        <td>45-88</td>
+                    </tr>
+                    <tr>
+                        <td>Satisfatório</td>
+                        <td>89-132</td>
+                    </tr>
+                    <tr>
+                        <td>Muito Satisfatório</td>
+                        <td>133-176</td>
+                    </tr>
+                    <tr>
+                        <td>Excelente</td>
+                        <td>177-220</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="livro">
+            <h3>
+                Aprofundamento do seu resultado em:
+            </h3>
+            <h4>
+                Performance na Organização: Impacto
+                Positivo Corporativo
+            </h4>
+            {% for texto in performance_organizacao_textos %}
+                <label>Nível: {{ texto.nivel }}</label>
+                {{ texto.texto|safe }}
+            {% endfor %}
         </div>
     </body>
 </html>

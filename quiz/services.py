@@ -1,20 +1,50 @@
+import base64
+from datetime import datetime
+from enum import Enum
 from typing import List, Union
 
-from .repositories import GruposRepository, CompetenciasRepository
-from .models import Competencias, Grupos
+from django.template import engines
+from html2image import Html2Image
+
 from .helpers import PDFHelper
+from .models import Competencias, Grupos
+from .repositories import CompetenciasRepository, GruposRepository
+
 
 class PDFService:
     grupos_repo = GruposRepository()
     competencias_repo = CompetenciasRepository()
 
+    class ChartType(Enum):
+        FORCA = 'Forca'
+        FRAQUEZA = 'Fraqueza'
+
     def __get_pdf_config(
         self,
-        data: Union[List[Grupos]|List[Competencias]],
+        data: Union[List[Grupos] | List[Competencias]],
+        chart_type: ChartType,
+        media: float
     ) -> dict:
-        
+        color = []
+        find_color = False
+
+        if chart_type == self.ChartType.FORCA:
+            for d in data:
+                if d.media == media and not find_color:
+                    color.append(d.cod_cor)
+                    find_color = True
+                else:
+                    color.append('#dddddd')
+        else:
+            for d in data:
+                if d.media == media and not find_color:
+                    color.append(d.cod_cor)
+                    find_color = True
+                else:
+                    color.append('#dddddd')
+
         def get_data_vertical(
-            data: Union[List[Grupos]|List[Competencias]],
+            data: Union[List[Grupos] | List[Competencias]],
         ) -> dict:
             y = [
                 d.media
@@ -26,26 +56,10 @@ class PDFService:
                     for d in data
                 ],
                 'y': y,
-                'color': [
-                    d.cod_cor
-                    for d in data
-                ],
+                'color': color,
                 'text': y,
             }
-    
-        def get_references(
-            data: Union[List[Grupos]|List[Competencias]],
-            value: List[int]
-        ) -> dict:
-            return {
-                'x': [
-                    mg.nome
-                    for mg in data
-                ],
-                'y': value,
-                'color': '#F0E68C'
-            }
-        
+
         def get_layout(
             range: List[int],
             height: int,
@@ -65,73 +79,115 @@ class PDFService:
                     'pad': 20,
                 }
             }
-        
+
         return {
             'data': get_data_vertical(data),
-            'refereces': get_references(
-                data, [3, 3, 3, 3]
-            ),
-            'layout': get_layout([0,6], 340, 585)
+            'layout': get_layout([0, 6], 340, 585)
         }
 
     def generate_grupo_chart_png(
         self,
         formulario_id: int
-    ) -> str:
-        media_gestao = self.grupos_repo.get_media_repostas_grupo(
+    ) -> List[str]:
+        medias_gestao = self.grupos_repo.get_media_repostas_grupo(
             formulario_id, Competencias.TipoImpacto.GESTAO
         )
-        pdf_config = self.__get_pdf_config(media_gestao)
+        maior_media = 0
+        maior_grupo_gestao = None
+        menor_media = 5
+        menor_grupo_gestao = None
+
+        for media_gestao in medias_gestao:
+            if media_gestao.media > maior_media:
+                maior_media = media_gestao.media
+                maior_grupo_gestao = media_gestao.nome
+            if media_gestao.media < menor_media:
+                menor_media = media_gestao.media
+                menor_grupo_gestao = media_gestao.nome
+
+        pdf_config_forca = self.__get_pdf_config(
+            medias_gestao, self.ChartType.FORCA, maior_media
+        )
+        pdf_config_fraqueza = self.__get_pdf_config(
+            medias_gestao, self.ChartType.FRAQUEZA, menor_media
+        )
 
         return PDFHelper.generate_base64_image(
-            title='Valor Referência x Valor Real',
-            file_name='grupo_chart',
-            **pdf_config
-        )
-        
+            title='FORÇA',
+            file_name='forca_gestao_chart',
+            chart_type=PDFHelper.ChartType.BAR,
+            **pdf_config_forca
+        ), PDFHelper.generate_base64_image(
+            title='Fraqueza',
+            file_name='fraqueza_gestao_chart',
+            chart_type=PDFHelper.ChartType.LINE,
+            **pdf_config_fraqueza
+        ), maior_grupo_gestao, menor_grupo_gestao
+
     def generate_equipes_chart_png(
         self,
         formulario_id: int
-    ) -> str:
-        media_equipes = self.grupos_repo.get_media_repostas_grupo(
+    ) -> List[str]:
+        medias_equipes = self.grupos_repo.get_media_repostas_grupo(
             formulario_id, Competencias.TipoImpacto.EQUIPES
         )
-        pdf_config = self.__get_pdf_config(media_equipes)
+        maior_media = 0
+        maior_grupo_equipes = None
+        menor_media = 5
+        menor_grupo_equipes = None
+
+        for media_equipes in medias_equipes:
+            if media_equipes.media > maior_media:
+                maior_media = media_equipes.media
+                maior_grupo_equipes = media_equipes.nome
+            if media_equipes.media < menor_media:
+                menor_media = media_equipes.media
+                menor_grupo_equipes = media_equipes.nome
+        pdf_config_forca = self.__get_pdf_config(
+            medias_equipes, self.ChartType.FORCA, maior_media
+        )
+        pdf_config_fraqueza = self.__get_pdf_config(
+            medias_equipes, self.ChartType.FRAQUEZA, menor_media
+        )
 
         return PDFHelper.generate_base64_image(
-            title='Valor Referência x Valor Real',
-            file_name='grupo_chart',
-            **pdf_config
-        )
+            title='FORÇA',
+            file_name='forca_equipe_chart',
+            chart_type=PDFHelper.ChartType.BAR,
+            **pdf_config_forca
+        ), PDFHelper.generate_base64_image(
+            title='Fraqueza',
+            file_name='fraqueza_equipe_chart',
+            chart_type=PDFHelper.ChartType.LINE,
+            **pdf_config_fraqueza
+        ), maior_grupo_equipes, menor_grupo_equipes
 
     def generate_performance_chart_png(
         self,
-        formulario_id: int
-    ) -> str:
-        total_desempenho = self.competencias_repo.get_total_repostas(
-            formulario_id, Competencias.TipoPerformance.DESEMPENHO
-        )
-        total_engajamento = self.competencias_repo.get_total_repostas(
-            formulario_id, Competencias.TipoPerformance.ENGAJAMENTO
-        )
-        total_organizacao = self.competencias_repo.get_total_repostas(
-            formulario_id, Competencias.TipoPerformance.ORGANIZACAO
+        formulario_id: int,
+        tipo_performance: Competencias.TipoPerformance
+    ) -> List[str]:
+        valor_ref = 120
+        max_range = 260
+        label_performance = 'PD'
+
+        if Competencias.TipoPerformance.ENGAJAMENTO == tipo_performance:
+            valor_ref = 70
+            max_range = 160
+            label_performance = 'PE'
+        elif Competencias.TipoPerformance.ORGANIZACAO == tipo_performance:
+            valor_ref = 110
+            max_range = 230
+            label_performance = 'PO'
+
+        total_performance = self.competencias_repo.get_total_repostas(
+            formulario_id, tipo_performance
         )
         performance = [
             {
-                'nome': f'{Competencias.TipoPerformance.DESEMPENHO}',
+                'nome': label_performance,
                 'cor': '#fb18d6',
-                'media': total_desempenho,
-            },
-            {
-                'nome': f'{Competencias.TipoPerformance.ENGAJAMENTO}',
-                'cor': '#fb18d6',
-                'media': total_engajamento,
-            },
-            {
-                'nome': f'{Competencias.TipoPerformance.ORGANIZACAO}',
-                'cor': '#fb18d6',
-                'media': total_organizacao
+                'media': total_performance,
             }
         ]
         x = [
@@ -154,26 +210,94 @@ class PDFService:
                 'text': x,
             },
             refereces={
-                'x': [120, 70, 110],
+                'x': [valor_ref],
                 'y': [
                     d['nome']
                     for d in performance
                 ],
-                'color': '#F0E68C',
+                'color': '#ffc000',
+                'text': valor_ref
             },
             orientation=PDFHelper.BarChartType.HORIZONTAL,
             layout={
                 'xaxis': {
-                    'range': [0,260]
+                    'range': [0, max_range]
                 },
                 'width': 585,
-                'height': 340,
+                'height': 240,
                 'margin': {
                     'l': 10,
                     'r': 10,
                     't': 60,
                     'b': 20,
-                    'pad': 10,
+                    'pad': 40,
                 }
             }
+        ), total_performance
+
+    def generate_forca_chart_png(
+        self,
+        formulario_id: int
+    ) -> str:
+        media_forca = self.grupos_repo.get_media_repostas_grupo(
+            formulario_id
         )
+        pdf_config = self.__get_pdf_config(media_forca)
+
+        return PDFHelper.generate_base64_image(
+            title='Forca',
+            file_name='forca_chart',
+            **pdf_config
+        )
+
+    def _generate_painel_png(
+        self,
+        competencias: List[str]
+    ) -> str:
+        django_engine = engines['django']
+        template = django_engine.from_string('''
+            <ul class="painel-principal">
+                {% for competencia in competencias %}
+                    <li>{{ competencia }}</li>
+                {% endfor %}
+            </ul>
+        ''')
+        html = template.render({
+            'competencias': competencias
+        })
+        css = '''
+            .painel-principal{background-color:#b4c6e7;color:#fff;display:block;list-style-type:none;margin:10px 0;padding:10px 0} # noqa
+            .painel-principal li{background-color:#44546a;border-radius:5px;display:block;font-size:12px;margin:10px auto;padding:10px 0;position:relative;text-align:center;width:300px} # noqa
+        '''
+        str_time = datetime.now().strftime('%s')
+        tmp_file_name = f'/tmp/painel_competencias_{str_time}.png'
+        hti = Html2Image(size=(600, 260))
+        hti.output_path = '/tmp/'
+        hti.screenshot(
+            html_str=html,
+            css_str=css,
+            save_as=tmp_file_name.split('/')[-1]
+        )
+
+        with open(tmp_file_name, 'rb') as f:
+            return base64.b64encode(f.read()).decode('utf-8')
+
+    def generate_painel_forca_png(
+        self,
+        formulario_id: int,
+        tipo_impacto: Competencias.TipoImpacto
+    ) -> List:
+        competencias = self.competencias_repo.get_forca_competencias(
+            formulario_id, tipo_impacto
+        )
+        return self._generate_painel_png(competencias), competencias
+
+    def generate_painel_fraqueza_png(
+        self,
+        formulario_id: int,
+        tipo_impacto: Competencias.TipoImpacto
+    ) -> list:
+        competencias = self.competencias_repo.get_fraqueza_competencias(
+            formulario_id, tipo_impacto
+        )
+        return self._generate_painel_png(competencias), competencias
