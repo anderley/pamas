@@ -18,6 +18,12 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
 ## 🚀 Instalando Pamas Quiz
 
+Rodando apenas com o docker:
+
+    docker-compose exec web python manage.py makemigrations pagamentos quiz usuarios planos notificacoes
+    docker-compose exec web python manage.py migrate
+    docker-compose up
+
 Para instalar o Pamas Quiz, siga estas etapas:
 
 Linux :

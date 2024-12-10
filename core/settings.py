@@ -103,7 +103,7 @@ DATABASES = {
         'NAME': 'db_educart_quiz',
         'USER': 'user_educart',
         'PASSWORD': 'password',
-        'HOST':  '127.0.0.1',
+        'HOST':  'db',
         'PORT':  '3306',
     }
 }
@@ -235,8 +235,3 @@ IMPORT_FORMATS = [CSV, XLSX]
 # WKHTMLTOPDF_CMD_OPTIONS = {
 #     'quiet': True,
 # }
-
-try:
-    from core.local_settings import *
-except ImportError:
-    pass
