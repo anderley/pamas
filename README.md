@@ -23,6 +23,7 @@ Rodando apenas com o docker:
 ```
 $ docker-compose exec web python manage.py makemigrations pagamentos quiz usuarios planos notificacoes
 $ docker-compose exec web python manage.py migrate
+$ docker-compose exec web python manage.py createsuperuser
 $ docker-compose up
 ```
 
