@@ -20,9 +20,11 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
 Rodando apenas com o docker:
 
-    docker-compose exec web python manage.py makemigrations pagamentos quiz usuarios planos notificacoes
-    docker-compose exec web python manage.py migrate
-    docker-compose up
+```
+$ docker-compose exec web python manage.py makemigrations pagamentos quiz usuarios planos notificacoes
+$ docker-compose exec web python manage.py migrate
+$ docker-compose up
+```
 
 Para instalar o Pamas Quiz, siga estas etapas:
 
@@ -40,7 +42,7 @@ $ docker-compose up -d
 Para usar Pamas Quiz, siga estas etapas:
 
 ```
-$ python -m manage.py runserver
+python -m manage.py runserver
 ```
 
 ## Usando Makefile
