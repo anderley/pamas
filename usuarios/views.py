@@ -69,7 +69,7 @@ class CustomLoginView(LoginView):
 class CustomPasswordChangeView(PasswordChangeView):
     form_class = CustomPasswordChangeForm
     template_name = 'usuarios/password_change_form.html'
-    success_url = '/alterar-senha/feito/'
+    success_url = reverse_lazy('senha_alterada')
 
 
 class CustomPasswordChangeDoneView(PasswordChangeDoneView):
