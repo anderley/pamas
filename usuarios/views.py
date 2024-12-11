@@ -12,6 +12,9 @@ from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.views.generic import CreateView
+from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView
+from .forms import CustomPasswordChangeForm
+
 
 from .forms import CadastroUsuarioForm, CustomAuthenticationForm, EsqueceuForm
 
@@ -61,3 +64,13 @@ class CustomLoginView(LoginView):
     form_class = CustomAuthenticationForm
     template_name = 'usuarios/login.html'
     success_url = reverse_lazy('home')
+
+
+class CustomPasswordChangeView(PasswordChangeView):
+    form_class = CustomPasswordChangeForm
+    template_name = 'usuarios/password_change_form.html'
+    success_url = '/alterar-senha/feito/'
+
+
+class CustomPasswordChangeDoneView(PasswordChangeDoneView):
+    template_name = 'usuarios/password_change_done.html'
