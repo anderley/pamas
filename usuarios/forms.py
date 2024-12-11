@@ -55,7 +55,7 @@ class CustomAuthenticationForm(AuthenticationForm):
 
     error_messages = {
         'invalid_login': (
-            'Por favor, informe o email correto %(email)s e senha. Ambos os '
+            'Por favor, informe o email correto e senha. Ambos os '
             'campos podem ser case-sensitive.'
         ),
         'inactive': 'Esta conta está inactiva.',
