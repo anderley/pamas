@@ -424,3 +424,23 @@ class InstrucoesTemplateView(TemplateView):
     @use_request_token_check_expiration(scope='mentorado')
     def get(self, request, *args, **kwargs):
         return super().get(request, args, kwargs)
+
+
+class FormularioFinalizarView(FormView):
+    form_class = FormularioForm
+    template_name = 'quiz/show_form.html'
+
+    @timeout_form
+    def post(self, request, pk, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            self.success_url = reverse_lazy(
+                'pdf-viewer',
+                kwargs={
+                    'pk': pk
+                }
+            )
+            form.save()
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)

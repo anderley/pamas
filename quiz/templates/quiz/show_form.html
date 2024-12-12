@@ -20,7 +20,20 @@
 
         <!-- Custom styles for this template-->
         <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
-
+        <style>
+            input[type='radio'] {
+                display: block;
+                margin-right: 10px;
+                margin-bottom: 5px;
+                transform: scale(1.5);
+            }
+            .card-text-size {
+                font-size: 1.1rem;
+            }
+            .card-body span {
+                line-height: 0.8rem;
+            }
+        </style>
     </head>
 
     <body id="page-top">
@@ -55,10 +68,10 @@
                                     
                                     <div class="row-fluid">
                                         <div class="card mb-2">
-                                            <div class="card-body">
+                                            <div class="card-body card-text-size">
                                                 <div class="d-flex mb-5">{{ field.label }}</div>
                                                 <div class="d-flex justify-content-center">
-                                                    <span class="mr-2">Discordo Totalmente</span>
+                                                    <span class="mr-3">Discordo Totalmente</span>
                                                     {% for choice in field %}
                                                         <div class="form-check form-check-inline">
                                                             {{ choice }}
@@ -95,7 +108,7 @@
                                                 <span class="icon text-white-50"><i class="fa fa-arrow-right"></i></span>
                                             </a>
                                         {% else %}
-                                            <a id="btn-next" class="btn btn-primary btn-icon-split" href="{% querystring page=paginator.num_pages %}">
+                                            <a id="btn-next" class="btn btn-primary btn-icon-split" href="{% url 'formulario_finalizar' formulario_id %}">
                                                 <span class="icon text-white-50"><i class="fa fa-check"></i></span>
                                                 <span class="text">Finalizar</span>
                                             </a>
