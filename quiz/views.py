@@ -420,6 +420,7 @@ class PdfView(View):
 class InstrucoesTemplateView(TemplateView):
     template_name = 'quiz/instrucoes.html'
 
+    @timeout_form
     @use_request_token_check_expiration(scope='mentorado')
     def get(self, request, *args, **kwargs):
         return super().get(request, args, kwargs)

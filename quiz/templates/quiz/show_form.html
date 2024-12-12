@@ -90,12 +90,12 @@
                                             </a>
                                         {% endif %}
                                         {% if page_obj.has_next %}
-                                            <a id="btn-next" class="btn btn-secondary btn-icon-split" href="{% querystring page=page_obj.next_page_number %}" onclick="submit">
+                                            <a id="btn-next" class="btn btn-secondary btn-icon-split" href="{% querystring page=page_obj.next_page_number %}">
                                                 <span class="text">Próxima</span>
                                                 <span class="icon text-white-50"><i class="fa fa-arrow-right"></i></span>
                                             </a>
                                         {% else %}
-                                            <a id="btn-next" class="btn btn-primary btn-icon-split" href="{% querystring page=paginator.num_pages %}" onclick="submit">
+                                            <a id="btn-next" class="btn btn-primary btn-icon-split" href="{% querystring page=paginator.num_pages %}">
                                                 <span class="icon text-white-50"><i class="fa fa-check"></i></span>
                                                 <span class="text">Finalizar</span>
                                             </a>

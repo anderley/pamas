@@ -90,34 +90,39 @@ def timeout_form(
 
     @functools.wraps(view_func)
     def inner(*args, **kwargs):
+        request = _get_request_arg(*args)
+
         if 'pk' in kwargs:
             form_cliente = FomularioClientes.objects.get(id=kwargs['pk'])
+        else:
+            token = request.GET['rt']
+            form_cliente = FomularioClientes.objects.get(token=token)
 
-            if form_cliente.iniciado:
-                max_time = form_cliente.iniciado + timedelta(minutes=settings.TIMEOUT_FORMULARIO) # noqa
-                request = _get_request_arg(args)
+        if form_cliente.iniciado:
+            max_time = form_cliente.iniciado + timedelta(minutes=settings.TIMEOUT_FORMULARIO) # noqa
+            request = _get_request_arg(args)
 
-                if (
-                    max_time.replace(tzinfo=None) < datetime.now().replace(tzinfo=None) # noqa
-                    and form_cliente.status not in [
-                        FomularioClientes.Status.CANCELADO,
-                        FomularioClientes.Status.FINALIZADO
-                    ]
-                ):
-                    form_cliente.status = FomularioClientes.Status.ENCERRADO
-                    form_cliente.save()
+            if (
+                max_time.replace(tzinfo=None) < datetime.now().replace(tzinfo=None) # noqa
+                and form_cliente.status not in [
+                    FomularioClientes.Status.CANCELADO,
+                    FomularioClientes.Status.FINALIZADO
+                ]
+            ):
+                form_cliente.status = FomularioClientes.Status.ENCERRADO
+                form_cliente.save()
 
-                    data_envio = form_cliente.created_at.strftime(settings.DATE_FORMAT_DEFAULT) # noqa
-                    Notificacoes(
-                        user=form_cliente.user,
-                        mensagem=f'O Formulario enviado para {form_cliente.email} na data {data_envio}, cancelado!', # noqa
-                        tipo=Notificacoes.Tipo.ALERTA
-                    ).save()
+                data_envio = form_cliente.created_at.strftime(settings.DATE_FORMAT_DEFAULT) # noqa
+                Notificacoes(
+                    user=form_cliente.user,
+                    mensagem=f'O Formulario enviado para {form_cliente.email} na data {data_envio}, cancelado!', # noqa
+                    tipo=Notificacoes.Tipo.ALERTA
+                ).save()
 
-                    return render(request, 'quiz/timout_form.html')
+                return render(request, 'quiz/timout_form.html')
 
-                if  form_cliente.status == FomularioClientes.Status.CANCELADO: # noqa
-                    return render(request, 'quiz/form_cancelado.html')
+            if  form_cliente.status == FomularioClientes.Status.CANCELADO: # noqa
+                return render(request, 'quiz/form_cancelado.html')
 
         return view_func(*args, **kwargs)
 

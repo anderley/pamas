@@ -103,7 +103,7 @@ DATABASES = {
         'NAME': 'db_educart_quiz',
         'USER': 'user_educart',
         'PASSWORD': 'password',
-        'HOST':  'db',
+        'HOST':  '0.0.0.0',
         'PORT':  '3306',
     }
 }

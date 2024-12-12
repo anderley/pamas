@@ -266,8 +266,8 @@ class PDFService:
             'competencias': competencias
         })
         css = '''
-            .painel-principal{background-color:#b4c6e7;color:#fff;display:block;list-style-type:none;margin:10px 0;padding:10px 0} # noqa
-            .painel-principal li{background-color:#44546a;border-radius:5px;display:block;font-size:12px;margin:10px auto;padding:10px 0;position:relative;text-align:center;width:300px} # noqa
+            .painel-principal{background-color:#b4c6e7;color:#fff;display:block;list-style-type:none;margin:10px 0;padding:10px 0}
+            .painel-principal li{background-color:#44546a;border-radius:5px;display:block;font-size:12px;margin:10px auto;padding:10px 0;position:relative;text-align:center;width:300px}
         '''
         str_time = datetime.now().strftime('%s')
         tmp_file_name = f'/tmp/painel_competencias_{str_time}.png'
