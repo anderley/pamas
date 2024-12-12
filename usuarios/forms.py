@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth import authenticate
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
 
@@ -54,7 +55,7 @@ class CustomAuthenticationForm(AuthenticationForm):
 
     error_messages = {
         'invalid_login': (
-            'Por favor, informe o email correto %(email)s e senha. Ambos os '
+            'Por favor, informe o email correto e senha. Ambos os '
             'campos podem ser case-sensitive.'
         ),
         'inactive': 'Esta conta está inactiva.',
@@ -85,3 +86,9 @@ class CustomAuthenticationForm(AuthenticationForm):
     class Meta:
         model = User
         fields = ['email', 'password']
+
+
+class CustomPasswordChangeForm(PasswordChangeForm):
+    class Meta:
+        model = User
+        fields = ['old_password', 'new_password1', 'new_password2']
