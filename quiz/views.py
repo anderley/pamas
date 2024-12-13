@@ -416,7 +416,7 @@ def _generate_pdf(
     _load_pdf_context(context, formulario_id, contato)
 
     ts = datetime.now().strftime('%s')
-    pdf_name = f'/tmp/{contato.nome_completo.replace(' ', '_')}_{formulario_id}_{ts}.pdf' # noqa
+    pdf_name = f"/tmp/{contato.nome_completo.replace(' ', '_')}_{formulario_id}_{ts}.pdf" # noqa
     html_template = get_template(template_name).render(context=context)
 
     HTML(
