@@ -10,7 +10,7 @@ class UsuarioEnvioFormulario(models.Model):
     num_formularios = models.IntegerField(default=0)
 
     def __str__(self):
-        return '{} - {} - {}'.format(self.user, self.pagamento, self.num_formularios)
+        return '{} - {} - {}'.format(self.user, self.pagamento, self.num_formularios) # noqa
 
     class Meta:
         db_table = 'usuarios_envio_formulario'

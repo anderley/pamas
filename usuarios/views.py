@@ -2,7 +2,9 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
-from django.contrib.auth.views import (LoginView, PasswordResetCompleteView,
+from django.contrib.auth.views import (LoginView, PasswordChangeDoneView,
+                                       PasswordChangeView,
+                                       PasswordResetCompleteView,
                                        PasswordResetConfirmView)
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.mail import send_mail
@@ -12,11 +14,9 @@ from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.views.generic import CreateView
-from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView
-from .forms import CustomPasswordChangeForm
 
-
-from .forms import CadastroUsuarioForm, CustomAuthenticationForm, EsqueceuForm
+from .forms import (CadastroUsuarioForm, CustomAuthenticationForm,
+                    CustomPasswordChangeForm, EsqueceuForm)
 
 
 class CadastroView(SuccessMessageMixin, CreateView):

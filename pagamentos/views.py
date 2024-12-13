@@ -47,11 +47,11 @@ class PagamentoView(TemplateView):
         data['pagamento'] = pagamento.id
 
         if data['sucesso']:
-            userEnvioFormulario, created = UsuarioEnvioFormulario.objects.get_or_create(
+            userEnvioFormulario, created = UsuarioEnvioFormulario.objects.get_or_create( # noqa
                 user=self.request.user, pagamento=pagamento
             )
             if userEnvioFormulario:
-                userEnvioFormulario.num_formularios += pagamento.num_formularios
+                userEnvioFormulario.num_formularios += pagamento.num_formularios # noqa
                 userEnvioFormulario.save()
 
             pagamento.status = 'pago'

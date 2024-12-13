@@ -171,6 +171,7 @@ class FomularioClientes(models.Model):
         max_length=80, choices=Status.choices, default=Status.ENVIADO
     )
     iniciado = models.DateTimeField(blank=True, null=True, verbose_name='Inicio Preenchimento') # noqa
+    documento = models.CharField(max_length=250, blank=True, null=True, verbose_name='Documento PDF') # noqa
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Atualizado')
 

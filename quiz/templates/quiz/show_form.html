@@ -97,18 +97,18 @@
                                 <div class="d-flex flex-row-reverse mb-4">
                                     <div class="p-2">
                                         {% if page_obj.has_previous %}
-                                            <a class="btn btn-secondary btn-icon-split" href="{% querystring page=page_obj.previous_page_number %}">
+                                            <a class="btn btn-secondary btn-icon-split" href="?page={{ page_obj.previous_page_number }}">
                                                 <span class="icon text-white-50"><i class="fa fa-arrow-left"></i></span>
                                                 <span class="text">Anterior</span>
                                             </a>
                                         {% endif %}
                                         {% if page_obj.has_next %}
-                                            <a id="btn-next" class="btn btn-secondary btn-icon-split" href="{% querystring page=page_obj.next_page_number %}">
+                                            <a id="btn-next" class="btn btn-secondary btn-icon-split" href="?page={{ page_obj.next_page_number }}">
                                                 <span class="text">Próxima</span>
                                                 <span class="icon text-white-50"><i class="fa fa-arrow-right"></i></span>
                                             </a>
                                         {% else %}
-                                            <a id="btn-next" class="btn btn-primary btn-icon-split" href="{% url 'formulario_finalizar' formulario_id %}">
+                                            <a id="btn-next" class="btn btn-primary btn-icon-split" href="?page={{ page_obj.number }}&finalizar=True">
                                                 <span class="icon text-white-50"><i class="fa fa-check"></i></span>
                                                 <span class="text">Finalizar</span>
                                             </a>

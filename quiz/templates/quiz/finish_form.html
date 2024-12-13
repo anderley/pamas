@@ -17,6 +17,7 @@
         <link
             href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet">
+        <link href="{% static 'css/toast.min.css' %}" rel="stylesheet" type="text/css">
 
         <!-- Custom styles for this template-->
         <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
@@ -36,8 +37,11 @@
 
                         <!-- 404 Error Text -->
                     <div class="text-center mt-5">
-                        <h3 class="text-danger">Formulário Finalizado!</h3>
-                        <p class="text-gray-500 mb-0">O tempo de preenchimento do seu formulário, terminou.</p>
+                        <h3 class="text-success">Assessment finalizado com sucesso!</h3>
+                        <h1 class="text-success display-2"><span class="icon"><i class="fa fa-check"></i></span></h1>
+                        <p class="text-gray-500 mb-0">
+                            Em alguns minutos o resultado será enviado ao email de cadastro: {{ email }}.
+                        </p>
                     </div>
 
                 </div>
@@ -72,7 +76,41 @@
 
         <!-- Custom scripts for all pages-->
         <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
-
+        <script src="{% static 'js/toast.script.js' %}"></script>
+    
+        <script>
+            const toastSettings = {
+                position_class: 'toast-top-right',
+                has_icon: true,
+                has_close_btn: true,
+                has_progress: true,
+                stack: true,
+                width: 400,
+            };
+            {% if messages %}
+                {% for message in messages %}
+                    const messageTag = '{{ message.tags }}';
+                    const messageTitle = function (messageTag) {
+                        switch (messageTag) {
+                            case 'info':
+                                return 'Info';
+                            case 'warning':
+                                return 'Alerta';
+                            case 'error':
+                                return 'Erro';
+                            default:
+                                return 'Sucesso';
+                        }
+                    } (messageTag);
+                    $.Toast(
+                        messageTitle, 
+                        '{{ message }}',
+                        messageTag,
+                        toastSettings
+                    );
+                {% endfor %}
+            {% endif %}
+        </script>
     </body>
 
 </html>

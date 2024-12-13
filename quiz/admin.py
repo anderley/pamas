@@ -62,7 +62,7 @@ class TextosAdmin(admin.ModelAdmin):
 
 
 class FomularioClientesAdmin(admin.ModelAdmin):
-    list_display = ['user_name', 'email', 'status', 'token', 'form_url', 'created_at', 'updated_at'] # noqa
+    list_display = ['user_name', 'email', 'documento', 'status', 'token', 'form_url', 'created_at', 'updated_at'] # noqa
 
 
 class ContatosAdmin(admin.ModelAdmin):

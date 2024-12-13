@@ -47,4 +47,4 @@ class NotificacoesListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return super().get_queryset().filter(
             user=self.request.user
-        )
+        ).order_by('-created_at')

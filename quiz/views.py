@@ -1,17 +1,19 @@
+import os
 from datetime import datetime, timedelta
 
+import boto3
+from botocore.exceptions import ClientError
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
-from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.template.loader import get_template
 from django.urls import reverse_lazy
 from django.views.generic import (CreateView, FormView, ListView, TemplateView,
-                                  UpdateView, View)
+                                  UpdateView)
 from django_weasyprint import WeasyTemplateResponseMixin
 from pytz import timezone
 from request_token.models import RequestToken
@@ -25,7 +27,7 @@ from .decorators import (check_contato, timeout_form,
 from .forms import ContatosForm, EnviarFormularioForm, FormularioForm
 from .models import (Competencias, Contatos, FomularioClientes, Perguntas,
                      Textos)
-from .repositories import CompetenciasRepository, TextosRepository
+from .repositories import TextosRepository
 from .services import PDFService
 
 
@@ -179,7 +181,7 @@ class FormularioFormView(FormView):
                 tipo=Notificacoes.Tipo.INFORMATIVA
             ).save()
 
-        pagination = Paginator(
+        paginator = Paginator(
             Perguntas.objects.filter(ativo=True).order_by('id').all(),
             20
         )
@@ -187,16 +189,27 @@ class FormularioFormView(FormView):
         tz_sao_paulo = timezone('America/Sao_Paulo')
         self.initial['formulario_id'] = pk
         self.initial['timeout'] = timeout.astimezone(tz_sao_paulo).isoformat()
-        self.initial['paginator'] = pagination
-        self.initial['page_obj'] = pagination.page(page)
+        self.initial['paginator'] = paginator
+        self.initial['page_obj'] = paginator.page(page)
 
         return super().get(request, *args, **kwargs)
 
     @timeout_form
     def post(self, request, pk, *args, **kwargs):
         form = self.get_form()
+        is_finalizar = request.GET['finalizar'] \
+            if 'finalizar' in request.GET else False
+
         if form.is_valid():
             self.success_url = request.get_full_path()
+
+            if is_finalizar:
+                self.success_url = reverse_lazy(
+                    'formulario_finalizar', kwargs={
+                        'pk': pk
+                    }
+                )
+
             form.save()
             return self.form_valid(form)
         else:
@@ -219,11 +232,161 @@ class ListSentFormsView(LoginRequiredMixin, ListView):
         return super().get_queryset().filter(user=self.request.user)
 
 
+def _load_pdf_context(
+    context: dict,
+    formulario_id: int,
+    contato: Contatos
+):
+    pdf_serivce = PDFService()
+    textos_repo = TextosRepository()
+
+    context['user_name'] = contato.nome_completo
+
+    forca_gestao_png, fraqueza_gestao_png, \
+        maior_grupo_gestao, menor_grupo_gestao = \
+        pdf_serivce.generate_grupo_chart_png(formulario_id)
+
+    context['forca_gestao_png'] = forca_gestao_png
+    context['fraqueza_gestao_png'] = fraqueza_gestao_png
+    context['maior_grupo_gestao'] = maior_grupo_gestao
+    context['menor_grupo_gestao'] = menor_grupo_gestao
+    painel_forcas_gestao_png, principais_forcas_gestao = \
+        pdf_serivce.generate_painel_forca_png(
+            formulario_id, Competencias.TipoImpacto.GESTAO
+        )
+    context['painel_forcas_gestao_png'] = painel_forcas_gestao_png
+    painel_fraquezas_gestao_png, principais_fraquezas_gestao = \
+        pdf_serivce.generate_painel_fraqueza_png(
+            formulario_id, Competencias.TipoImpacto.GESTAO
+        )
+    context['painel_fraquezas_gestao_png'] = painel_fraquezas_gestao_png
+    context['forca_gestao_resumos'] = textos_repo.get_resumos(
+        Textos.Secao.FORCAS, maior_grupo_gestao, principais_forcas_gestao
+    )
+    context['fraqueza_gestao_resumos'] = textos_repo.get_resumos(
+        Textos.Secao.FRAQUEZAS,
+        menor_grupo_gestao,
+        principais_fraquezas_gestao
+    )
+    context['forca_gestao_textos'] = textos_repo.get_textos(
+        Textos.Secao.GESTAO, maior_grupo_gestao, principais_forcas_gestao
+    )
+    context['fraqueza_gestao_textos'] = textos_repo.get_textos(
+        Textos.Secao.GESTAO,
+        menor_grupo_gestao,
+        principais_fraquezas_gestao
+    )
+
+    forca_equipes_png, fraqueza_equipes_png, \
+        maior_grupo_equipes, menor_grupo_equipes = \
+        pdf_serivce.generate_equipes_chart_png(formulario_id)
+
+    context['forca_equipes_png'] = forca_equipes_png
+    context['fraqueza_equipes_png'] = fraqueza_equipes_png
+    context['maior_grupo_equipes'] = maior_grupo_equipes
+    context['menor_grupo_equipes'] = menor_grupo_equipes
+    painel_forcas_gestao_png, principais_forcas_equipes = \
+        pdf_serivce.generate_painel_forca_png(
+            formulario_id, Competencias.TipoImpacto.EQUIPES
+        )
+    painel_forcas_equipes_png, principais_forcas_equipes = \
+        pdf_serivce.generate_painel_forca_png(
+            formulario_id, Competencias.TipoImpacto.EQUIPES
+        )
+    context['painel_forcas_equipes_png'] = painel_forcas_equipes_png
+    painel_fraquezas_equipes_png, principais_fraquezas_equipes = \
+        pdf_serivce.generate_painel_fraqueza_png(
+            formulario_id, Competencias.TipoImpacto.EQUIPES
+        )
+    context['painel_fraquezas_equipes_png'] = painel_fraquezas_equipes_png
+
+    context['forca_equipes_resumos'] = textos_repo.get_resumos(
+        Textos.Secao.FORCAS, maior_grupo_equipes, principais_forcas_equipes
+    )
+    context['fraqueza_equipes_resumos'] = textos_repo.get_resumos(
+        Textos.Secao.FRAQUEZAS,
+        menor_grupo_equipes,
+        principais_fraquezas_equipes
+    )
+    context['forca_equipes_textos'] = textos_repo.get_textos(
+        Textos.Secao.EQUIPES,
+        maior_grupo_equipes,
+        principais_forcas_equipes
+    )
+    context['fraqueza_equipes_textos'] = textos_repo.get_textos(
+        Textos.Secao.EQUIPES,
+        menor_grupo_equipes,
+        principais_fraquezas_equipes
+    )
+
+    performance_engajamento_png, performance_engajamento_pontos = \
+        pdf_serivce.generate_performance_chart_png(
+            formulario_id, Competencias.TipoPerformance.ENGAJAMENTO
+        )
+    context['performance_engajamento_png'] = performance_engajamento_png # noqa
+    context['performance_engajamento_pontos'] = performance_engajamento_pontos # noqa
+
+    nivel = None
+
+    if 0 <= performance_engajamento_pontos <= 28:
+        nivel = 'Muito Insatisfatório'
+    elif 29 <= performance_engajamento_pontos <= 56:
+        nivel = 'Insatisfatório'
+    elif 57 <= performance_engajamento_pontos <= 84:
+        nivel = 'Satisfatório'
+    elif 85 <= performance_engajamento_pontos <= 112:
+        nivel = 'Bom'
+    elif 113 <= performance_engajamento_pontos <= 140:
+        nivel = 'Excelente'
+
+    context['performance_engajamento_textos'] = textos_repo \
+        .get_textos(Textos.Secao.ENGAJAMENTO, nivel)
+
+    performance_desempenho_png, performance_desempenho_pontos = \
+        pdf_serivce.generate_performance_chart_png(
+            formulario_id, Competencias.TipoPerformance.DESEMPENHO
+        )
+    context['performance_desempenho_png'] = performance_desempenho_png
+    context['performance_desempenho_pontos'] = performance_desempenho_pontos # noqa
+
+    if 0 <= performance_desempenho_pontos <= 48:
+        nivel = 'Muito Insatisfatório'
+    elif 49 <= performance_desempenho_pontos <= 96:
+        nivel = 'Insatisfatório'
+    elif 97 <= performance_desempenho_pontos <= 144:
+        nivel = 'Satisfatório'
+    elif 145 <= performance_desempenho_pontos <= 192:
+        nivel = 'Bom'
+    elif 193 <= performance_desempenho_pontos <= 240:
+        nivel = 'Excelente'
+
+    context['performance_desempenho_textos'] = textos_repo \
+        .get_textos(Textos.Secao.DESEMPENHO, nivel)
+
+    performance_organizacao_png, performance_organizacao_pontos = \
+        pdf_serivce.generate_performance_chart_png(
+            formulario_id, Competencias.TipoPerformance.ORGANIZACAO
+        )
+    context['performance_organizacao_png'] = performance_organizacao_png # noqa
+    context['performance_organizacao_pontos'] = performance_organizacao_pontos # noqa
+
+    if 0 <= performance_organizacao_pontos <= 44:
+        nivel = 'Muito Insatisfatório'
+    elif 45 <= performance_organizacao_pontos <= 88:
+        nivel = 'Insatisfatório'
+    elif 89 <= performance_organizacao_pontos <= 132:
+        nivel = 'Satisfatório'
+    elif 133 <= performance_organizacao_pontos <= 176:
+        nivel = 'Bom'
+    elif 177 <= performance_organizacao_pontos <= 220:
+        nivel = 'Excelente'
+
+    context['performance_organizacao_textos'] = textos_repo \
+        .get_textos(Textos.Secao.ORGANIZACAO, nivel)
+
+
 class PdfViewerTemplateView(WeasyTemplateResponseMixin, TemplateView):
     template_name = 'quiz/pdf/template.html'
-    pdf_serivce = PDFService()
-    competencias_repo = CompetenciasRepository()
-    textos_repo = TextosRepository()
 
     def get_context_data(self, pk, **kwargs):
         contato = Contatos.objects.get(
@@ -231,190 +394,56 @@ class PdfViewerTemplateView(WeasyTemplateResponseMixin, TemplateView):
                 id=pk
             ).values('email')[0]['email']
         )
-
         context = super().get_context_data(**kwargs)
-        context['user_name'] = contato.nome_completo
 
-        forca_gestao_png, fraqueza_gestao_png, \
-            maior_grupo_gestao, menor_grupo_gestao = \
-            self.pdf_serivce.generate_grupo_chart_png(pk)
-
-        context['forca_gestao_png'] = forca_gestao_png
-        context['fraqueza_gestao_png'] = fraqueza_gestao_png
-        context['maior_grupo_gestao'] = maior_grupo_gestao
-        context['menor_grupo_gestao'] = menor_grupo_gestao
-        painel_forcas_gestao_png, principais_forcas_gestao = \
-            self.pdf_serivce.generate_painel_forca_png(
-                pk, Competencias.TipoImpacto.GESTAO
-            )
-        context['painel_forcas_gestao_png'] = painel_forcas_gestao_png
-        painel_fraquezas_gestao_png, principais_fraquezas_gestao = \
-            self.pdf_serivce.generate_painel_fraqueza_png(
-                pk, Competencias.TipoImpacto.GESTAO
-            )
-        context['painel_fraquezas_gestao_png'] = painel_fraquezas_gestao_png
-        context['forca_gestao_resumos'] = self.textos_repo.get_resumos(
-            Textos.Secao.FORCAS, maior_grupo_gestao, principais_forcas_gestao
-        )
-        context['fraqueza_gestao_resumos'] = self.textos_repo.get_resumos(
-            Textos.Secao.FRAQUEZAS,
-            menor_grupo_gestao,
-            principais_fraquezas_gestao
-        )
-        context['forca_gestao_textos'] = self.textos_repo.get_textos(
-            Textos.Secao.GESTAO, maior_grupo_gestao, principais_forcas_gestao
-        )
-        context['fraqueza_gestao_textos'] = self.textos_repo.get_textos(
-            Textos.Secao.GESTAO,
-            menor_grupo_gestao,
-            principais_fraquezas_gestao
-        )
-
-        forca_equipes_png, fraqueza_equipes_png, \
-            maior_grupo_equipes, menor_grupo_equipes = \
-            self.pdf_serivce.generate_equipes_chart_png(pk)
-
-        context['forca_equipes_png'] = forca_equipes_png
-        context['fraqueza_equipes_png'] = fraqueza_equipes_png
-        context['maior_grupo_equipes'] = maior_grupo_equipes
-        context['menor_grupo_equipes'] = menor_grupo_equipes
-        painel_forcas_gestao_png, principais_forcas_equipes = \
-            self.pdf_serivce.generate_painel_forca_png(
-                pk, Competencias.TipoImpacto.EQUIPES
-            )
-        painel_forcas_equipes_png, principais_forcas_equipes = \
-            self.pdf_serivce.generate_painel_forca_png(
-                pk, Competencias.TipoImpacto.EQUIPES
-            )
-        context['painel_forcas_equipes_png'] = painel_forcas_equipes_png
-        painel_fraquezas_equipes_png, principais_fraquezas_equipes = \
-            self.pdf_serivce.generate_painel_fraqueza_png(
-                pk, Competencias.TipoImpacto.EQUIPES
-            )
-        context['painel_fraquezas_equipes_png'] = painel_fraquezas_equipes_png
-
-        context['forca_equipes_resumos'] = self.textos_repo.get_resumos(
-            Textos.Secao.FORCAS, maior_grupo_equipes, principais_forcas_equipes
-        )
-        context['fraqueza_equipes_resumos'] = self.textos_repo.get_resumos(
-            Textos.Secao.FRAQUEZAS,
-            menor_grupo_equipes,
-            principais_fraquezas_equipes
-        )
-        context['forca_equipes_textos'] = self.textos_repo.get_textos(
-            Textos.Secao.EQUIPES,
-            maior_grupo_equipes,
-            principais_forcas_equipes
-        )
-        context['fraqueza_equipes_textos'] = self.textos_repo.get_textos(
-            Textos.Secao.EQUIPES,
-            menor_grupo_equipes,
-            principais_fraquezas_equipes
-        )
-
-        performance_engajamento_png, performance_engajamento_pontos = \
-            self.pdf_serivce.generate_performance_chart_png(
-                pk, Competencias.TipoPerformance.ENGAJAMENTO
-            )
-        context['performance_engajamento_png'] = performance_engajamento_png # noqa
-        context['performance_engajamento_pontos'] = performance_engajamento_pontos # noqa
-
-        nivel = None
-
-        if 0 <= performance_engajamento_pontos <= 28:
-            nivel = 'Muito Insatisfatório'
-        elif 29 <= performance_engajamento_pontos <= 56:
-            nivel = 'Insatisfatório'
-        elif 57 <= performance_engajamento_pontos <= 84:
-            nivel = 'Satisfatório'
-        elif 85 <= performance_engajamento_pontos <= 112:
-            nivel = 'Bom'
-        elif 113 <= performance_engajamento_pontos <= 140:
-            nivel = 'Excelente'
-
-        print(performance_engajamento_pontos, Textos.Secao.ENGAJAMENTO, nivel)
-        context['performance_engajamento_textos'] = self.textos_repo \
-            .get_textos(Textos.Secao.ENGAJAMENTO, nivel)
-
-        performance_desempenho_png, performance_desempenho_pontos = \
-            self.pdf_serivce.generate_performance_chart_png(
-                pk, Competencias.TipoPerformance.DESEMPENHO
-            )
-        context['performance_desempenho_png'] = performance_desempenho_png
-        context['performance_desempenho_pontos'] = performance_desempenho_pontos # noqa
-
-        if 0 <= performance_desempenho_pontos <= 48:
-            nivel = 'Muito Insatisfatório'
-        elif 49 <= performance_desempenho_pontos <= 96:
-            nivel = 'Insatisfatório'
-        elif 97 <= performance_desempenho_pontos <= 144:
-            nivel = 'Satisfatório'
-        elif 145 <= performance_desempenho_pontos <= 192:
-            nivel = 'Bom'
-        elif 193 <= performance_desempenho_pontos <= 240:
-            nivel = 'Excelente'
-
-        context['performance_desempenho_textos'] = self.textos_repo \
-            .get_textos(Textos.Secao.DESEMPENHO, nivel)
-
-        performance_organizacao_png, performance_organizacao_pontos = \
-            self.pdf_serivce.generate_performance_chart_png(
-                pk, Competencias.TipoPerformance.ORGANIZACAO
-            )
-        context['performance_organizacao_png'] = performance_organizacao_png # noqa
-        context['performance_organizacao_pontos'] = performance_organizacao_pontos # noqa
-
-        if 0 <= performance_organizacao_pontos <= 44:
-            nivel = 'Muito Insatisfatório'
-        elif 45 <= performance_organizacao_pontos <= 88:
-            nivel = 'Insatisfatório'
-        elif 89 <= performance_organizacao_pontos <= 132:
-            nivel = 'Satisfatório'
-        elif 133 <= performance_organizacao_pontos <= 176:
-            nivel = 'Bom'
-        elif 177 <= performance_organizacao_pontos <= 220:
-            nivel = 'Excelente'
-
-        context['performance_organizacao_textos'] = self.textos_repo \
-            .get_textos(Textos.Secao.ORGANIZACAO, nivel)
+        _load_pdf_context(context, pk, contato)
 
         return context
 
 
-class PdfView(View):
+def _generate_pdf(
+    formulario_id: int,
+) -> str:
     template_name = 'quiz/pdf/template.html'
-    pdf_attachment = False
-    pdf_serivce = PDFService()
+    base_url = 'http://localhost:8000'
+    context = {}
+    contato = Contatos.objects.get(
+        email=FomularioClientes.objects.filter(
+            id=formulario_id
+        ).values('email')[0]['email']
+    )
 
-    def get(self, request, pk, *args, **kwargs):
-        context = {}
-        context['media_gestao_png'] = self.pdf_serivce \
-            .generate_grupo_chart_png(pk)
-        context['media_equipes_png'] = self.pdf_serivce \
-            .generate_equipes_chart_png(pk)
-        context['performance_png'] = self.pdf_serivce \
-            .generate_performance_chart_png(pk)
+    _load_pdf_context(context, formulario_id, contato)
 
-        ts = datetime.now().strftime('%s')
-        pdf_name = f'/tmp/formulario_{pk}_{ts}.pdf'
-        html_template = get_template(
-            self.template_name
-        ).render(context=context)
+    ts = datetime.now().strftime('%s')
+    pdf_name = f'/tmp/{contato.nome_completo.replace(' ', '_')}_{formulario_id}_{ts}.pdf' # noqa
+    html_template = get_template(template_name).render(context=context)
 
-        pdf_file = HTML(
-            string=html_template,
-            base_url='http://localhost:8000'
-        ).write_pdf(
-            target=pdf_name
+    HTML(
+        string=html_template,
+        base_url=base_url
+    ).write_pdf(
+        target=pdf_name
+    )
+
+    s3_client = boto3.client(
+        's3',
+        endpoint_url='http://localhost:9000',
+        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+        region_name='us-east-1'
+    )
+    document_name = os.path.basename(pdf_name)
+
+    try:
+        s3_client.upload_file(
+            pdf_name, settings.AWS_STORAGE_BUCKET_NAME,
+            document_name, ExtraArgs={'ACL': 'public-read'}
         )
+    except ClientError as e:
+        print(e)
 
-        response = HttpResponse(pdf_file, content_type='application/pdf')
-        response['Content-Disposition'] = f'attachment; filename="formulario_{pk}_{ts}.pdf"' # noqa
-
-        with open(pdf_name, 'rb') as f:
-            response.write(f.read())
-
-        return response
+    return document_name, pdf_name
 
 
 class InstrucoesTemplateView(TemplateView):
@@ -426,21 +455,47 @@ class InstrucoesTemplateView(TemplateView):
         return super().get(request, args, kwargs)
 
 
-class FormularioFinalizarView(FormView):
-    form_class = FormularioForm
-    template_name = 'quiz/show_form.html'
+class FormularioFinalizarView(TemplateView):
+    template_name = 'quiz/finish_form.html'
 
-    @timeout_form
-    def post(self, request, pk, *args, **kwargs):
-        form = self.get_form()
-        if form.is_valid():
-            self.success_url = reverse_lazy(
-                'pdf-viewer',
-                kwargs={
-                    'pk': pk
-                }
+    def get(self, request, pk, *args, **kwargs):
+        form_cliente = FomularioClientes.objects.get(id=pk)
+
+        if form_cliente:
+            self.extra_context = {
+                'email': form_cliente.email
+            }
+            file_name, file_path = _generate_pdf(pk)
+
+            form_cliente.status = FomularioClientes.Status.FINALIZADO
+            form_cliente.documento = file_name
+            form_cliente.save()
+
+            data_envio = form_cliente.created_at.strftime(settings.DATE_FORMAT_DEFAULT) # noqa
+
+            Notificacoes(
+                user=form_cliente.user,
+                mensagem=f'Formulario enviado para o email: {form_cliente.email} na data {data_envio}, finalizado',  # noqa
+                tipo=Notificacoes.Tipo.INFORMATIVA
+            ).save()
+
+            contato = Contatos.objects.get(
+                email=FomularioClientes.objects.filter(
+                    id=pk
+                ).values('email')[0]['email']
             )
-            form.save()
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
+
+            EmailUtils.send_email_pdf(
+                form_cliente.email, [form_cliente.user.email],
+                file_path, contato.nome_completo
+            )
+
+            messages.success(request, 'Email enviado com sucesso!')
+
+            Notificacoes(
+                user=form_cliente.user,
+                mensagem=f'Resultado gerado e enviado para o email: {form_cliente.email}',  # noqa
+                tipo=Notificacoes.Tipo.INFORMATIVA
+            ).save()
+
+        return super().get(request, args, kwargs)

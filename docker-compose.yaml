@@ -23,15 +23,37 @@ services:
     ports:
       - "5080:8080"
       - "8025:8025"
-  # web:
-  #   build: . 
-  #   volumes:
-  #     - .:/app 
-  #   ports:
-  #     - "8000:8000"
-  #   depends_on:
-  #     - db
-  #   command: "python manage.py runserver 0.0.0.0:8000"
+  web:
+    build: . 
+    volumes:
+      - .:/app 
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    command: "python manage.py runserver 0.0.0.0:8000"
+  s3:
+    image: minio/minio
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    networks:
+      - minionetwork
+    volumes:
+      - 'minio_data:/data'
+    environment:
+      MINIO_ROOT_USER: usr_minio
+      MINIO_ROOT_PASSWORD: minio_pw
+      MINIO_ACCESS_KEY: aws_access_key
+      MINIO_SECRET_KEY: aws_secret_key
+      MINIO_DEFAULT_BUCKETS: pamas
+    command: server --console-address ":9001" /data
 volumes:
   my-db: 
     driver: local
+  minio_data:
+    driver: local
+
+networks:
+  minionetwork:
+    driver: bridge
