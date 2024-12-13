@@ -1,6 +1,6 @@
 {% extends 'base_site.html' %}
 
-{% load humanize crispy_forms_tags %}
+{% load humanize crispy_forms_tags static %}
 
 {% block content %}
     <h1 class="h3 mb-4 text-gray-800">Carrinho</h1>
@@ -13,6 +13,13 @@
                     <p>{{ plano.descricao|safe }}</p>
                     <label>R$ {{ plano.valor|floatformat:2|intcomma }}</label>
                 </div>
+            </div>
+
+            <div class="card-simulation">
+                <div class="card-number" id="card-number">**** **** **** ****</div>
+                <div class="card-validade" id="card-validade">Validade: **/**</div>
+                <div class="card-nome" id="card-nome">Nome Sobrenome</div>
+                <div class="card-cvc" id="card-cvc">***</div>
             </div>
         </div>
 
@@ -30,5 +37,9 @@
         </div>
 
     </div>
-
+    <link href="{% static 'css/cartao.css' %}" rel="stylesheet" type="text/css">
+    <script src="{% static 'js/cartao.js' %}"></script>
 {% endblock content %}
+
+
+
