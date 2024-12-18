@@ -1,0 +1,16 @@
+.vscode
+.env
+.gitignore
+.flake8
+static
+venv
+**/__pycache__
+**/migrations
+credentials.json
+db.sqlite3
+docker-compose.yaml
+Dockerfile
+init.sql
+Makefile
+pamas.pem
+README.md

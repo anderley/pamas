@@ -6,12 +6,12 @@ import django
 import mammoth
 from docx import Document
 
-from quiz.models import Textos
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(str(BASE_DIR))
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
 django.setup()
+
+from quiz.models import Textos
 
 
 def save_doc(
