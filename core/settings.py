@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 
 from import_export.formats.base_formats import CSV, XLSX
+from storages.backends.s3boto3 import S3Boto3Storage
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -146,14 +147,46 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-MEDIA_URL = 'mediafiles/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/mediafiles')
+if DEBUG:
+    MEDIA_URL = 'mediafiles/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'static/mediafiles')
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    BASE_DIR / 'static/'
-]
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    STATIC_URL = '/static/'
+    STATICFILES_DIRS = [
+        BASE_DIR / 'static/'
+    ]
+
+else:
+    # Set the required AWS credentials
+    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID', 'AKIAYKFQQU7CUJW2FTMD')
+    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY', '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')
+    AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME', 'pamas-statics')
+    AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME', 'us-east-1')
+
+    # Optional: Set custom domain for static and media files
+    # AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+
+    # Set the static and media files locations
+    STATICFILES_LOCATION = 'static'
+    MEDIAFILES_LOCATION = 'media'
+
+    # Define custom storage classes for static and media files
+    class StaticStorage(S3Boto3Storage):
+        location = STATICFILES_LOCATION
+
+    class MediaStorage(S3Boto3Storage):
+        location = MEDIAFILES_LOCATION
+        file_overwrite = False
+
+    # Configure static and media files storage
+    STATICFILES_STORAGE = 'core.settings.StaticStorage'
+    DEFAULT_FILE_STORAGE = 'core.settings.MediaStorage'
+
+    # Set static and media URLs
+    STATIC_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/{STATICFILES_LOCATION}/'
+    MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/{MEDIAFILES_LOCATION}/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
