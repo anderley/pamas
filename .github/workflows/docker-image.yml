@@ -26,6 +26,7 @@ jobs:
         aws-access-key-id: $AWS_ACCESS_KEY_ID
         aws-secret-access-key: $AWS_SECRET_ACCESS_KEY
         aws-region: us-east-1
+        role-duration-seconds: 1200
 
     - name: Login to Amazon ECR
       id: login-ecr
