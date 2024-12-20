@@ -3,15 +3,17 @@ from django import forms
 
 class PagamentoForm(forms.Form):
 
-    cartao = forms.CharField(label="Número do Cartão", required=True, max_length=19,
-        widget=forms.TextInput(attrs={
+    cartao = forms.CharField(
+        label="Número do Cartão", required=True,
+        max_length=19, widget=forms.TextInput(attrs={
             'placeholder': '0000 0000 0000 0000',
             'class': 'form-control',
         })
     )
     nome = forms.CharField(label="Nome complemento", required=True, help_text='Conforme aparece no cartão.') # noqa
-    vencimento = forms.CharField(label="Data de vencimento", required=True, help_text='Mês / Ano', max_length=5,
-        widget=forms.TextInput(attrs={
+    vencimento = forms.CharField(
+        label="Data de vencimento", required=True, help_text='Mês / Ano',
+        max_length=5, widget=forms.TextInput(attrs={
             'placeholder': 'MM/AA',
             'class': 'form-control',
         })) # noqa

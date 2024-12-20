@@ -159,13 +159,18 @@ if DEBUG:
 
 else:
     # Set the required AWS credentials
-    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID', 'AKIAYKFQQU7CUJW2FTMD')
-    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY', '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')
-    AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME', 'pamas-statics')
-    AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME', 'us-east-1')
+    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_STATICS_BUCKET_NAME = os.environ.get(
+        'AWS_STORAGE_STATICS_BUCKET_NAME', 'pamas-statics'
+    )
+    AWS_S3_REGION_NAME = os.environ.get(
+        'AWS_S3_REGION_NAME', 'us-east-1'
+    )
+    AWS_DEFAULT_ACL = 'public-read'
 
     # Optional: Set custom domain for static and media files
-    # AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+    # AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_STATICS_BUCKET_NAME}.s3.amazonaws.com' # noqa
 
     # Set the static and media files locations
     STATICFILES_LOCATION = 'static'
@@ -180,12 +185,13 @@ else:
         file_overwrite = False
 
     # Configure static and media files storage
-    STATICFILES_STORAGE = 'core.settings.StaticStorage'
-    DEFAULT_FILE_STORAGE = 'core.settings.MediaStorage'
+    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    # STATICFILES_STORAGE = 'core.settings.StaticStorage'
+    # DEFAULT_FILE_STORAGE = 'core.settings.MediaStorage'
 
     # Set static and media URLs
-    STATIC_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/{STATICFILES_LOCATION}/'
-    MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/{MEDIAFILES_LOCATION}/'
+    STATIC_URL = f'https://{AWS_STORAGE_STATICS_BUCKET_NAME}.s3.amazonaws.com/{STATICFILES_LOCATION}/' # noqa
+    MEDIA_URL = f'https://{AWS_STORAGE_STATICS_BUCKET_NAME}.s3.amazonaws.com/{MEDIAFILES_LOCATION}/' # noqa
 
 
 # Default primary key field type
@@ -222,13 +228,17 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = os.environ.get('EMAIL_HOST', 'localhost')
 EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', False)
 EMAIL_PORT = os.environ.get('EMAIL_PORT', 8025)
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'atendimento@pamas.com.br')
+EMAIL_HOST_USER = os.environ.get(
+    'EMAIL_HOST_USER', 'atendimento@pamas.com.br'
+)
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # JWT Request Token
 REQUEST_TOKEN_EXPIRY = os.environ.get('REQUEST_TOKEN_EXPIRY', '1d')
-REQUEST_TOKEN_DEFAULT_MAX_USES = os.environ.get('REQUEST_TOKEN_DEFAULT_MAX_USES', 10)
+REQUEST_TOKEN_DEFAULT_MAX_USES = os.environ.get(
+    'REQUEST_TOKEN_DEFAULT_MAX_USES', 10
+)
 
 FOUR03_TEMPLATE = os.path.join(BASE_DIR, '...', '403.html')
 

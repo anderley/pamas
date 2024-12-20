@@ -10,3 +10,4 @@ core/local_settings.py
 .vscode
 app
 .env
+pamas.pem

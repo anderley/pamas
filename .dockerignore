@@ -2,11 +2,14 @@
 .env
 .gitignore
 .flake8
+scripts
 static
+staticfiles
 venv
 **/__pycache__
 **/migrations
-credentials.json
+.flake8
+.gitignore
 db.sqlite3
 docker-compose.yaml
 Dockerfile
