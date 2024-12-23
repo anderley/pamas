@@ -29,7 +29,17 @@ SITE_URL = os.environ.get('DJ_SITE_URL', 'http://localhost:8000')
 SECRET_KEY = os.environ.get('DJ_SECRET_KEY', 'DJ_KEY') # noqa
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DJ_DEBUG', False)
+DEBUG = os.environ.get('DJ_DEBUG', 'False') == 'True'
+
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+CSRF_TRUSTED_ORIGINS = [
+    os.environ.get('DJ_CSRF_TRUSTED_ORIGINS', 'localhost')
+]
 
 ALLOWED_HOSTS = [
     os.environ.get('DJ_ALLOWED_HOSTS', 'localhost')
@@ -39,7 +49,6 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
-    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -48,11 +57,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     # Add-ons
+    'jazzmin',
     'crispy_forms',
     'crispy_bootstrap4',
     'import_export',
     'mercadopago',
     'request_token',
+    'storages',
     # Apps
     'core',
     'planos',
@@ -185,7 +196,7 @@ else:
         file_overwrite = False
 
     # Configure static and media files storage
-    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
     # STATICFILES_STORAGE = 'core.settings.StaticStorage'
     # DEFAULT_FILE_STORAGE = 'core.settings.MediaStorage'
 
@@ -268,8 +279,8 @@ LOGGING = {
 
 MERCADOPAGO_CLIENT_ID = os.environ.get('MERCADOPAGO_CLIENT_ID', '4634839706246803') # noqa
 MERCADOPAGO_CLIENT_SECRET = os.environ.get('MERCADOPAGO_CLIENT_SECRET', 'tRgjoQzo0iCZnKH2xMFDiq37K2vDgG6d') # noqa
-MERCADOPAGO_PUBLIC_KEY = os.environ.get('MERCADOPAGO_CLIENT_SECRET', 'APP_USR-3aa02b1a-b3f4-480b-8358-08f3404d2a5e') # noqa
-MERCADOPAGO_ACCESS_TOKEN = os.environ.get('MERCADOPAGO_CLIENT_SECRET', 'APP_USR-4634839706246803-052314-df109ee7ee48312e774f0fe89adce662-2360331') # noqa
+MERCADOPAGO_PUBLIC_KEY = os.environ.get('MERCADOPAGO_PUBLIC_KEY', 'APP_USR-3aa02b1a-b3f4-480b-8358-08f3404d2a5e') # noqa
+MERCADOPAGO_ACCESS_TOKEN = os.environ.get('MERCADOPAGO_ACCESS_TOKEN', 'APP_USR-4634839706246803-052314-df109ee7ee48312e774f0fe89adce662-2360331') # noqa
 
 DATE_FORMAT_DEFAULT = '%d/%m/%y'
 DATETIME_FORMAT_DEFAULT = '%d/%m/%y %H:%m:%s'
