@@ -10,4 +10,6 @@ urlpatterns = [
     path('usuarios/', include('usuarios.urls')),
     path('pagamentos/', include('pagamentos.urls')),
     path('notificacoes/', include('notificacoes.urls')),
+    # health-check
+    path('health/', include('health_check.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

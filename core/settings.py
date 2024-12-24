@@ -31,18 +31,16 @@ SECRET_KEY = os.environ.get('DJ_SECRET_KEY', 'DJ_KEY') # noqa
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJ_DEBUG', 'False') == 'True'
 
-SECURE_CONTENT_TYPE_NOSNIFF = True
-SECURE_BROWSER_XSS_FILTER = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-SECURE_SSL_REDIRECT = True
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-CSRF_TRUSTED_ORIGINS = [
-    os.environ.get('DJ_CSRF_TRUSTED_ORIGINS', 'localhost')
-]
-
+# SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+# SECURE_SSL_REDIRECT = True
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
 ALLOWED_HOSTS = [
     os.environ.get('DJ_ALLOWED_HOSTS', 'localhost')
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    os.environ.get('DJ_CSRF_TRUSTED_ORIGINS', 'https://localhost')
 ]
 
 
@@ -64,6 +62,8 @@ INSTALLED_APPS = [
     'mercadopago',
     'request_token',
     'storages',
+    'health_check',
+    'health_check.db',
     # Apps
     'core',
     'planos',

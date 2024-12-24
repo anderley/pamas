@@ -12,6 +12,13 @@ RUN apt install pkg-config python3-dev default-libmysqlclient-dev build-essentia
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-EXPOSE 8000
+ENTRYPOINT [ \
+    "gunicorn", \
+    "-w", \
+    "1", \
+    "-b", \
+    ":8001", \
+    "core.wsgi:application" \
+]
 
-ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+EXPOSE 8001
