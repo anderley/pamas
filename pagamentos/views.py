@@ -48,10 +48,11 @@ class PagamentoView(TemplateView):
 
         if data['sucesso']:
             userEnvioFormulario, created = UsuarioEnvioFormulario.objects.get_or_create( # noqa
-                user=self.request.user, pagamento=pagamento
+                user=self.request.user
             )
             if userEnvioFormulario:
-                userEnvioFormulario.num_formularios += pagamento.num_formularios # noqa
+                userEnvioFormulario.pagamento = pagamento
+                userEnvioFormulario.num_formularios += pagamento.plano_num_formularios # noqa
                 userEnvioFormulario.save()
 
             pagamento.status = 'pago'
@@ -98,57 +99,39 @@ def envia_email_e_cria_notificao(request, paid):
         messages.error(request, f'Erro no pagamento do cliente com o email: {request.user.email}') # noqa
 
 
-def criando_cartao(self, data):
-
+def criando_cartao(self, sdk, data):
     vencimento = data.get('vencimento').split('/')
     cartao = data.get('cartao').replace(' ', '')
 
-    CLIENT_ID = settings.MERCADOPAGO_CLIENT_ID
-    CLIENT_SECRET = settings.MERCADOPAGO_CLIENT_SECRET
-
-    # Obtendo o access token
-    auth_response = requests.post(
-        'https://api.mercadopago.com/oauth/token',
-        data={
-            'grant_type': 'client_credentials',
-            'client_id': CLIENT_ID,
-            'client_secret': CLIENT_SECRET
-        }
-    )
-
-    access_token = auth_response.json().get('access_token')
-
+    # Dados do cartão
     card_data = {
         "card_number": cartao,
         "expiration_month": vencimento[0],
         "expiration_year": vencimento[1],
         "security_code": data.get('codigo'),
-        "email": self.request.user.email,
         "cardholder": {
             "name": data.get('nome'),
-        }
+        },
+        "email": self.request.user.email  # Email do titular do cartão
     }
 
-    token_response = requests.post(
-        'https://api.mercadopago.com/v1/card_tokens',
-        headers={
-            'Authorization': f'Bearer {access_token}',
-            'Content-Type': 'application/json'
-        },
-        json=card_data
-    )
-
-    if token_response.status_code == 201:
-        token = token_response.json().get('id')
-        return True, token
-    else:
-        return False, "Erro ao gerar token:", token_response.json()
+    # Cria o token do cartão
+    try:
+        token_response = sdk.card_token().create(card_data)
+        if token_response['status'] == 201:
+            token = token_response['response']['id']
+            print('status', token_response['status'], 'token', token)
+            return True, token
+        else:
+            return False, "Erro ao gerar token: {}".format(token_response['response'])
+    except Exception as e:
+        return False, "Erro ao gerar token: {}".format(str(e))
 
 
 def mercadopago_pagamento(self, data, plano, pagamento_id):
     sdk = mercadopago.SDK(settings.MERCADOPAGO_ACCESS_TOKEN)
 
-    gerado, token_or_msg = criando_cartao(self, data)
+    gerado, token_or_msg = criando_cartao(self, sdk, data)
     if gerado:
 
         payment_data = {

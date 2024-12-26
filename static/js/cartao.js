@@ -26,8 +26,8 @@ inputCartao.addEventListener('input', function (e) {
 // Máscara para a validade do cartão
 inputValidade.addEventListener('input', function (e) {
     let valor = this.value.replace(/\D/g, ''); // Remove caracteres não numéricos
-    if (valor.length > 4) {
-        valor = valor.substring(0, 4); // Limita a 4 dígitos
+    if (valor.length > 6) {
+        valor = valor.substring(0, 6); // Limita a 4 dígitos
     }
     // Adiciona a barra (/) no terceiro caractere
     if (valor.length >= 3) {
@@ -45,8 +45,8 @@ inputNome.addEventListener('input', function (e) {
 // Atualiza o CVC
 inputCVC.addEventListener('input', function (e) {
     let valor = this.value.replace(/\D/g, ''); // Remove caracteres não numéricos
-    if (valor.length > 3) {
-        valor = valor.substring(0, 3); // Limita a 3 dígitos
+    if (valor.length > 4) {
+        valor = valor.substring(0, 4); 
     }
     this.value = valor;
     cardCVCDisplay.textContent = valor.length > 0 ? valor : '***';

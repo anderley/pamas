@@ -29,6 +29,7 @@ from .models import (Competencias, Contatos, FomularioClientes, Perguntas,
                      Textos)
 from .repositories import TextosRepository
 from .services import PDFService
+from usuarios.models import UsuarioEnvioFormulario
 
 
 def logout_view(request):
@@ -63,24 +64,30 @@ def enviar_formulario(request):
             token: str = request_token.jwt()
             link_form = f'{settings.SITE_URL}/formulario/instrucoes/?rt={token}' # noqa
 
-            try:
-                EmailUtils.send_email_form(email, link_form, request.user)
+            user = UsuarioEnvioFormulario.objects.filter(user=request.user).first()
+            if user and user.num_formularios > 0:
+                try:
+                    EmailUtils.send_email_form(email, link_form, request.user)
 
-                FomularioClientes(
-                    user=request.user,
-                    email=email,
-                    token=token,
-                    form_url=link_form
-                ).save()
-                Notificacoes(
-                    user=request.user,
-                    mensagem=f'Formulario enviado com sucesso para o email: {email}', # noqa
-                    tipo=Notificacoes.Tipo.INFORMATIVA
-                ).save()
+                    FomularioClientes(
+                        user=request.user,
+                        email=email,
+                        token=token,
+                        form_url=link_form
+                    ).save()
+                    Notificacoes(
+                        user=request.user,
+                        mensagem=f'Formulario enviado com sucesso para o email: {email}', # noqa
+                        tipo=Notificacoes.Tipo.INFORMATIVA
+                    ).save()
 
-                messages.success(request, 'Email enviado com sucesso!')
-            except Exception as e:
-                messages.error(request, f'Error no envio do email: {e}')
+                    messages.success(request, 'Email enviado com sucesso!')
+                    user.num_formularios = user.num_formularios - 1
+                    user.save()
+                except Exception as e:
+                    messages.error(request, f'Error no envio do email: {e}')
+            else:
+                messages.error(request, f'Você não possui mais disparos de email, contrate um novo plano.')
 
     return render(request, 'quiz/send_form.html', context=context)
 

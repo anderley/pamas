@@ -1,3 +1,5 @@
-from django.contrib import admin  # noqa
+from django.contrib import admin
+from .models import UsuarioEnvioFormulario
 
-# Register your models here.
+
+admin.site.register(UsuarioEnvioFormulario)

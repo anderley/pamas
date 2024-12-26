@@ -13,8 +13,8 @@ class PagamentoForm(forms.Form):
     nome = forms.CharField(label="Nome complemento", required=True, help_text='Conforme aparece no cartão.') # noqa
     vencimento = forms.CharField(
         label="Data de vencimento", required=True, help_text='Mês / Ano',
-        max_length=5, widget=forms.TextInput(attrs={
-            'placeholder': 'MM/AA',
+        max_length=7, widget=forms.TextInput(attrs={
+            'placeholder': 'MM/AAAA',
             'class': 'form-control',
         })) # noqa
     codigo = forms.CharField(label="Código de segurança", required=True, help_text="CVV") # noqa

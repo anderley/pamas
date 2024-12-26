@@ -6,7 +6,7 @@ from pagamentos.models import Pagamentos
 
 class UsuarioEnvioFormulario(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário') # noqa
-    pagamento = models.ForeignKey(Pagamentos, on_delete=models.CASCADE, verbose_name='Pagamentos') # noqa
+    pagamento = models.ForeignKey(Pagamentos, on_delete=models.CASCADE, verbose_name='Pagamentos', null=True) # noqa
     num_formularios = models.IntegerField(default=0)
 
     def __str__(self):

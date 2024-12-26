@@ -19,7 +19,7 @@ from storages.backends.s3boto3 import S3Boto3Storage
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SITE_URL = os.environ.get('DJ_SITE_URL', 'http://localhost:8000')
+SITE_URL = os.environ.get('DJ_SITE_URL', 'http://localhost:8001')
 
 
 # Quick-start development settings - unsuitable for production
@@ -29,7 +29,7 @@ SITE_URL = os.environ.get('DJ_SITE_URL', 'http://localhost:8000')
 SECRET_KEY = os.environ.get('DJ_SECRET_KEY', 'DJ_KEY') # noqa
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DJ_DEBUG', 'False') == 'True'
+DEBUG = os.environ.get('DJ_DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = [
     os.environ.get('DJ_ALLOWED_HOSTS', 'localhost')
@@ -110,10 +110,10 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('DB_NAME', 'db_pamas'),
-        'USER': os.environ.get('DB_USER', 'usr_pamas'),
+        'NAME': os.environ.get('DB_NAME', 'db_educart_quiz'),
+        'USER': os.environ.get('DB_USER', 'user_educart'),
         'PASSWORD': os.environ.get('DB_PASSWORD', 'password'),
-        'HOST':  os.environ.get('DB_HOST', 'localhost'),
+        'HOST':  os.environ.get('DB_HOST', 'db'),
         'PORT':  os.environ.get('DB_PORT', '3306'),
     }
 }
@@ -277,6 +277,12 @@ MERCADOPAGO_CLIENT_ID = os.environ.get('MERCADOPAGO_CLIENT_ID', '463483970624680
 MERCADOPAGO_CLIENT_SECRET = os.environ.get('MERCADOPAGO_CLIENT_SECRET', 'tRgjoQzo0iCZnKH2xMFDiq37K2vDgG6d') # noqa
 MERCADOPAGO_PUBLIC_KEY = os.environ.get('MERCADOPAGO_PUBLIC_KEY', 'APP_USR-3aa02b1a-b3f4-480b-8358-08f3404d2a5e') # noqa
 MERCADOPAGO_ACCESS_TOKEN = os.environ.get('MERCADOPAGO_ACCESS_TOKEN', 'APP_USR-4634839706246803-052314-df109ee7ee48312e774f0fe89adce662-2360331') # noqa
+
+# WILL
+# MERCADOPAGO_CLIENT_ID = os.environ.get('MERCADOPAGO_CLIENT_ID', '4634839706246803') # noqa
+# MERCADOPAGO_CLIENT_SECRET = os.environ.get('MERCADOPAGO_CLIENT_SECRET', 'tRgjoQzo0iCZnKH2xMFDiq37K2vDgG6d') # noqa
+# MERCADOPAGO_PUBLIC_KEY = os.environ.get('MERCADOPAGO_PUBLIC_KEY', 'TEST-400c31db-5224-4d4b-86e5-6fa7dbcba616') # noqa
+# MERCADOPAGO_ACCESS_TOKEN = os.environ.get('MERCADOPAGO_ACCESS_TOKEN', 'TEST-4634839706246803-052314-c8cd6ae245aa6e578c65ce97de7bce6b-2360331') # noqa
 
 DATE_FORMAT_DEFAULT = '%d/%m/%y'
 DATETIME_FORMAT_DEFAULT = '%d/%m/%y %H:%m:%s'
