@@ -271,7 +271,16 @@ class PDFService:
         '''
         str_time = datetime.now().strftime('%s')
         tmp_file_name = f'/tmp/painel_competencias_{str_time}.png'
-        hti = Html2Image(size=(600, 260))
+        hti = Html2Image(
+            size=(600, 260),
+             custom_flags=[
+                '--no-sandbox', 
+                '--headless', 
+                '--disable-gpu', 
+                '--disable-software-rasterizer', 
+                '--disable-dev-shm-usage'
+            ]
+        )
         hti.output_path = '/tmp/'
         hti.screenshot(
             html_str=html,
