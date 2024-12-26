@@ -5,6 +5,11 @@ on:
     branches: [ "main" ]
 
 env:
+  DB_HOST: ${{ vars.DB_HOST }} 
+  DB_PORT: 3306
+  DB_NAME: db_pamas
+  DB_USER: ${{ vars.DB_USER }}
+  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
   AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   ECR_REGISTRY: ${{ vars.AWS_ECR_REGISTRY }}
@@ -17,6 +22,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Run migrations
+      run: |
+        python manage.py makemigrations core notificacoes pagamentos planos quiz usuarios
+        python manage.py migrate
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
