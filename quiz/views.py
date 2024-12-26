@@ -405,7 +405,7 @@ def _generate_pdf(
     formulario_id: int,
 ) -> str:
     template_name = 'quiz/pdf/template.html'
-    base_url = 'http://localhost:8000'
+    base_url = settings.SITE_URL
     context = {}
     contato = Contatos.objects.get(
         email=FomularioClientes.objects.filter(
@@ -428,7 +428,6 @@ def _generate_pdf(
 
     s3_client = boto3.client(
         's3',
-        endpoint_url='http://localhost:9000',
         aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
         aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
         region_name='us-east-1'

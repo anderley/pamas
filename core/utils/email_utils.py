@@ -25,7 +25,8 @@ class EmailUtils:
         plain_message = strip_tags(html_message)
 
         send_mail(
-            subject, plain_message, settings.EMAIL_HOST_USER, [email], html_message=html_message # noqa
+            subject, plain_message, settings.EMAIL_HOST_USER,
+            [email], html_message=html_message, fail_silently=False
         )
 
     @staticmethod

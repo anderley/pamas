@@ -31,10 +31,6 @@ SECRET_KEY = os.environ.get('DJ_SECRET_KEY', 'DJ_KEY') # noqa
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJ_DEBUG', 'False') == 'True'
 
-# SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-# SECURE_SSL_REDIRECT = True
-# SESSION_COOKIE_SECURE = True
-# CSRF_COOKIE_SECURE = True
 ALLOWED_HOSTS = [
     os.environ.get('DJ_ALLOWED_HOSTS', 'localhost')
 ]
