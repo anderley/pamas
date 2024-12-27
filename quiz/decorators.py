@@ -124,6 +124,9 @@ def timeout_form(
             if  form_cliente.status == FomularioClientes.Status.CANCELADO: # noqa
                 return render(request, 'quiz/form_cancelado.html')
 
+            if  form_cliente.status == FomularioClientes.Status.FINALIZADO: # noqa
+                return render(request, 'quiz/closed_form.html')
+
         return view_func(*args, **kwargs)
 
     return inner
