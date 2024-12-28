@@ -12,7 +12,7 @@
                 <div class="card-header">{{ plano.titulo }}</div>
                 <div class="card-body">
                     <p>{{ plano.descricao|safe }}</p>
-                    <label>R$ {{ plano.valor|floatformat:2|intcomma }}</label>
+                    <label>R$ {{ plano.formatar_valor }}</label>
                     <div class="d-flex justify-content-end">
                         <a class="btn btn-danger" href="{% url 'planos_detail' plano.id %}">Comprar</a>
                     </div>

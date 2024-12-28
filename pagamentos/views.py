@@ -138,7 +138,7 @@ def mercadopago_pagamento(self, data, plano, pagamento_id):
             "external_reference": pagamento_id,
             "transaction_amount": plano.valor,
             "description": plano.titulo,
-            "installments": 1,  # Número de parcelas
+            "installments": int(data.get('parcelas')),  # Número de parcelas
             "token": token_or_msg,
             "payer": {
                 "email": self.request.user.email,
