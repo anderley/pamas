@@ -200,6 +200,8 @@ def gerar_pix(request):
 
     pix_data = criar_pagamento_pix(request.user.email, plano.titulo, plano.valor)
 
+    print(pix_data)
+
     if pix_data:
         pix_vars = {
             'url': pix_data['response']['point_of_interaction']['transaction_data']['qr_code'], 
@@ -267,7 +269,7 @@ class PagamentosCallBackView(View):
     def validate_signature(self, body, x_signature):
         # Cria a assinatura esperada
         expected_signature = base64.b64encode(hmac.new(
-            key=settings.MP_SECRET_KEY.encode('utf-8'),
+            key=settings.MERCADOPAGO_ASS_SECRET_WEBHOOK.encode('utf-8'),
             msg=body,
             digestmod=hashlib.sha256
         ).digest()).decode('utf-8')
