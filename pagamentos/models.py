@@ -4,6 +4,7 @@ from django.db import models
 CHOICES = [
     ('pendente', 'Pendente'),
     ('pago', 'Pago'),
+    ('rejeitado', 'Rejeitado'),
 ]
 
 

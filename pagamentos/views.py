@@ -1,16 +1,21 @@
+
+import json
 import mercadopago
+import hmac
+import hashlib
+import base64
 import requests
 from django.conf import settings
 from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
-# from rest_framework.views import APIView
-# from rest_framework import status
 from django.core.mail import send_mail
 from django.shortcuts import render
 from django.template.loader import render_to_string, get_template
 from django.utils.html import strip_tags
 from django.views.generic import ListView, TemplateView
+from django.http import JsonResponse
+from django.views import View
 
 from notificacoes.models import Notificacoes
 from pagamentos.models import Pagamentos
@@ -206,3 +211,66 @@ def gerar_pix(request):
     # Carrega o template que contém o HTML do Pix
     template = get_template('pagamentos/gerar_pix.html')  # Substitua pelo seu template
     return HttpResponse(template.render(pix_vars, request))
+        
+
+class PagamentosCallBackView(View):
+    def post(self, request, *args, **kwargs):
+
+        # Obtém o cabeçalho X-Signature
+        x_signature = request.headers.get('X-Signature')
+        
+        # Obtém o corpo da requisição
+        body = request.body
+        
+        # Valida a assinatura
+        if not self.validate_signature(body, x_signature):
+            return JsonResponse({'status': 'error', 'message': 'Invalid signature'}, status=403)
+
+        # Processa a notificação
+        notification = json.loads(body)
+        payment_id = notification.get('id')
+
+        # Aqui você pode buscar o pagamento e atualizar o status no seu sistema
+        sdk = mercadopago.SDK(settings.MERCADOPAGO_ACCESS_TOKEN)
+        payment = sdk.payment().get(payment_id)
+
+        if payment["status"] == 200:
+            payment_data = payment["response"]
+            status = payment_data['status']
+
+            if status == 'approved':
+                status = 'pago'
+            elif status == 'pending':
+                status = 'pendente'
+            elif status == 'rejected':
+                status = 'rejeitado'
+
+            pagamento = Pagamentos.filter.filter(mercadopago_id=payment_id, status='pendente').first()
+            if pagamento:
+                pagamento.status = status
+                pagamento.save()
+
+                if pagamento.status == 'pago':
+                    userEnvioFormulario, created = UsuarioEnvioFormulario.objects.get_or_create( # noqa
+                        user=self.request.user
+                    )
+                    if userEnvioFormulario:
+                        userEnvioFormulario.pagamento = pagamento
+                        userEnvioFormulario.num_formularios += pagamento.plano_num_formularios # noqa
+                        userEnvioFormulario.save()       
+
+            return JsonResponse({'status': 'success', 'message': 'Payment processed'}, status=200)
+        else:
+            return JsonResponse({'status': 'error', 'message': 'Failed to retrieve payment'}, status=400)
+
+
+    def validate_signature(self, body, x_signature):
+        # Cria a assinatura esperada
+        expected_signature = base64.b64encode(hmac.new(
+            key=settings.MP_SECRET_KEY.encode('utf-8'),
+            msg=body,
+            digestmod=hashlib.sha256
+        ).digest()).decode('utf-8')
+
+        # Compara a assinatura esperada com a recebida
+        return hmac.compare_digest(expected_signature, x_signature)
