@@ -46,6 +46,7 @@ ADMINS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -54,7 +55,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     # Add-ons
-    'jazzmin',
     'crispy_forms',
     'crispy_bootstrap4',
     'import_export',
