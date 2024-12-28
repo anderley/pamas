@@ -39,6 +39,9 @@ CSRF_TRUSTED_ORIGINS = [
     os.environ.get('DJ_CSRF_TRUSTED_ORIGINS', 'https://localhost')
 ]
 
+ADMINS = [
+         ("Willem", "willemarf@gmail.com"),
+]
 
 # Application definition
 
