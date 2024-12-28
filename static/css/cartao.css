@@ -34,3 +34,22 @@
     font-size: 1.2em;
     letter-spacing: 2px;
 }
+
+.payment-methods {
+    display: flex;
+    justify-content: space-around;
+}
+
+.payment-option {
+    cursor: pointer;
+    text-align: center;
+}
+
+.payment-image {
+    width: 100px; /* Ajuste o tamanho conforme necessário */
+    height: auto;
+}
+
+.hidden {
+    display: none;
+}

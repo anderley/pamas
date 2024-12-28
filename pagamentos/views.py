@@ -2,12 +2,13 @@ import mercadopago
 import requests
 from django.conf import settings
 from django.contrib import messages
+from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 # from rest_framework.views import APIView
 # from rest_framework import status
 from django.core.mail import send_mail
 from django.shortcuts import render
-from django.template.loader import render_to_string
+from django.template.loader import render_to_string, get_template
 from django.utils.html import strip_tags
 from django.views.generic import ListView, TemplateView
 
@@ -171,19 +172,37 @@ def mercadopago_pagamento(self, data, plano, pagamento_id):
     else:
         return False, token_or_msg, None
 
+def criar_pagamento_pix(email_cliente, descricao, valor):
+    sdk = mercadopago.SDK(settings.MERCADOPAGO_ACCESS_TOKEN)
 
-# @csrf_exempt
-# def update_status(request):
-#     status = 'pago' if request.GET.get('status') == 'approved' else 'pendente' # noqa
-#
-#     pagamento = Pagamentos.objects.get(
-#         id=request.GET.get('external_reference')
-#     )
-#
-#     if pagamento:
-#         pagamento.status = status
-#         pagamento.save()
-#         # pagamento.user.plano_num_formularios = pagamento.plano_num_formularios  # noqa
-#         # pagamento.user.save()
-#
-#     return JsonResponse({'success': 'ok'})
+    payment_data = {
+        "transaction_amount": valor,  # Valor do pagamento
+        "description": descricao,
+        "payment_method_id": "pix",  # Método de pagamento Pix
+        "payer": {
+            "email": email_cliente  # Email do pagador
+        }
+    }
+
+    # Cria o pagamento
+    payment_response = sdk.payment().create(payment_data)
+    return payment_response
+
+
+def gerar_pix(request):
+    plano_id = request.GET.get('plano_id')
+    plano = Planos.objects.get(id=plano_id)
+
+    pix_data = criar_pagamento_pix(request.user.email, plano.titulo, plano.valor)
+
+    if pix_data:
+        pix_vars = {
+            'url': pix_data['response']['point_of_interaction']['transaction_data']['qr_code'], 
+            'qrcode': pix_data['response']['point_of_interaction']['transaction_data']['qr_code_base64']
+        }
+    else:
+        pix_vars = {}
+
+    # Carrega o template que contém o HTML do Pix
+    template = get_template('pagamentos/gerar_pix.html')  # Substitua pelo seu template
+    return HttpResponse(template.render(pix_vars, request))
