@@ -4,7 +4,8 @@ import mercadopago
 import hmac
 import hashlib
 import base64
-import requests
+import urllib.parse
+from urllib import request
 from django.conf import settings
 from django.contrib import messages
 from django.http import HttpResponse
@@ -217,15 +218,15 @@ def gerar_pix(request):
 
 class PagamentosCallBackView(View):
     def post(self, request, *args, **kwargs):
-
         # Obtém o cabeçalho X-Signature
-        x_signature = request.headers.get('X-Signature')
+        xSignature = request.headers.get("x-signature")
+        xRequestId = request.headers.get("x-request-id")
         
         # Obtém o corpo da requisição
         body = request.body
         
         # Valida a assinatura
-        if not self.validate_signature(body, x_signature):
+        if not self.validate_signature(xSignature, xRequestId):
             return JsonResponse({'status': 'error', 'message': 'Invalid signature'}, status=403)
 
         # Processa a notificação
@@ -247,7 +248,7 @@ class PagamentosCallBackView(View):
             elif status == 'rejected':
                 status = 'rejeitado'
 
-            pagamento = Pagamentos.filter.filter(mercadopago_id=payment_id, status='pendente').first()
+            pagamento = Pagamentos.objects.filter(mercadopago_id=payment_id, status='pendente').first()
             if pagamento:
                 pagamento.status = status
                 pagamento.save()
@@ -266,13 +267,47 @@ class PagamentosCallBackView(View):
             return JsonResponse({'status': 'error', 'message': 'Failed to retrieve payment'}, status=400)
 
 
-    def validate_signature(self, body, x_signature):
-        # Cria a assinatura esperada
-        expected_signature = base64.b64encode(hmac.new(
-            key=settings.MERCADOPAGO_ASS_SECRET_WEBHOOK.encode('utf-8'),
-            msg=body,
-            digestmod=hashlib.sha256
-        ).digest()).decode('utf-8')
+    def validate_signature(self, xSignature, xRequestId):
 
-        # Compara a assinatura esperada com a recebida
-        return hmac.compare_digest(expected_signature, x_signature)
+        # Obtain Query params related to the request URL
+        queryParams = urllib.parse.parse_qs(request.url.query)
+
+        # Extract the "data.id" from the query params
+        dataID = queryParams.get("data.id", [""])[0]
+
+        # Separating the x-signature into parts
+        parts = xSignature.split(",")
+
+        # Initializing variables to store ts and hash
+        ts = None
+        hash = None
+
+        # Iterate over the values to obtain ts and v1
+        for part in parts:
+            # Split each part into key and value
+            keyValue = part.split("=", 1)
+            if len(keyValue) == 2:
+                key = keyValue[0].strip()
+                value = keyValue[1].strip()
+                if key == "ts":
+                    ts = value
+                elif key == "v1":
+                    hash = value
+
+        # Obtain the secret key for the user/application from Mercadopago developers site
+        secret = settings.MERCADOPAGO_ASS_SECRET_WEBHOOK
+
+        # Generate the manifest string
+        manifest = f"id:{dataID};request-id:{xRequestId};ts:{ts};"
+
+        # Create an HMAC signature defining the hash type and the key as a byte array
+        hmac_obj = hmac.new(secret.encode(), msg=manifest.encode(), digestmod=hashlib.sha256)
+
+        # Obtain the hash result as a hexadecimal string
+        sha = hmac_obj.hexdigest()
+        if sha == hash:
+            # HMAC verification passed
+            return True
+        else:
+            # HMAC verification failed
+            return False
