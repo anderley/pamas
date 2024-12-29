@@ -226,7 +226,7 @@ class PagamentosCallBackView(View):
         body = request.body
         
         # Valida a assinatura
-        if not self.validate_signature(xSignature, xRequestId):
+        if not self.validate_signature(request.url.query, xSignature, xRequestId):
             return JsonResponse({'status': 'error', 'message': 'Invalid signature'}, status=403)
 
         # Processa a notificação
@@ -267,10 +267,10 @@ class PagamentosCallBackView(View):
             return JsonResponse({'status': 'error', 'message': 'Failed to retrieve payment'}, status=400)
 
 
-    def validate_signature(self, xSignature, xRequestId):
+    def validate_signature(self, query, xSignature, xRequestId):
 
         # Obtain Query params related to the request URL
-        queryParams = urllib.parse.parse_qs(request.url.query)
+        queryParams = urllib.parse.parse_qs(query)
 
         # Extract the "data.id" from the query params
         dataID = queryParams.get("data.id", [""])[0]
