@@ -116,8 +116,8 @@ class ContatosCreateView(CreateView):
 
     @use_request_token_check_expiration(scope='mentorado')
     def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            return render(request, '404.html')
+        # if request.user.is_authenticated:
+        #     return render(request, '404.html')
 
         token = request.GET['rt']
         form_cliente = FomularioClientes.objects.get(token=token)
