@@ -220,13 +220,15 @@ class PagamentosCallBackView(View):
         # Obtém o cabeçalho X-Signature
         xSignature = request.headers.get("x-signature")
         xRequestId = request.headers.get("x-request-id")
+
+        data = request.form.to_dict()
         
         # Valida a assinatura
-        if not self.validate_signature(request.body, xSignature, xRequestId):
+        if not self.validate_signature(data, xSignature, xRequestId):
             return JsonResponse({'status': 'error', 'message': 'Invalid signature'}, status=403)
 
         # Processa a notificação
-        notification = json.loads(body)
+        notification = json.loads(request.body)
         payment_id = notification.get('id')
 
         # Aqui você pode buscar o pagamento e atualizar o status no seu sistema
