@@ -221,7 +221,7 @@ class PagamentosCallBackView(View):
         xSignature = request.headers.get("x-signature")
         xRequestId = request.headers.get("x-request-id")
 
-        data = request.form.to_dict()
+        data = request.POST
         
         # Valida a assinatura
         if not self.validate_signature(data, xSignature, xRequestId):
