@@ -221,11 +221,8 @@ class PagamentosCallBackView(View):
         xSignature = request.headers.get("x-signature")
         xRequestId = request.headers.get("x-request-id")
         
-        # Obtém o corpo da requisição
-        body = request.body
-        
         # Valida a assinatura
-        if not self.validate_signature(request, xSignature, xRequestId):
+        if not self.validate_signature(request.body, xSignature, xRequestId):
             return JsonResponse({'status': 'error', 'message': 'Invalid signature'}, status=403)
 
         # Processa a notificação
@@ -266,13 +263,10 @@ class PagamentosCallBackView(View):
             return JsonResponse({'status': 'error', 'message': 'Failed to retrieve payment'}, status=400)
 
 
-    def validate_signature(self, request, xSignature, xRequestId):
-
-        # Obtain Query params related to the request URL
-        queryParams = urllib.parse.parse_qs(request.url.query)
+    def validate_signature(self, body, xSignature, xRequestId):
 
         # Extract the "data.id" from the query params
-        dataID = queryParams.get("data.id", [""])[0]
+        dataID = body['data']['id']
 
         # Separating the x-signature into parts
         parts = xSignature.split(",")
