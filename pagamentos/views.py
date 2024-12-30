@@ -5,7 +5,6 @@ import hmac
 import hashlib
 import base64
 import urllib.parse
-from urllib import request
 from django.conf import settings
 from django.contrib import messages
 from django.http import HttpResponse
@@ -226,7 +225,7 @@ class PagamentosCallBackView(View):
         body = request.body
         
         # Valida a assinatura
-        if not self.validate_signature(request.url.query, xSignature, xRequestId):
+        if not self.validate_signature(request, xSignature, xRequestId):
             return JsonResponse({'status': 'error', 'message': 'Invalid signature'}, status=403)
 
         # Processa a notificação
@@ -267,10 +266,10 @@ class PagamentosCallBackView(View):
             return JsonResponse({'status': 'error', 'message': 'Failed to retrieve payment'}, status=400)
 
 
-    def validate_signature(self, query, xSignature, xRequestId):
+    def validate_signature(self, request, xSignature, xRequestId):
 
         # Obtain Query params related to the request URL
-        queryParams = urllib.parse.parse_qs(query)
+        queryParams = urllib.parse.parse_qs(request.url.query)
 
         # Extract the "data.id" from the query params
         dataID = queryParams.get("data.id", [""])[0]
