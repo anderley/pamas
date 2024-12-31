@@ -225,6 +225,12 @@ class PagamentosCallBackView(View):
         notification = json.loads(request.body)
         payment_id = notification.get('id')
 
+        Notificacoes(
+            user=request.user,
+            mensagem=f'PIX - DATA: {notification}', # noqa
+            tipo=Notificacoes.Tipo.PAGAMENTO
+        ).save()
+
         # Valida a assinatura
         if not self.validate_signature(notification, xSignature, xRequestId):
             return JsonResponse({'status': 'error', 'message': 'Invalid signature'}, status=403)
