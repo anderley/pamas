@@ -221,8 +221,8 @@ class PagamentosCallBackView(View):
         xSignature = request.headers.get("x-signature")
         xRequestId = request.headers.get("x-request-id")
 
-        data = request.POST
-        
+        data = json.loads(request.body)
+
         # Valida a assinatura
         if not self.validate_signature(data, xSignature, xRequestId):
             return JsonResponse({'status': 'error', 'message': 'Invalid signature'}, status=403)
