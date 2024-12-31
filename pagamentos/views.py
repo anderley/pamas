@@ -207,6 +207,15 @@ def gerar_pix(request):
             'url': pix_data['response']['point_of_interaction']['transaction_data']['qr_code'], 
             'qrcode': pix_data['response']['point_of_interaction']['transaction_data']['qr_code_base64']
         }
+
+        pagamento = Pagamentos.objects.create(
+            user=request.user,
+            plano_titulo=plano.titulo,
+            plano_descricao=plano.descricao,
+            plano_num_formularios=plano.num_formularios,
+            plano_valor=plano.valor,
+            status='pendente',
+        )
     else:
         pix_vars = {}
 
