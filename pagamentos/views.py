@@ -266,7 +266,7 @@ class PagamentosCallBackView(View):
     def validate_signature(self, body, xSignature, xRequestId):
 
         # Extract the "data.id" from the query params
-        dataID = body['data']['id']
+        dataID = body.get('data.id')
 
         # Separating the x-signature into parts
         parts = xSignature.split(",")
