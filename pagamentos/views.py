@@ -200,8 +200,6 @@ def gerar_pix(request):
 
     pix_data = criar_pagamento_pix(request.user.email, plano.titulo, plano.valor)
 
-    print(pix_data)
-
     if pix_data:
         pix_vars = {
             'url': pix_data['response']['point_of_interaction']['transaction_data']['qr_code'], 
@@ -215,6 +213,7 @@ def gerar_pix(request):
             plano_num_formularios=plano.num_formularios,
             plano_valor=plano.valor,
             status='pendente',
+            mercadopago_id=pix_data['response']['id']
         )
     else:
         pix_vars = {}
