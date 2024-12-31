@@ -221,15 +221,13 @@ class PagamentosCallBackView(View):
         xSignature = request.headers.get("x-signature")
         xRequestId = request.headers.get("x-request-id")
 
-        data = json.loads(request.body)
-
-        # Valida a assinatura
-        if not self.validate_signature(data, xSignature, xRequestId):
-            return JsonResponse({'status': 'error', 'message': 'Invalid signature'}, status=403)
-
         # Processa a notificação
         notification = json.loads(request.body)
         payment_id = notification.get('id')
+
+        # Valida a assinatura
+        if not self.validate_signature(notification, xSignature, xRequestId):
+            return JsonResponse({'status': 'error', 'message': 'Invalid signature'}, status=403)
 
         # Aqui você pode buscar o pagamento e atualizar o status no seu sistema
         sdk = mercadopago.SDK(settings.MERCADOPAGO_ACCESS_TOKEN)
