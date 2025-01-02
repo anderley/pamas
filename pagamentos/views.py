@@ -10,7 +10,7 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.template.loader import render_to_string, get_template
 from django.utils.html import strip_tags
 from django.views.generic import ListView, TemplateView
@@ -67,8 +67,12 @@ class PagamentoView(TemplateView):
 
             pagamento.status = 'pago'
             envia_email_e_cria_notificao(self.request, True)
+            messages.success(request, data['mensagem'])
+
+            return redirect('send_form')
         else:
             envia_email_e_cria_notificao(self.request, False)
+            messages.error(request, data['mensagem'])
         pagamento.mercadopago_id = data['mercadopago_id']
         pagamento.save()
 
