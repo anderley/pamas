@@ -21,6 +21,10 @@ from notificacoes.models import Notificacoes
 from pagamentos.models import Pagamentos
 from planos.models import Planos
 from usuarios.models import UsuarioEnvioFormulario
+from logs.models import Log
+
+
+logger = Log('pagamentos')
 
 
 class PagamentosListView(LoginRequiredMixin, ListView):
@@ -233,8 +237,11 @@ class PagamentosCallBackView(View):
         notification = json.loads(request.body)
         payment_id = notification.get('id')
 
+        logger.info('Parametros: {}'.format(notification))
+
         # Valida a assinatura
         if not self.validate_signature(notification, xSignature, xRequestId):
+            logger.error('Assinatura invalida')
             return JsonResponse({'status': 'error', 'message': 'Invalid signature'}, status=403)
 
         # Aqui você pode buscar o pagamento e atualizar o status no seu sistema
@@ -245,6 +252,8 @@ class PagamentosCallBackView(View):
             payment_data = payment["response"]
             status = payment_data['status']
 
+            logger.info('status: {}'.format(status))
+
             if status == 'approved':
                 status = 'pago'
             elif status == 'pending':
@@ -254,6 +263,7 @@ class PagamentosCallBackView(View):
 
             pagamento = Pagamentos.objects.filter(mercadopago_id=payment_id, status='pendente').first()
             if pagamento:
+                logger.info('pagamento: {} - mercadopago_id: {}'.format(pagamento.id, payment_id))
                 pagamento.status = status
                 pagamento.save()
 
@@ -262,6 +272,7 @@ class PagamentosCallBackView(View):
                         user=self.request.user
                     )
                     if userEnvioFormulario:
+                        logger.info('pago - aumentando +{} disparos'.format(pagamento.plano_num_formularios))
                         userEnvioFormulario.pagamento = pagamento
                         userEnvioFormulario.num_formularios += pagamento.plano_num_formularios # noqa
                         userEnvioFormulario.save()       

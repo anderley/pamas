@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'usuarios',
     'pagamentos',
     'notificacoes',
+    'logs',
 ]
 
 MIDDLEWARE = [
