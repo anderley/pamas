@@ -51,9 +51,9 @@
     width: 50px;
     text-align: center;
     vertical-align: middle;
-    font-size: 2rem; }
+    font-size: 2rem !important; }
   .toast-item-wrapper .toast-close {
-    font-size: 1.2rem;
+    font-size: 1.2rem !important;
     position: absolute;
     top: 0;
     right: 0;
@@ -101,7 +101,7 @@
   .toast-item-wrapper p {
     margin: 0; }
   .toast-item-wrapper .toast-message {
-    font-size: 0.87rem; }
+    font-size: 0.87rem !important; }
   .toast-item-wrapper .toast-progress {
     width: 0;
     height: 3px;

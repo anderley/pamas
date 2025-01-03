@@ -10970,7 +10970,7 @@ form.user .btn-user {
 
 .error {
   color: #5a5c69;
-  font-size: 7rem;
+  /* font-size: 7rem; */
   position: relative;
   line-height: 1;
   width: 12.5rem;
@@ -11278,4 +11278,16 @@ footer.sticky-footer .copyright {
 
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
+}
+
+.bg-public {
+  background-image: url('/static/img/bg-public.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.bg-site {
+  background-image: url('/static/img/bg-site.png');
+  background-repeat: no-repeat;
+  background-size: cover;
 }

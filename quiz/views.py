@@ -46,7 +46,9 @@ def home(request):
 def enviar_formulario(request):
     form = EnviarFormularioForm()
     context = {
-        'form': form
+        'form': form,
+        'assessment_active': 'active',
+        'enviar_active': 'active'
     }
     if request.method == 'POST':
         form = EnviarFormularioForm(request.POST)
@@ -224,6 +226,7 @@ class FormularioFormView(FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['assessment_active'] = 'active'
         context.update(**self.initial)
 
         return context
@@ -237,6 +240,13 @@ class ListSentFormsView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['assessment_active'] = 'active'
+        context['lista_envios_active'] = 'active'
+
+        return context
 
 
 def _load_pdf_context(

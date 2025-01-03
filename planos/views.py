@@ -13,6 +13,12 @@ class PlanosListView(LoginRequiredMixin, ListView):
     template_name = 'planos/show.html'
     redirect_field_name = 'login'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['planos_active'] = 'active'
+
+        return context
+
 
 class PlanoDetailView(DetailView):
     model = Planos
