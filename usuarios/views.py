@@ -49,7 +49,7 @@ def password_reset_request(request):
             return redirect("esqueceu_usuario")
         else:
             messages.error(request, "Nenhum usuário encontrado com esse email.") # noqa
-    return render(request, "usuarios/password_reset.html", {'form': form})
+    return render(request, "usuarios/esqueceu.html", {'form': form})
 
 
 class CustomPasswordResetConfirmView(PasswordResetConfirmView):

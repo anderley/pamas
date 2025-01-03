@@ -11279,3 +11279,15 @@ footer.sticky-footer .copyright {
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
 }
+
+.bg-public {
+  background-image: url('/static/img/bg-public.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.bg-site {
+  background-image: url('/static/img/bg-site.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}

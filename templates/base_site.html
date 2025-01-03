@@ -29,14 +29,12 @@
         <div id="wrapper">
 
             <!-- Sidebar -->
-            <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
+            <ul class="navbar-nav sidebar sidebar-light accordion h-100" id="accordionSidebar">
 
                 <!-- Sidebar - Brand -->
                 <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'home' %}">
                     <div class="sidebar-brand-icon mx-3">
-                        <img src="{% static 'img/icon.png' %}"/>
-                        <br>
-                        <span class="text-lg">Pamas</span>
+                        <img src="{% static 'img/logo.png' %}"/>
                     </div>
                 </a>
                 
@@ -54,23 +52,23 @@
                     </div>
 
                     <!-- Nav Item - Tables -->
-                    <li class="nav-item">
+                    <li class="nav-item {{ planos_active}}">
                         <a class="nav-link" href="{% url 'planos' %}">
                             <i class="fas fa-fw fa-shopping-bag"></i>
                             <span>Planos</span></a>
                     </li>
 
                     <!-- Nav Item - Pages Collapse Menu -->
-                    <li class="nav-item">
+                    <li class="nav-item {{ assessment_active}}">
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                             aria-expanded="true" aria-controls="collapseTwo">
                             <i class="fas fa-fw fa-cog"></i>
-                            <span>Formulários</span>
+                            <span>Assessments</span>
                         </a>
-                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div id="collapseTwo" class="collapse {{ assessment_active|yesno:'show,' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
-                                <a class="collapse-item" href="{% url 'send_form' %}">Enviar</a>
-                                <a class="collapse-item" href="{% url 'list_sent_form' %}">Listar Envios</a>
+                                <a class="collapse-item {{ enviar_active|yesno:'bg-info text-white,' }}" href="{% url 'send_form' %}">Enviar</a>
+                                <a class="collapse-item {{ lista_envios_active|yesno:'bg-info text-white,' }}" href="{% url 'list_sent_form' %}">Listar Envios</a>
                             </div>
                         </div>
                     </li>
@@ -95,7 +93,7 @@
                 <div id="content">
 
                     <!-- Topbar -->
-                    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <nav class="navbar navbar-expand navbar-light bg-white topbar static-top shadow">
 
                         {% if user.is_authenticated and not user.is_staff %}
                             
@@ -147,7 +145,7 @@
                     <!-- End of Topbar -->
 
                     <!-- Begin Page Content -->
-                    <div class="container-fluid">
+                    <div class="container-fluid bg-site h-100 pt-4">
                         {% block content %} {% endblock %}
                     </div>
                     <!-- /.container-fluid -->

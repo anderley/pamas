@@ -4,42 +4,30 @@
 
 {% block content %}
 
-    <!-- Outer Row -->
-    <div class="row justify-content-center">
+    <div class="container">
+        <div class="row justify-content-around">
+            <div class="col-12">
+                <div class="p-5">
+                    <div class="text-center">
+                        <h1 class="h4 text-white-900 mb-4">Cadastre-se</h1>
+                    </div>
+                    <form class="user" method="post">
+                        {% csrf_token %}
 
-        <div class="col-xl-5 col-lg-7 col-md-4">
-
-            <div class="card o-hidden border-0 shadow-lg my-5">
-                <div class="card-body p-0">
-                    <!-- Nested Row within Card Body -->
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="p-5">
-                                <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4">Cadastre-se</h1>
-                                </div>
-                                <form class="user" method="post">
-                                    {% csrf_token %}
-
-                                    {{ form|crispy }}
-                                    <button type="submit" class="btn btn-primary btn-user btn-block">
-                                        Cadastrar
-                                    </button>
-                                </form>
-                                <hr>
-                                <div class="text-center">
-                                    <a href="{% url 'esqueceu_usuario' %}" >Esqueceu sua senha?</a>
-                                    <br>
-                                    <a href="{% url 'login' %}" >Já possui uma conta? Entrar!</a>
-                                </div>
-                            </div>
-                        </div>
+                        {{ form|crispy }}
+                        <button type="submit" class="btn btn-info btn-user btn-block">
+                            Cadastrar
+                        </button>
+                    </form>
+                    <hr>
+                    <div class="text-center">
+                        <a href="{% url 'esqueceu_usuario' %}" >Esqueceu sua senha?</a>
+                        <br>
+                        <a href="{% url 'login' %}" >Já possui uma conta? Entrar!</a>
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
 
 {% endblock %}
