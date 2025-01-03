@@ -235,8 +235,9 @@ class PagamentosCallBackView(View):
 
         # Processa a notificação
         notification = json.loads(request.body)
+        data = notification.get('data')
         payment_id = notification.get('id')
-        data_id = notification.get('data').get('id')
+        data_id = data.get('id') if data and 'id' in data else None
 
         logger.info('body: {}'.format(notification))
         logger.info('headers: {}'.format({
@@ -244,6 +245,7 @@ class PagamentosCallBackView(View):
             'x-request-id': xRequestId,
         }))
         logger.info('dataID: {}'.format(data_id))
+        print('dataID: {}'.format(data_id))
 
         # Valida a assinatura
         if not self.validate_signature(data_id, xSignature, xRequestId):
