@@ -250,9 +250,13 @@ class PagamentosCallBackView(View):
             logger.error('Assinatura invalida')
             return JsonResponse({'status': 'error', 'message': 'Invalid signature'}, status=403)
 
+        logger.info('Assinatura valida')
+
         # Aqui você pode buscar o pagamento e atualizar o status no seu sistema
         sdk = mercadopago.SDK(settings.MERCADOPAGO_ACCESS_TOKEN)
         payment = sdk.payment().get(payment_id)
+
+        logger.info('payment: {}'.format(payment))
 
         if payment["status"] == 200:
             payment_data = payment["response"]
@@ -283,8 +287,10 @@ class PagamentosCallBackView(View):
                         userEnvioFormulario.num_formularios += pagamento.plano_num_formularios # noqa
                         userEnvioFormulario.save()       
 
+            logger.error('Sucesso')
             return JsonResponse({'status': 'success', 'message': 'Payment processed'}, status=200)
         else:
+            logger.error('Falhou')
             return JsonResponse({'status': 'error', 'message': 'Failed to retrieve payment'}, status=400)
 
 
