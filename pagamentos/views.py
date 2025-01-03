@@ -236,16 +236,17 @@ class PagamentosCallBackView(View):
         # Processa a notificação
         notification = json.loads(request.body)
         payment_id = notification.get('id')
+        data_id = notification.get('data').get('id')
 
         logger.info('body: {}'.format(notification))
         logger.info('headers: {}'.format({
             'x-signature': xSignature,
             'x-request-id': xRequestId,
         }))
-        logger.info('dataID: {}'.format(notification.get('data.id')))
+        logger.info('dataID: {}'.format(data_id))
 
         # Valida a assinatura
-        if not self.validate_signature(notification, xSignature, xRequestId):
+        if not self.validate_signature(data_id, xSignature, xRequestId):
             logger.error('Assinatura invalida')
             return JsonResponse({'status': 'error', 'message': 'Invalid signature'}, status=403)
 
@@ -287,10 +288,7 @@ class PagamentosCallBackView(View):
             return JsonResponse({'status': 'error', 'message': 'Failed to retrieve payment'}, status=400)
 
 
-    def validate_signature(self, body, xSignature, xRequestId):
-
-        # Extract the "data.id" from the query params
-        dataID = body.get('data.id')
+    def validate_signature(self, dataID, xSignature, xRequestId):
 
         # Separating the x-signature into parts
         parts = xSignature.split(",")
@@ -317,11 +315,20 @@ class PagamentosCallBackView(View):
         # Generate the manifest string
         manifest = f"id:{dataID};request-id:{xRequestId};ts:{ts};"
 
+        logger.info('manifest: {}'.format(manifest))
+        logger.info('manifest.encode(): {}'.format(manifest.encode()))
+        logger.info('secret: {}'.format(secret))
+        logger.info('secret.encode(): {}'.format(secret.encode()))
+
         # Create an HMAC signature defining the hash type and the key as a byte array
         hmac_obj = hmac.new(secret.encode(), msg=manifest.encode(), digestmod=hashlib.sha256)
 
         # Obtain the hash result as a hexadecimal string
         sha = hmac_obj.hexdigest()
+
+        logger.info('sha: {}'.format(sha))
+        logger.info('hash: {}'.format(hash))
+
         if sha == hash:
             # HMAC verification passed
             return True
