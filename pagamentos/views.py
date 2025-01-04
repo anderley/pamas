@@ -249,7 +249,6 @@ class PagamentosCallBackView(View):
             'x-request-id': xRequestId,
         }))
         logger.info('dataID: {}'.format(data_id))
-        print('dataID: {}'.format(data_id))
 
         # Valida a assinatura
         if not self.validate_signature(data_id, xSignature, xRequestId):
@@ -260,7 +259,7 @@ class PagamentosCallBackView(View):
 
         # Aqui você pode buscar o pagamento e atualizar o status no seu sistema
         sdk = mercadopago.SDK(settings.MERCADOPAGO_ACCESS_TOKEN)
-        payment = sdk.payment().get(payment_id)
+        payment = sdk.payment().get(data_id)
 
         logger.info('payment: {}'.format(payment))
 
