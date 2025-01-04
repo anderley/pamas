@@ -240,7 +240,6 @@ class PagamentosCallBackView(View):
         # Processa a notificação
         notification = json.loads(request.body)
         data = notification.get('data')
-        payment_id = notification.get('id')
         data_id = data.get('id') if data and 'id' in data else None
 
         logger.info('body: {}'.format(notification))
@@ -276,9 +275,9 @@ class PagamentosCallBackView(View):
             elif status == 'rejected':
                 status = 'rejeitado'
 
-            pagamento = Pagamentos.objects.filter(mercadopago_id=payment_id, status='pendente').first()
+            pagamento = Pagamentos.objects.filter(mercadopago_id=data_id, status='pendente').first()
             if pagamento:
-                logger.info('pagamento: {} - mercadopago_id: {}'.format(pagamento.id, payment_id))
+                logger.info('pagamento: {} - mercadopago_id: {}'.format(pagamento.id, data_id))
                 pagamento.status = status
                 pagamento.save()
 
@@ -292,7 +291,7 @@ class PagamentosCallBackView(View):
                         userEnvioFormulario.num_formularios += pagamento.plano_num_formularios # noqa
                         userEnvioFormulario.save()       
 
-            logger.error('Sucesso')
+            logger.info('Sucesso')
             return JsonResponse({'status': 'success', 'message': 'Payment processed'}, status=200)
         else:
             logger.error('Falhou')
