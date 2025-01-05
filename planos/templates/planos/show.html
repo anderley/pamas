@@ -17,7 +17,7 @@
                     <a href="{% url 'planos_detail' %}">
                         <div class="card mb-3 pt-4 pb-3 px-3 text-center">
                             {% if plano.imagem %}
-                                <img class="mb-4" src="{% get_media_prefix %}{{ plano.imagem }}" >
+                                <img class="mb-4" src="{% get_media_prefix %}{{ plano.imagem }}">
                             {% endif %}
                             {{ plano.titulo }}
                         </div>
