@@ -66,6 +66,8 @@ class PagamentoView(TemplateView):
                 userEnvioFormulario.save()
 
             pagamento.status = 'pago'
+            pagamento.mercadopago_id = data['mercadopago_id']
+            pagamento.save()
             envia_email_e_cria_notificao(self.request, True)
             messages.success(request, data['mensagem'])
 
@@ -73,8 +75,8 @@ class PagamentoView(TemplateView):
         else:
             envia_email_e_cria_notificao(self.request, False)
             messages.error(request, data['mensagem'])
-        pagamento.mercadopago_id = data['mercadopago_id']
-        pagamento.save()
+            pagamento.mercadopago_id = data['mercadopago_id']
+            pagamento.save()
 
         return render(request, self.template_name, data)
 
@@ -289,7 +291,7 @@ class PagamentosCallBackView(View):
                         logger.info('pago - aumentando +{} disparos'.format(pagamento.plano_num_formularios))
                         userEnvioFormulario.pagamento = pagamento
                         userEnvioFormulario.num_formularios += pagamento.plano_num_formularios # noqa
-                        userEnvioFormulario.save()       
+                        userEnvioFormulario.save()
 
             logger.info('Sucesso')
             return JsonResponse({'status': 'success', 'message': 'Payment processed'}, status=200)
