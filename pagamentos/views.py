@@ -281,7 +281,6 @@ class PagamentosCallBackView(View):
             if pagamento:
                 logger.info('pagamento: {} - mercadopago_id: {}'.format(pagamento.id, data_id))
                 pagamento.status = status
-                pagamento.save()
 
                 if pagamento.status == 'pago':
                     logger.info('pago')
@@ -295,7 +294,7 @@ class PagamentosCallBackView(View):
                         userEnvioFormulario.pagamento = pagamento
                         userEnvioFormulario.num_formularios += pagamento.plano_num_formularios # noqa
                         userEnvioFormulario.save()
-
+                        pagamento.save()
             logger.info('Sucesso')
             return JsonResponse({'status': 'success', 'message': 'Payment processed'}, status=200)
         else:
