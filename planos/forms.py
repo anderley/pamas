@@ -7,4 +7,4 @@ class PlanosForm(forms.ModelForm):
 
     class Meta:
         model = Planos
-        fields = ['titulo', 'descricao', 'num_formularios', 'valor', 'parcelas']
+        fields = ['titulo', 'descricao', 'imagem', 'num_formularios', 'valor', 'parcelas']

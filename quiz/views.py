@@ -453,7 +453,7 @@ def _generate_pdf(
 
     try:
         s3_client.upload_file(
-            pdf_name, settings.AWS_STORAGE_BUCKET_NAME,
+            pdf_name, settings.AWS_STORAGE_PDF_BUCKET_NAME,
             document_name, ExtraArgs={'ACL': 'public-read'}
         )
     except ClientError as e:

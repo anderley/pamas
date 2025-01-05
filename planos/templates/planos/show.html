@@ -1,25 +1,30 @@
 {% extends 'base_site.html' %}
 
+{% load static %}
 {% load humanize %}
 
 {% block content %}
-    <h1 class="h3 mb-4 text-gray-800">Planos</h1>
-
-    <div class="row">
-        {% for plano in object_list %}
-        <div class="col-lg-2 text-warning">
-            <div class="card bg-gradient-dark border-dark md-2">
-                <div class="card-header bg-gradient-dark border-dark">{{ plano.titulo }}</div>
-                <div class="card-body">
-                    <p>{{ plano.descricao|safe }}</p>
-                    <label>R$ {{ plano.formatar_valor }}</label>
-                    <div class="d-flex justify-content-end">
-                        <a class="btn btn-warning" href="{% url 'planos_detail' plano.id %}">Comprar</a>
-                    </div>
-                </div>
-            </div>
+    <div class="wrapper mt-n4 ml-n4 mr-n4 p-5 h-100" style="background-color: #17224b;">
+        <div class="row text-center mt-5 mb-5">
+            <h1 class="display-4" style="color: #55e9ff">Avaliação abrangente para líderes e equipes de alto desempenho</h1>
         </div>
-        {% endfor %}
+        <div class="row mt-5 mb-2">
+            <h3 class="text-white">ESCOLHA O PLANO IDEAL PARA SUA NECESSIDADE</h3>
+        </div>
+        <div class="row">
+            {% for plano in object_list %}
+                <div class="col-md-3">
+                    <a href="{% url 'planos_detail' %}">
+                        <div class="card mb-3 pt-4 pb-3 px-3 text-center">
+                            {% if plano.imagem %}
+                                <img class="mb-4" src="{% get_media_prefix %}{{ plano.imagem }}" >
+                            {% endif %}
+                            {{ plano.titulo }}
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 
 {% endblock content %}

@@ -1,103 +1,80 @@
 {% extends 'base_site.html' %}
 
-{% load humanize crispy_forms_tags static %}
+{% load static %}
+{% load humanize %}
 
 {% block content %}
-    <h1 class="h3 mb-4 text-gray-800">Carrinho</h1>
-
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="card md-6">
-                <div class="card-header">{{ plano.titulo }}</div>
-                <div class="card-body">
-                    <p>{{ plano.descricao|safe }}</p>
-                    <label>R$ {{ plano.formatar_valor }}</label>
-                </div>
-            </div>
-
-            &nbsp;
-
-            <div class="card md-6">
-                <div class="card-header">Escolha o método de pagamento</div>
-                <div class="card-body">
-                    <div class="payment-methods">
-                        <div class="payment-option" id="cartao-option">
-                            <img src="{% static 'img/cartao.png' %}" alt="Cartão" class="payment-image" width="50">
-                            <p>Cartão</p>
-                        </div>
-                        <div class="payment-option" id="pix-option">
-                            <img src="{% static 'img/pix.png' %}" alt="Pix" class="payment-image" width="50">
-                            <p>Pix</p>
-                        </div>
+    <div class="wrapper mt-n4 ml-n4 mr-n4 p-5 h-100" style="background-color: #17224b;">
+        <div class="row text-center mt-5 mb-5">
+            <h1 class="display-4" style="color: #55e9ff">Como Funcionam Nossos Planos de Assessment</h1>
+        </div>
+        <div class="row mt-5 mb-2">
+            <h3 class="text-white">Cada plano que oferecemos corresponde a um número específico de links de acesso para assessments. Veja:</h3>
+        </div>
+        <div class="row">
+            {% for plano in object_list %}
+                <div class="col-md-2 text-center px-0 mr-4" style="background-color: cyan; border-radius: 1.38rem;">
+                    <div class="card mb-3 pt-4 pb-3 px-3" style="border-radius: 1.38rem;">
+                        <p>{{ plano.descricao|safe }}</p>
+                        <label>R$ {{ plano.formatar_valor }}</label>
                     </div>
+                    <a class="text-white" href="{% url 'planos_checkout' plano.id %}">
+                        <p class="px-3">ESCOLHER PLANO</p>
+                    </a>
                 </div>
-            </div>
+            {% endfor %}
         </div>
-
-        <div class="col-lg-6">
-            <div id="pix-details" class="hidden card md-6">
-                <div class="card-header">Pagamento - Pix</div>
-                <div class="card-body">
-                    <!-- Informações do Pix -->
-                    <center><button id="carregar-pix" class="btn btn-info">Gerar Código Pix</button></center>
-                    <div id="pix-html" class="mt-3"></div>
-                </div>
-            </div>
-
-            <div id="card-details" class="hidden card md-6">
-                <div class="card-header">Pagamento - Cartão</div>
-
-                <div class="card-simulation">
-                    <div class="card-number" id="card-number">**** **** **** ****</div>
-                    <div class="card-validade" id="card-validade">Validade: **/**</div>
-                    <div class="card-nome" id="card-nome">Nome Sobrenome</div>
-                    <div class="card-cvc" id="card-cvc">***</div>
-                </div>
-
-                <div class="card-body">
-                    <form action="{% url 'pagamento' %}" method="POST">
-                        {% csrf_token %}
-                        {{ form_pagamento|crispy }}
-                        <button type="submit" class="btn btn-primary">Pagar</button>
-                    </form>
-                </div>
-            </div>
+        <h5 class="mt-5" style="color: #55e9ff">Saiba mais:</h5>
+        <div class="row bg-secondary">
+            <ul class="list-unstyled text-white p-3 mb-0">
+                <li><a class="text-white" href="#" data-toggle="modal" data-target="#antesEscolher"><i class="fas fa-fw fa-exclamation-circle"></i> Antes de escolher o plano</a></li>
+                <li><a class="text-white" href="#" data-toggle="modal" data-target="#depoisEscolher"><i class="fas fa-fw fa-exclamation-circle"></i> Depois de escolher o plano</a></li>
+            </ul>
         </div>
-
     </div>
-    <link href="{% static 'css/cartao.css' %}" rel="stylesheet" type="text/css">
-    <script src="{% static 'js/cartao.js' %}"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // gerar o pix
-            const carregarPixButton = document.getElementById('carregar-pix');
-            const pixHtmlContainer = document.getElementById('pix-html');
+    <div id="antesEscolher" class="modal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content text-white" style="background-color: #17224b;">
+                <div class="modal-header">
+                    <h5 class="modal-title font-weight-bold" style="color: #55e9ff">Antes de escolher o plano, é importante saber:</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        <li>Escolher o plano que melhor atende às suas necessidades.</li>
+                        <li>Finalize a compra usando o e-mail onde deseja receber os links.</li>
+                        <li>Verifique sua caixa de entrada (e pasta de spam, se necessário).</li>
+                        <li>Compartilhe o link quando seu coachee estiver pronto para iniciar o assessment.</li>
+                        <li>Lembre-se: cada link só pode ser usado uma vez, então oriente o seu coachee para
+                            que ele escolha o momento ideal para maximizar seus insights!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="depoisEscolher" class="modal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content text-white" style="background-color: #17224b;">
+                <div class="modal-header">
+                    <h5 class="modal-title font-weight-bold" style="color: #55e9ff">Depois de escolher o plano, é importante saber:</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        <li>Cada link corresponde a um assessment individual.</li>
+                        <li>Os links podem ser utilizados apenas uma única vez.</li>
+                        <li>Após a compra, os links serão enviados automaticamente
+                            para o e-mail cadastrado na sua conta.</li>
+                        <li>Os links não têm prazo de validade, então você pode
+                            compartilhá-los quando for mais conveniente.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 
-            carregarPixButton.addEventListener('click', function() {
-                // Limpa o conteúdo anterior
-                pixHtmlContainer.innerHTML = 'Carregando...';
-
-                // Faz a requisição AJAX
-                fetch('{% url 'gerar_pix' %}?plano_id={{ plano.id }}')  // Substitua pela URL correta do seu endpoint
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Erro ao carregar os detalhes do Pix');
-                        }
-                        return response.text();
-                    })
-                    .then(html => {
-                        // Atualiza o container com o HTML retornado
-                        pixHtmlContainer.innerHTML = html;
-                        carregarPixButton.classList.add('hidden');
-                    })
-                    .catch(error => {
-                        pixHtmlContainer.innerHTML = 'Erro ao carregar os detalhes do Pix: ' + error.message;
-                    });
-            });
-
-        });
-    </script>
 {% endblock content %}
-
-
-

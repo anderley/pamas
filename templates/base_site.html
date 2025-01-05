@@ -55,7 +55,8 @@
                     <li class="nav-item {{ planos_active}}">
                         <a class="nav-link" href="{% url 'planos' %}">
                             <i class="fas fa-fw fa-shopping-bag"></i>
-                            <span>Planos</span></a>
+                            <span>Planos</span>
+                        </a>
                     </li>
 
                     <!-- Nav Item - Pages Collapse Menu -->
@@ -145,8 +146,19 @@
                     <!-- End of Topbar -->
 
                     <!-- Begin Page Content -->
-                    <div class="container-fluid bg-site h-100 pt-4">
-                        {% block content %} {% endblock %}
+                    {% if request.path == "/" %}
+                        <div class="container-fluid h-100 pt-4 bg-site">
+                    {% else %}
+                        <div class="container-fluid h-100 pt-4">
+                    {% endif %}
+                        {% block content %}
+                            <div class="row align-items-center h-100">
+                                <div class="col text-center">
+                                    <h1 class="display-4 font-weight-bold" style="color: #55e9ff">Bem-vindo ao Pamas</h1>
+                                    <h1 class="text-white mt-n4">Eleve suas competências de Gestão!</h1>
+                                </div>
+                            </div>
+                        {% endblock %}
                     </div>
                     <!-- /.container-fluid -->
 

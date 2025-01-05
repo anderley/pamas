@@ -159,51 +159,48 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 if DEBUG:
-    MEDIA_URL = 'mediafiles/'
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'static/mediafiles')
+    MEDIA_URL = 'media'
+    MEDIA_ROOT = os.path.join(BASE_DIR, MEDIA_URL)
 
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-    STATIC_URL = '/static/'
+    STATIC_URL = 'static'
+    STATIC_ROOT = os.path.join(BASE_DIR, STATIC_URL)
     STATICFILES_DIRS = [
-        BASE_DIR / 'static/'
+        BASE_DIR / STATIC_URL
     ]
 
 else:
+
     # Set the required AWS credentials
     AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-    AWS_STORAGE_STATICS_BUCKET_NAME = os.environ.get(
-        'AWS_STORAGE_STATICS_BUCKET_NAME', 'pamas-statics'
-    )
     AWS_S3_REGION_NAME = os.environ.get(
         'AWS_S3_REGION_NAME', 'us-east-1'
     )
-    AWS_DEFAULT_ACL = 'public-read'
+    AWS_STORAGE_BUCKET_NAME = os.environ.get(
+        'AWS_STORAGE_STATICS_BUCKET_NAME', 'pamas-statics'
+    )
+    AWS_S3_FILE_OVERWRITE = True
+    AWS_DEFAULT_ACL = None
+    AWS_QUERYSTRING_AUTH = False
+    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com' # noqa
 
-    # Optional: Set custom domain for static and media files
-    # AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_STATICS_BUCKET_NAME}.s3.amazonaws.com' # noqa
-
-    # Set the static and media files locations
     STATICFILES_LOCATION = 'static'
+    STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/' # noqa
+    STATICFILES_DIRS = [
+        BASE_DIR / STATICFILES_LOCATION
+    ]
+
     MEDIAFILES_LOCATION = 'media'
+    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/' # noqa
 
-    # Define custom storage classes for static and media files
-    class StaticStorage(S3Boto3Storage):
-        location = STATICFILES_LOCATION
-
-    class MediaStorage(S3Boto3Storage):
-        location = MEDIAFILES_LOCATION
-        file_overwrite = False
-
-    # Configure static and media files storage
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    # STATICFILES_STORAGE = 'core.settings.StaticStorage'
-    # DEFAULT_FILE_STORAGE = 'core.settings.MediaStorage'
-
-    # Set static and media URLs
-    STATIC_URL = f'https://{AWS_STORAGE_STATICS_BUCKET_NAME}.s3.amazonaws.com/{STATICFILES_LOCATION}/' # noqa
-    MEDIA_URL = f'https://{AWS_STORAGE_STATICS_BUCKET_NAME}.s3.amazonaws.com/{MEDIAFILES_LOCATION}/' # noqa
-
+    STORAGES = {
+        'default': {
+            'BACKEND': 'core.custom_storage.MediaStorage'
+        },
+        'staticfiles': {
+            'BACKEND': 'core.custom_storage.StaticStorage'
+        }
+    }
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -294,6 +291,4 @@ IMPORT_FORMATS = [CSV, XLSX]
 # }
 
 # AWS Config
-AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = 'pamas'
+AWS_STORAGE_PDF_BUCKET_NAME = 'pamas'
