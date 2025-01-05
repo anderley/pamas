@@ -284,9 +284,12 @@ class PagamentosCallBackView(View):
                 pagamento.save()
 
                 if pagamento.status == 'pago':
+                    logger.info('pago')
                     userEnvioFormulario, created = UsuarioEnvioFormulario.objects.get_or_create( # noqa
                         user=self.request.user
                     )
+                    logger.info('userEnvioFormulario: {}'.format(userEnvioFormulario))
+                    logger.info('created: {}'.format(created))
                     if userEnvioFormulario:
                         logger.info('pago - aumentando +{} disparos'.format(pagamento.plano_num_formularios))
                         userEnvioFormulario.pagamento = pagamento
