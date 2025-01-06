@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from tinymce import models as tinymce_models
 
 
 class Grupos(models.Model):
@@ -60,7 +61,7 @@ class Competencias(models.Model):
 
 
 class Perguntas(models.Model):
-    descricao = models.TextField(verbose_name='Descrição')
+    descricao = tinymce_models.HTMLField(verbose_name='Descrição')
     competencia = models.ForeignKey(Competencias, on_delete=models.CASCADE, verbose_name='Competência') # noqa
     ativo = models.BooleanField(default=True, verbose_name='Ativo')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado')
@@ -105,7 +106,7 @@ class Textos(models.Model):
         ORGANIZACAO = 'Organização', _('Organização')
         SATISFATORIO = 'Satisfatório', _('Satisfatório')
 
-    texto = models.TextField(verbose_name='Texto')
+    texto = tinymce_models.HTMLField(verbose_name='Texto')
     tipo = models.CharField(
         max_length=10, choices=Tipo.choices,
         default=Tipo.LIVRO, verbose_name='Tipo'
