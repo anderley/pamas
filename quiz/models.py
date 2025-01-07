@@ -127,6 +127,9 @@ class Textos(models.Model):
     def __str__(self):
         return self.texto
 
+    def resumo(self):
+        return self.texto[:20]
+
     class Meta:
         db_table = 'textos'
         verbose_name = 'textos'
