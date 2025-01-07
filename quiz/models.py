@@ -128,7 +128,7 @@ class Textos(models.Model):
         return self.texto
 
     def resumo(self):
-        return self.texto[:20]
+        return self.texto[:100]
 
     class Meta:
         db_table = 'textos'
