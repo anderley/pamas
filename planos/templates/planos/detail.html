@@ -6,16 +6,16 @@
 {% block content %}
     <div class="wrapper mt-n4 ml-n4 mr-n4 p-5 h-100" style="background-color: #17224b;">
         <div class="row text-center mt-5 mb-5">
-            <h1 class="display-4" style="color: #55e9ff">Como Funcionam Nossos Planos de Assessment</h1>
+            <h1 style="color: #55e9ff">ENTENDA COMO FUNCIONAM OS PLANOS</h1>
         </div>
         <div class="row mt-5 mb-2">
-            <h3 class="text-white">Cada plano que oferecemos corresponde a um número específico de links de acesso para assessments. Veja:</h3>
+            <h3 class="text-white">Cada plano que oferecemos corresponde a uma quantidade específica de acessos ao assessment PAMAS.</h3>
         </div>
         <div class="row">
             {% for plano in object_list %}
-                <div class="col-md-2 text-center px-0 mr-4" style="background-color: cyan; border-radius: 1.38rem;">
-                    <div class="card mb-3 pt-4 pb-3 px-3" style="border-radius: 1.38rem;">
-                        <p>{{ plano.descricao|safe }}</p>
+                <div class="col-md-2 text-center px-0 mr-4 bg-warning font-weight-bold" style="border-radius: 1.38rem;">
+                    <div class="card mb-3 pt-4 pb-3 px-3" style="border-radius: 1.38rem">
+                        <div style="min-height: 140px;">{{ plano.descricao|safe }}</div>
                         <label>R$ {{ plano.formatar_valor }}</label>
                     </div>
                     <a class="text-white" href="{% url 'planos_checkout' plano.id %}">
