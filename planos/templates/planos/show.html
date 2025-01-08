@@ -6,16 +6,16 @@
 {% block content %}
     <div class="wrapper mt-n4 ml-n4 mr-n4 p-5 h-100" style="background-color: #17224b;">
         <div class="row text-center mt-5 mb-5">
-            <h1 style="color: #55e9ff">
+            <h4 style="color: #55e9ff">
                 Potencialize o sucesso dos seus clientes com o assessment exclusivo PAMAS,
                 que permite a análise e desenvolvimento de competências em diferentes
                 performances.
-            </h1>
+            </h4>
         </div>
-        <div class="row mt-5 mb-2">
-            <h3 class="text-white">
+        <div class="row mt-5 mb-4">
+            <h5 class="text-white">
                 PARA COMEÇAR A USAR O ASSESSMENT, CONHEÇA OS PLANOS DISPONÍVEIS:
-            </h3>
+            </h5>
         </div>
         <div class="row">
             {% for plano in object_list %}
@@ -25,7 +25,7 @@
                             {% if plano.imagem %}
                                 <img class="mb-4" src="{% get_media_prefix %}{{ plano.imagem }}">
                             {% else %}
-                                <h1>{{ plano.num_formularios }}</h1>
+                                <h1 class="display-3 font-weight-bold">{{ plano.num_formularios }}</h1>
                             {% endif %}
                             {{ plano.titulo }}
                         </div>

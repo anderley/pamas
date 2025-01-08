@@ -24,7 +24,7 @@
                         {% for envio in page_obj %}
                             <tr>
                                 <td>{{ envio.email }}</td>
-                                <td data-toggle="tooltip" data-placement="top" title="Copiar" onclick="copyToclipboard(this)">{{ envio.form_url }}</td>
+                                <td data-toggle="tooltip" data-placement="top" title="Copiar" onclick="copyToclipboard('{{ envio.form_url|escape }}')">{{ envio.form_url|truncatechars:60 }}</td>
                                 <td>{{ envio.status|envio_status }}</td>
                                 <td class="text-center">
                                     <!-- Link para tela de resultados -->
@@ -59,9 +59,9 @@
 
 <script>
     
-    const copyToclipboard = async (e) => {
+    const copyToclipboard = async (link) => {
         try {
-            await navigator.clipboard.writeText(e.textContent);
+            await navigator.clipboard.writeText(link);
             
             $.Toast(
                 'Sucesso',
