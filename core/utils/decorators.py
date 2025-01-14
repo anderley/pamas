@@ -23,3 +23,15 @@ def deslogar(view_func):
         response = view_func(request, *args, **kwargs)
         return response
     return wrapper
+
+
+def deslogar_se_admin(view_func):
+    def wrapper(request, *args, **kwargs):
+
+        # Verificar se o usuário é um superusuário (admin)
+        if request.user.is_superuser:
+            logout(request)  # Realizar o logout
+
+        response = view_func(request, *args, **kwargs)
+        return response
+    return wrapper

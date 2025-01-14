@@ -1,11 +1,11 @@
 from django.urls import path
-from core.utils.decorators import deslogar
+from core.utils.decorators import deslogar, deslogar_se_admin
 from usuarios import views as auth_view
 
 from . import views
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('', deslogar_se_admin(views.home), name='home'),
     path('login/', auth_view.CustomLoginView.as_view(), name='login'), # noqa
     path('logout/', views.logout_view, name='logout'),
     path('formulario/instrucoes/', views.InstrucoesTemplateView.as_view(), name='formulario_instrucoes'), # noqa
