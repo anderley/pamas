@@ -5,7 +5,7 @@ from urllib.parse import urlencode
 from django.urls import reverse
 
 
-def deslogar_se_admin(view_func):
+def deslogar(view_func):
     def wrapper(request, *args, **kwargs):
 
         # Verificar se o usuário é um superusuário (admin)
