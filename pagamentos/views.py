@@ -295,6 +295,7 @@ class PagamentosCallBackView(View):
                         userEnvioFormulario.num_formularios += pagamento.plano_num_formularios # noqa
                         userEnvioFormulario.save()
                         pagamento.save()
+                        envia_email_e_cria_notificao(self.request, True)
             logger.info('Sucesso')
             return JsonResponse({'status': 'success', 'message': 'Payment processed'}, status=200)
         else:
