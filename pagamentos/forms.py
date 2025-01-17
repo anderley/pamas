@@ -1,10 +1,11 @@
 from django import forms
+
 from planos.models import Planos
 
 
 class PagamentoForm(forms.Form):
 
-    PARCELAS_CHOICES = [(i, str(i)) for i in range(1, 13)] 
+    PARCELAS_CHOICES = [(i, str(i)) for i in range(1, 13)]
 
     cartao = forms.CharField(
         label="Número do Cartão", required=True,
@@ -23,7 +24,9 @@ class PagamentoForm(forms.Form):
     codigo = forms.CharField(label="Código de segurança", required=True, help_text="CVV") # noqa
     cpf = forms.CharField(label="CPF", required=True)
     plano = forms.CharField(widget=forms.HiddenInput(), required=False)
-    parcelas = forms.ChoiceField(choices=PARCELAS_CHOICES, label='Número de Parcelas')
+    parcelas = forms.ChoiceField(
+        choices=PARCELAS_CHOICES, label='Número de Parcelas'
+    )
 
     fields = ['cartao', 'nome', 'vencimento', 'codigo', 'cpf', 'plano']
 
@@ -33,4 +36,6 @@ class PagamentoForm(forms.Form):
         if plano_id:
             plano = Planos.objects.get(id=plano_id)
             self.fields['plano'].initial = plano_id
-            self.fields['parcelas'].choices = [(i, str(i)) for i in range(1, plano.parcelas +1)]
+            self.fields['parcelas'].choices = [
+                (i, str(i)) for i in range(1, plano.parcelas + 1)
+            ]

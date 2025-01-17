@@ -4,81 +4,32 @@
 {% load humanize %}
 
 {% block content %}
-    <div class="wrapper mt-n4 ml-n4 mr-n4 p-5 h-100" style="background-color: #17224b;">
-        <div class="row text-center mt-5 mb-5">
-            <h5 style="color: #55e9ff">ENTENDA COMO FUNCIONAM OS PLANOS</h5>
+    <div class="wrapper bg-gray-300 mt-n4 ml-n4 mr-n4 p-5 h-100">
+        <div class="row text-center">
+            <div class="col">
+                <h4 class="text-gray-900 font-weight-bold">ENTENDA COMO FUNCIONAM OS PLANOS</h4>
+            </div>
         </div>
-        <div class="row mt-5 mb-4">
-            <h6 class="text-white">Cada plano que oferecemos corresponde a uma quantidade específica de acessos ao assessment PAMAS.</h6>
+        <div class="row text-center mt-3 mb-4">
+            <div class="col">
+                <h4 class="text-gray-900">Cada plano que oferecemos corresponde a uma quantidade específica de acessos ao assessment PAMAS.</h4>
+            </div>
         </div>
         <div class="row">
             {% for plano in object_list %}
                 <div class="col-md-3 text-center font-weight-bold">
-                    <div class="bg-warning pb-2 mb-2" style="border-radius: 1.38rem;">
+                    <div class="pb-2 mb-2" style="border-radius: 1.38rem;background-color: {{ plano.cod_cor }}">
                         <div class="card mb-3 pt-4 pb-3 px-3" style="border-radius: 1.38rem">
-                            <div style="min-height: 140px;">{{ plano.descricao|safe }}</div>
-                            <label>R$ {{ plano.formatar_valor }}</label>
+                            <p class="mb-0" style="color: {{ plano.cod_cor }}">{{ plano.titulo }}</p>
+                            <label>R$ <b>{{ plano.formatar_valor }}</b></label>
+                            <div class="text-gray-900 mt-3" style="min-height: 120px;">{{ plano.descricao|safe }}</div>
                         </div>
                         <a class="text-white" href="{% url 'planos_checkout' plano.id %}">
-                            <p class="px-3">ESCOLHER PLANO</p>
+                            <p class="text-gray-900 px-3">ESCOLHER PLANO</p>
                         </a>
                     </div>
                 </div>
             {% endfor %}
-        </div>
-        <div class="d-flex flex-row-reverse mt-5">
-            <a class="btn btn-info" href="{% url 'planos' %}">Voltar</a>
-        </div>
-        <h6 class="" style="color: #55e9ff">Saiba mais:</h6>
-        <div class="row bg-secondary">
-            <ul class="list-unstyled text-white p-3 mb-0">
-                <li><a class="text-white" href="#" data-toggle="modal" data-target="#antesEscolher"><i class="fas fa-fw fa-exclamation-circle"></i> Antes de escolher o plano</a></li>
-                <li><a class="text-white" href="#" data-toggle="modal" data-target="#depoisEscolher"><i class="fas fa-fw fa-exclamation-circle"></i> Depois de escolher o plano</a></li>
-            </ul>
-        </div>
-    </div>
-    <div id="antesEscolher" class="modal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content text-white" style="background-color: #17224b;">
-                <div class="modal-header">
-                    <h5 class="modal-title font-weight-bold" style="color: #55e9ff">Antes de escolher o plano, é importante saber:</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <ul>
-                        <li>Escolher o plano que melhor atende às suas necessidades.</li>
-                        <li>Finalize a compra usando o e-mail onde deseja receber os links.</li>
-                        <li>Verifique sua caixa de entrada (e pasta de spam, se necessário).</li>
-                        <li>Compartilhe o link quando seu coachee estiver pronto para iniciar o assessment.</li>
-                        <li>Lembre-se: cada link só pode ser usado uma vez, então oriente o seu coachee para
-                            que ele escolha o momento ideal para maximizar seus insights!</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="depoisEscolher" class="modal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content text-white" style="background-color: #17224b;">
-                <div class="modal-header">
-                    <h5 class="modal-title font-weight-bold" style="color: #55e9ff">Depois de escolher o plano, é importante saber:</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <ul>
-                        <li>Cada link corresponde a um assessment individual.</li>
-                        <li>Os links podem ser utilizados apenas uma única vez.</li>
-                        <li>Após a compra, os links serão enviados automaticamente
-                            para o e-mail cadastrado na sua conta.</li>
-                        <li>Os links não têm prazo de validade, então você pode
-                            compartilhá-los quando for mais conveniente.</li>
-                    </ul>
-                </div>
-            </div>
         </div>
     </div>
 

@@ -256,29 +256,28 @@ class PDFService:
     ) -> str:
         django_engine = engines['django']
         template = django_engine.from_string('''
-            <ul class="painel-principal">
-                {% for competencia in competencias %}
-                    <li>{{ competencia }}</li>
-                {% endfor %}
-            </ul>
+            {% for competencia in competencias %}
+                <p>{{ competencia }}</p>
+            {% endfor %}
         ''')
         html = template.render({
             'competencias': competencias
         })
         css = '''
-            .painel-principal{background-color:#b4c6e7;color:#fff;display:block;list-style-type:none;margin:10px 0;padding:10px 0}
-            .painel-principal li{background-color:#44546a;border-radius:5px;display:block;font-size:12px;margin:10px auto;padding:10px 0;position:relative;text-align:center;width:300px}
+            html, body{background-color: #b4c6e7;padding-top:20px;}
+            p{background-color:#44546a;color:#fff;border-radius:5px;font: 14px "Fira Sans", sans-serif;margin:15px auto;padding:10px 0;text-align:center;width:300px}
         '''
         str_time = datetime.now().strftime('%s')
         tmp_file_name = f'/tmp/painel_competencias_{str_time}.png'
         hti = Html2Image(
-            size=(600, 260),
-             custom_flags=[
-                '--no-sandbox', 
-                '--headless', 
-                '--disable-gpu', 
-                '--disable-software-rasterizer', 
-                '--disable-dev-shm-usage'
+            size=(600, 400),
+            custom_flags=[
+                '--no-sandbox',
+                '--headless',
+                '--disable-gpu',
+                '--disable-software-rasterizer',
+                '--disable-dev-shm-usage',
+                '--hide-scrollbars'
             ]
         )
         hti.output_path = '/tmp/'

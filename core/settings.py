@@ -14,7 +14,6 @@ import os
 from pathlib import Path
 
 from import_export.formats.base_formats import CSV, XLSX
-from storages.backends.s3boto3 import S3Boto3Storage
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -165,7 +164,7 @@ if DEBUG:
 
     STATIC_URL = 'static/'
     STATIC_ROOT = os.path.join(BASE_DIR, STATIC_URL)
-    
+
 else:
 
     # Set the required AWS credentials

@@ -147,15 +147,16 @@
 
                     <!-- Begin Page Content -->
                     {% if request.path == "/" %}
-                        <div class="container-fluid h-100 pt-4 bg-site">
+                        <div class="container-fluid h-100 bg-site p-0">
                     {% else %}
                         <div class="container-fluid h-100 pt-4">
                     {% endif %}
                         {% block content %}
-                            <div class="row align-items-center h-100">
-                                <div class="col text-center">
-                                    <h3 class="font-weight-bold" style="color: #55e9ff">Bem-vindo ao PAMAS</h3>
-                                    <h5 class="text-white">O assessment exclusivo e eficaz que desenvolve competências de forma abrangente.</h5>
+                            <div class="row align-items-end h-100 pb-5">
+                                <div class="col text-center py-3 w-100 mb-5" style="background-color: rgba(255,255,255,0.75);">
+                                    <h5 class="text-dark">
+                                        Este é o seu sistema para adquirir senhas ao Assessment PAMAS, compartilhá-los com seus clientes e gerenciar resultados.
+                                    </h5>
                                 </div>
                             </div>
                         {% endblock %}

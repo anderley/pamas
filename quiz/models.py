@@ -1,5 +1,7 @@
+from django.contrib import admin
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 from tinymce import models as tinymce_models
 
@@ -182,6 +184,16 @@ class FomularioClientes(models.Model):
     @property
     def user_name(self):
         return f'{self.user.first_name} {self.user.last_name}'
+
+    @admin.display
+    def link_documento(self):
+        if self.documento:
+            return format_html(
+                f'<a href="https://pamas.s3.us-east-1.amazonaws.com/{self.documento}">{self.documento}</a>' # noqa
+            )
+        return None
+
+    documento.allow_tags = True
 
     def __str__(self):
         return self.email

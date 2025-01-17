@@ -1,28 +1,25 @@
 
-import json
-import mercadopago
-import hmac
 import hashlib
-import base64
-import urllib.parse
+import hmac
+import json
+
+import mercadopago
 from django.conf import settings
 from django.contrib import messages
-from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
-from django.shortcuts import render, redirect
-from django.template.loader import render_to_string, get_template
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import redirect, render
+from django.template.loader import get_template, render_to_string
 from django.utils.html import strip_tags
-from django.views.generic import ListView, TemplateView
-from django.http import JsonResponse
 from django.views import View
+from django.views.generic import ListView, TemplateView
 
+from logs.models import Log
 from notificacoes.models import Notificacoes
 from pagamentos.models import Pagamentos
 from planos.models import Planos
 from usuarios.models import UsuarioEnvioFormulario
-from logs.models import Log
-
 
 logger = Log('pagamentos')
 
@@ -139,7 +136,9 @@ def criando_cartao(self, sdk, data):
             print('status', token_response['status'], 'token', token)
             return True, token
         else:
-            return False, "Erro ao gerar token: {}".format(token_response['response'])
+            return False, "Erro ao gerar token: {}".format(
+                token_response['response']
+            )
     except Exception as e:
         return False, "Erro ao gerar token: {}".format(str(e))
 
@@ -187,7 +186,10 @@ def mercadopago_pagamento(self, data, plano, pagamento_id):
     else:
         return False, token_or_msg, None
 
-def criar_pagamento_pix(email_cliente, descricao, valor):
+
+def criar_pagamento_pix(
+    email_cliente, descricao, valor
+):
     sdk = mercadopago.SDK(settings.MERCADOPAGO_ACCESS_TOKEN)
 
     payment_data = {
@@ -208,15 +210,17 @@ def gerar_pix(request):
     plano_id = request.GET.get('plano_id')
     plano = Planos.objects.get(id=plano_id)
 
-    pix_data = criar_pagamento_pix(request.user.email, plano.titulo, plano.valor)
+    pix_data = criar_pagamento_pix(
+        request.user.email, plano.titulo, plano.valor
+    )
 
     if pix_data:
         pix_vars = {
-            'url': pix_data['response']['point_of_interaction']['transaction_data']['qr_code'], 
-            'qrcode': pix_data['response']['point_of_interaction']['transaction_data']['qr_code_base64']
+            'url': pix_data['response']['point_of_interaction']['transaction_data']['qr_code'], # noqa
+            'qrcode': pix_data['response']['point_of_interaction']['transaction_data']['qr_code_base64'] # noqa
         }
 
-        pagamento = Pagamentos.objects.create(
+        Pagamentos.objects.create(
             user=request.user,
             plano_titulo=plano.titulo,
             plano_descricao=plano.descricao,
@@ -229,9 +233,9 @@ def gerar_pix(request):
         pix_vars = {}
 
     # Carrega o template que contém o HTML do Pix
-    template = get_template('pagamentos/gerar_pix.html')  # Substitua pelo seu template
+    template = get_template('pagamentos/gerar_pix.html')  # Substitua pelo seu template # noqa
     return HttpResponse(template.render(pix_vars, request))
-        
+
 
 class PagamentosCallBackView(View):
     def post(self, request, *args, **kwargs):
@@ -254,7 +258,10 @@ class PagamentosCallBackView(View):
         # Valida a assinatura
         if not self.validate_signature(data_id, xSignature, xRequestId):
             logger.error('Assinatura invalida')
-            return JsonResponse({'status': 'error', 'message': 'Invalid signature'}, status=403)
+            return JsonResponse(
+                {'status': 'error', 'message': 'Invalid signature'},
+                status=403
+            )
 
         logger.info('Assinatura valida')
 
@@ -277,9 +284,15 @@ class PagamentosCallBackView(View):
             elif status == 'rejected':
                 status = 'rejeitado'
 
-            pagamento = Pagamentos.objects.filter(mercadopago_id=data_id, status='pendente').first()
+            pagamento = Pagamentos.objects.filter(
+                mercadopago_id=data_id, status='pendente'
+            ).first()
             if pagamento:
-                logger.info('pagamento: {} - mercadopago_id: {}'.format(pagamento.id, data_id))
+                logger.info(
+                    'pagamento: {} - mercadopago_id: {}'.format(
+                        pagamento.id, data_id
+                    )
+                )
                 pagamento.status = status
 
                 if pagamento.status == 'pago':
@@ -287,23 +300,36 @@ class PagamentosCallBackView(View):
                     userEnvioFormulario, created = UsuarioEnvioFormulario.objects.get_or_create( # noqa
                         user=pagamento.user
                     )
-                    logger.info('userEnvioFormulario: {}'.format(userEnvioFormulario))
+                    logger.info(
+                        'userEnvioFormulario: {}'.format(userEnvioFormulario)
+                    )
                     logger.info('created: {}'.format(created))
                     if userEnvioFormulario:
-                        logger.info('pago - aumentando +{} disparos'.format(pagamento.plano_num_formularios))
+                        logger.info(
+                            'pago - aumentando +{} disparos'.format(
+                                pagamento.plano_num_formularios
+                            )
+                        )
                         userEnvioFormulario.pagamento = pagamento
                         userEnvioFormulario.num_formularios += pagamento.plano_num_formularios # noqa
                         userEnvioFormulario.save()
                         pagamento.save()
                         envia_email_e_cria_notificao(self.request, True)
             logger.info('Sucesso')
-            return JsonResponse({'status': 'success', 'message': 'Payment processed'}, status=200)
+            return JsonResponse(
+                {'status': 'success', 'message': 'Payment processed'},
+                status=200
+            )
         else:
             logger.error('Falhou')
-            return JsonResponse({'status': 'error', 'message': 'Failed to retrieve payment'}, status=400)
+            return JsonResponse(
+                {'status': 'error', 'message': 'Failed to retrieve payment'},
+                status=400
+            )
 
-
-    def validate_signature(self, dataID, xSignature, xRequestId):
+    def validate_signature(
+        self, dataID, xSignature, xRequestId
+    ):
 
         # Separating the x-signature into parts
         parts = xSignature.split(",")
@@ -324,7 +350,7 @@ class PagamentosCallBackView(View):
                 elif key == "v1":
                     hash = value
 
-        # Obtain the secret key for the user/application from Mercadopago developers site
+        # Obtain the secret key for the user/application from Mercadopago developers site  # noqa
         secret = settings.MERCADOPAGO_ASS_SECRET_WEBHOOK
 
         # Generate the manifest string
@@ -335,8 +361,10 @@ class PagamentosCallBackView(View):
         logger.info('secret: {}'.format(secret))
         logger.info('secret.encode(): {}'.format(secret.encode()))
 
-        # Create an HMAC signature defining the hash type and the key as a byte array
-        hmac_obj = hmac.new(secret.encode(), msg=manifest.encode(), digestmod=hashlib.sha256)
+        # Create an HMAC signature defining the hash type and the key as a byte array  # noqa
+        hmac_obj = hmac.new(
+            secret.encode(), msg=manifest.encode(), digestmod=hashlib.sha256
+        )
 
         # Obtain the hash result as a hexadecimal string
         sha = hmac_obj.hexdigest()

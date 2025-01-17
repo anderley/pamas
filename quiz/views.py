@@ -21,6 +21,7 @@ from weasyprint import HTML
 
 from core.utils.email_utils import EmailUtils
 from notificacoes.models import Notificacoes
+from usuarios.models import UsuarioEnvioFormulario
 
 from .decorators import (check_contato, timeout_form,
                          use_request_token_check_expiration)
@@ -29,7 +30,6 @@ from .models import (Competencias, Contatos, FomularioClientes, Perguntas,
                      Textos)
 from .repositories import TextosRepository
 from .services import PDFService
-from usuarios.models import UsuarioEnvioFormulario
 
 
 def logout_view(request):
@@ -65,8 +65,8 @@ def enviar_formulario(request):
             )
             token: str = request_token.jwt()
             link_form = f'{settings.SITE_URL}/formulario/instrucoes/?rt={token}' # noqa
+            user = UsuarioEnvioFormulario.objects.filter(user=request.user).first() # noqa
 
-            user = UsuarioEnvioFormulario.objects.filter(user=request.user).first()
             if user and user.num_formularios > 0:
                 try:
                     EmailUtils.send_email_form(email, link_form, request.user)
@@ -89,7 +89,7 @@ def enviar_formulario(request):
                 except Exception as e:
                     messages.error(request, f'Error no envio do email: {e}')
             else:
-                messages.error(request, f'Você não possui mais disparos de email, contrate um novo plano.')
+                messages.error(request, f'Você não possui mais disparos de email, contrate um novo plano.') # noqa
 
     return render(request, 'quiz/send_form.html', context=context)
 
@@ -222,6 +222,8 @@ class FormularioFormView(FormView):
             form.save()
             return self.form_valid(form)
         else:
+            messages.error(request, 'As questões abaixo são obrigatórias. Verifique se todas estão preenchidas.') # noqa
+
             return self.form_invalid(form)
 
     def get_context_data(self, **kwargs):
@@ -240,7 +242,7 @@ class ListSentFormsView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user)
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['assessment_active'] = 'active'

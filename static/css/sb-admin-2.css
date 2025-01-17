@@ -11291,3 +11291,9 @@ body.sidebar-toggled footer.sticky-footer {
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+@media (min-width: 768px) {
+  video {
+    width: 780px;
+  }
+}

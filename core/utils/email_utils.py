@@ -15,7 +15,7 @@ class EmailUtils:
         link_form: str,
         user: User
     ):
-        subject = '[PAMAS] Formulário'
+        subject = '[PAMAS] Assessment'
         html_message = render_to_string(
             'quiz/emails/link_form.html',
             {

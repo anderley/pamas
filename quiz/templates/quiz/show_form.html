@@ -17,6 +17,7 @@
         <link
             href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet">
+        <link href="{% static 'css/toast.min.css' %}" rel="stylesheet" type="text/css">
 
         <!-- Custom styles for this template-->
         <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
@@ -50,13 +51,13 @@
                     <!-- Begin Page Content -->
                     <div class="row justify-content-center">
                         <div class="col-md-8 d-flex justify-content-end">
-                            <label class="text-lg mt-5">
+                            <label class="text-lg mt-5" style="display: none;">
                                 <i class="fa fa-clock" aria-hidden="true"></i> 
                                 <span id="countDownId">0:00:00</span>
                             </label>
                         </div>
                     </div>
-                    <div class="row justify-content-center">
+                    <div class="row justify-content-center mt-5">
                         <div class="col-md-8">
                             <div class="d-sm-flex align-items-center justify-content-between mb-3">
                                 <h3>Performance Advanced Management Assessment Skills</h3>
@@ -71,13 +72,13 @@
                                             <div class="card-body card-text-size">
                                                 <div class="d-flex mb-5">{{ field.label }}</div>
                                                 <div class="d-flex justify-content-center">
-                                                    <span class="mr-4">Discordo Totalmente</span>
+                                                    <span class="mr-4">muito raramente</span>
                                                     {% for choice in field %}
                                                         <div class="form-check form-check-inline">
                                                             {{ choice }}
                                                         </div>
                                                     {% endfor %}
-                                                    <span>Concordo Plenamente</span>
+                                                    <span>quase sempre</span>
                                                 </div>
                                                 {% if field.errors %}
                                                     <div class="d-flex justify-content-end">
@@ -146,6 +147,8 @@
 
         <!-- Core plugin JavaScript-->
         <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+        <script src="{% static 'js/toast.script.js' %}"></script>
+
 
         <!-- Custom scripts for all pages-->
         <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
@@ -181,6 +184,37 @@
             document.addEventListener('DOMContentLoaded', function() {
                 startCountdown(new Date('{{ timeout }}'));
             });
+            const toastSettings = {
+                position_class: 'toast-top-right',
+                has_icon: true,
+                has_close_btn: true,
+                has_progress: true,
+                stack: true,
+                width: 400,
+            };
+            {% if messages %}
+                {% for message in messages %}
+                    const messageTag = '{{ message.tags }}';
+                    const messageTitle = function (messageTag) {
+                        switch (messageTag) {
+                            case 'info':
+                                return 'Info';
+                            case 'warning':
+                                return 'Alerta';
+                            case 'error':
+                                return 'Erro';
+                            default:
+                                return 'Sucesso';
+                        }
+                    } (messageTag);
+                    $.Toast(
+                        messageTitle, 
+                        '{{ message }}',
+                        messageTag,
+                        toastSettings
+                    );
+                {% endfor %}
+            {% endif %}
         </script>
 
     </body>

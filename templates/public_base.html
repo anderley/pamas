@@ -25,9 +25,9 @@
 <body>
 
     <div class="wrapper-public">
-        <div class="row no-gutters h-100 bg-public">
-            <div class="col-md-8"></div>
-            <div class="col-md-4 align-self-center text-white">
+        <div class="row no-gutters h-100">
+            <div class="col-md-8" style="background-image: linear-gradient(240deg, #efefef 10%, #838383 100%);"></div>
+            <div class="col-md-4 align-self-center text-dark">
                 {% block content %}
                 
                 {% endblock %}
@@ -79,6 +79,9 @@
             {% endfor %}
         {% endif %}
     </script>
+
+    {% block js_scripts %} {% endblock %}
+
 </body>
 
 </html>

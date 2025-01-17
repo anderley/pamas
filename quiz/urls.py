@@ -1,4 +1,5 @@
 from django.urls import path
+
 from core.utils.decorators import deslogar, deslogar_se_admin
 from usuarios import views as auth_view
 
