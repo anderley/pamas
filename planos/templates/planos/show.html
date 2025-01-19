@@ -22,23 +22,9 @@
         <div class="row text-center mt-5">
             <div class="col">
                 <video controls>
-                    <source src="/media/cc0-videos/flower.mp4" type="video/mp4" />
+                    <source src="{% static  'videos/PAMAS_1.mp4' %}" type="video/mp4" />
                 </video>
             </div>
-            <!-- {% for plano in object_list %}
-            <div class="col-md-3">
-                <a style="color: {{ plano.cod_cor }}" href="{% url 'planos_detail' %}">
-                    <div class="card mb-3 pt-4 pb-3 px-3 text-center">
-                        {% if plano.imagem %}
-                        <img class="mb-4" src="{% get_media_prefix %}{{ plano.imagem }}">
-                        {% else %}
-                        <h1 class="display-3 font-weight-bold">{{ plano.num_formularios }}</h1>
-                        {% endif %}
-                        {{ plano.titulo }}
-                    </div>
-                </a>
-            </div>
-            {% endfor %} -->
         </div>
         <div class="row text-center mt-5">
             <div class="col">
