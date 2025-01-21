@@ -11281,9 +11281,7 @@ body.sidebar-toggled footer.sticky-footer {
 }
 
 .bg-public {
-  background-image: url('/static/img/bg-public.png');
-  background-repeat: no-repeat;
-  background-size: cover;
+  background-image: linear-gradient(90deg, #ababab 41%, #ddd 100%);
 }
 
 .bg-site {

@@ -26,7 +26,13 @@
 
     <div class="wrapper-public">
         <div class="row no-gutters h-100">
-            <div class="col-md-8 bg-public"></div>
+            <div class="col-md-8 h-100 bg-public">
+                <div class="row  h-100">
+                    <div class="col align-self-center text-center">
+                        <img src="{% static 'img/bg_public.png' %}" />
+                    </div>
+                </div>
+            </div>
             <div class="col-md-4 align-self-center text-dark">
                 {% block content %}
                 
