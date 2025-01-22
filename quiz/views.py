@@ -194,7 +194,7 @@ class FormularioFormView(FormView):
             Perguntas.objects.filter(ativo=True).order_by('id').all(),
             20
         )
-        timeout = form_cliente.iniciado + timedelta(minutes=settings.TIMEOUT_FORMULARIO) # noqa
+        timeout = form_cliente.iniciado + timedelta(minutes=int(settings.TIMEOUT_FORMULARIO)) # noqa
         tz_sao_paulo = timezone('America/Sao_Paulo')
         self.initial['formulario_id'] = pk
         self.initial['timeout'] = timeout.astimezone(tz_sao_paulo).isoformat()

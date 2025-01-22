@@ -99,7 +99,7 @@ def timeout_form(
             form_cliente = FomularioClientes.objects.get(token=token)
 
         if form_cliente.iniciado:
-            max_time = form_cliente.iniciado + timedelta(minutes=settings.TIMEOUT_FORMULARIO) # noqa
+            max_time = form_cliente.iniciado + timedelta(minutes=int(settings.TIMEOUT_FORMULARIO)) # noqa
             request = _get_request_arg(args)
 
             if (

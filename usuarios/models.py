@@ -35,3 +35,15 @@ class UserProfile(models.Model):
             profile = instance.userprofile
             profile.user = instance
             profile.save()
+    
+    @property
+    def num_formularios(self):
+        usuarioEnvioformulario = UsuarioEnvioFormulario.objects.filter(
+            user=self.user
+        ).first()
+
+        if usuarioEnvioformulario:
+            return usuarioEnvioformulario.num_formularios
+        
+        return 0
+
