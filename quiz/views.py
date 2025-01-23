@@ -64,7 +64,7 @@ def enviar_formulario(request):
                 }
             )
             token: str = request_token.jwt()
-            link_form = f'{settings.SITE_URL}/formulario/instrucoes/?rt={token}' # noqa
+            link_form = f'{settings.SITE_URL}/formulario/cadastro/?rt={token}' # noqa
             user = UsuarioEnvioFormulario.objects.filter(user=request.user).first() # noqa
 
             if user and user.num_formularios > 0:

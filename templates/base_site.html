@@ -54,7 +54,6 @@
                     <!-- Nav Item - Tables -->
                     <li class="nav-item {{ planos_active}}">
                         <a class="nav-link" href="{% url 'planos' %}">
-                            <i class="fas fa-fw fa-shopping-bag"></i>
                             <span>Planos</span>
                         </a>
                     </li>
@@ -63,7 +62,6 @@
                     <li class="nav-item {{ assessment_active}}">
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                             aria-expanded="true" aria-controls="collapseTwo">
-                            <i class="fas fa-fw fa-cog"></i>
                             <span>Assessments</span>
                         </a>
                         <div id="collapseTwo" class="collapse {{ assessment_active|yesno:'show,' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -94,7 +92,7 @@
                 <div id="content">
 
                     <!-- Topbar -->
-                    <nav class="navbar navbar-expand navbar-light topbar static-top shadow" style="background-color: #17224b;">
+                    <nav class="navbar navbar-expand bg-dark navbar-light topbar static-top shadow" style="background-color: #17224b;">
 
                         {% if user.is_authenticated and not user.is_staff %}
                             
@@ -113,8 +111,8 @@
                                 <li class="nav-item dropdown no-arrow">
                                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span class="mr-2 d-none d-lg-inline small">
-                                            Saldo Envios: {{ request.user.userprofile.num_formularios|default:'0' }}
+                                        <span class="d-none d-lg-inline small">
+                                            Saldo: {{ request.user.userprofile.num_formularios|default:'0' }} /  Envios: {{ request.user.userprofile.num_envios|default:'0' }}
                                         </span>
                                     </a>
                                 </li>
@@ -164,8 +162,9 @@
                     {% endif %}
                         {% block content %}
                             <div class="row align-items-end h-100 pb-5">
-                                <div class="col text-center py-3 w-100 mb-5" style="background-color: rgba(255,255,255,0.75);">
-                                    <h5 class="text-dark">
+                                <div class="col-md-5"></div>
+                                <div class="col-md-6 text-center py-3 mb-5" style="background-color: rgba(255,255,255,0.75);">
+                                    <h5 class="text-gray-900">
                                         Este é o seu sistema para adquirir senhas ao Assessment PAMAS, compartilhá-los com seus clientes e gerenciar resultados.
                                     </h5>
                                 </div>

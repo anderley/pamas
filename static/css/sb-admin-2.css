@@ -11281,11 +11281,11 @@ body.sidebar-toggled footer.sticky-footer {
 }
 
 .bg-public {
-  background-image: linear-gradient(90deg, #ababab 41%, #ddd 100%);
+  background-color: #000;
 }
 
 .bg-site {
-  background-image: url('/static/img/bg-site.png');
+  background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url('/static/img/bg-site.png');
   background-repeat: no-repeat;
   background-size: cover;
 }

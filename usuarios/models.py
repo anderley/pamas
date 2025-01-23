@@ -4,6 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from pagamentos.models import Pagamentos
+from quiz.models import FomularioClientes
 
 
 class UsuarioEnvioFormulario(models.Model):
@@ -47,3 +48,10 @@ class UserProfile(models.Model):
         
         return 0
 
+    @property
+    def num_envios(self):
+        num_envios = FomularioClientes.objects.filter(
+            user=self.user
+        ).count()
+
+        return num_envios

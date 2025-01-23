@@ -89,6 +89,12 @@
                         // Atualiza o container com o HTML retornado
                         pixHtmlContainer.innerHTML = html;
                         carregarPixButton.classList.add('hidden');
+                        $.Toast(
+                            'Atenção', 
+                            'Após o pagamento com pix, aguarde o e-mail com a confirmação da compra para realziar o(s) envio(s).',
+                            'warning',
+                            toastSettings
+                        );
                     })
                     .catch(error => {
                         pixHtmlContainer.innerHTML = 'Erro ao carregar os detalhes do Pix: ' + error.message;

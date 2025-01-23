@@ -4,15 +4,15 @@
 {% load humanize %}
 
 {% block content %}
-    <div class="wrapper bg-gray-300 mt-n4 ml-n4 mr-n4 p-5 h-100">
+    <div class="wrapper mt-n4 ml-n4 mr-n4 p-5 h-100" style="background-color: #000;">
         <div class="row text-center">
             <div class="col">
-                <h4 class="text-gray-900 font-weight-bold">ENTENDA COMO FUNCIONAM OS PLANOS</h4>
+                <h4 class="text-white font-weight-bold">ENTENDA COMO FUNCIONAM OS PLANOS</h4>
             </div>
         </div>
         <div class="row text-center mt-3 mb-4">
             <div class="col">
-                <h4 class="text-gray-900">Cada plano que oferecemos corresponde a uma quantidade específica de acessos ao assessment PAMAS.</h4>
+                <h4 class="text-white">Cada plano que oferecemos corresponde a uma quantidade específica de acessos ao assessment PAMAS.</h4>
             </div>
         </div>
         <div class="row">
@@ -30,6 +30,17 @@
                     </div>
                 </div>
             {% endfor %}
+            <div class="col-md-3 text-center font-weight-bold">
+                <div class="pb-2 mb-2" style="border-radius: 1.38rem;background-color: #f8d210">
+                    <div class="card mb-3 pt-4 pb-3 px-3" style="border-radius: 1.38rem">
+                        <p class="mb-0" style="color: #f8d210">ACESSO ESPECIAL</p>
+                        <div class="text-gray-900 mt-3" style="min-height: 120px;">Você escolhe a quantidade de acessos de acordo com o número de pessoas que deseja compartilhar.</div>
+                    </div>
+                    <a class="text-white" href="https://wa.me/" target="_blank">
+                        <p class="text-gray-900 px-3">ESCOLHER PLANO</p>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
