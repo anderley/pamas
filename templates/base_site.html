@@ -92,7 +92,7 @@
                 <div id="content">
 
                     <!-- Topbar -->
-                    <nav class="navbar navbar-expand bg-dark navbar-light topbar static-top shadow" style="background-color: #17224b;">
+                    <nav class="navbar navbar-expand navbar-light topbar static-top shadow" style="background-color: #000;">
 
                         {% if user.is_authenticated and not user.is_staff %}
                             
@@ -162,7 +162,7 @@
                     {% endif %}
                         {% block content %}
                             <div class="row align-items-end h-100 pb-5">
-                                <div class="col-md-5"></div>
+                                <div class="col-md-3"></div>
                                 <div class="col-md-6 text-center py-3 mb-5" style="background-color: rgba(255,255,255,0.75);">
                                     <h5 class="text-gray-900">
                                         Este é o seu sistema para adquirir senhas ao Assessment PAMAS, compartilhá-los com seus clientes e gerenciar resultados.
