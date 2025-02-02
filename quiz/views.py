@@ -517,3 +517,8 @@ class FormularioFinalizarView(TemplateView):
             ).save()
 
         return super().get(request, args, kwargs)
+
+
+
+class EmailLinkFormTemplateView(TemplateView):
+    template_name = 'quiz/emails/link_form.html'
